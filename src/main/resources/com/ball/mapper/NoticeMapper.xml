@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapeer 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ball.mapper.NoticeMapper">
+    <select id="noticeReadList" resultType="com.ball.vo.NoticeVO">
+        select * from notice
+    </select>
+    
+    <insert id="noticeInsert" parameterType="com.ball.vo.NoticeVO">
+        insert into notice values(NULL ,#{notice_content},NOW(),NOW())
+    </insert>
+
+    <select id="noticeRead" resultType="com.ball.vo.NoticeVO">
+        select * from notice where notice_id = #{notice_id}
+    </select>
+
+    <delete id="noticeDelete">
+        delete from notice where notice_id = #{notice_id}
+    </delete>
+    
+    <update id="noticeUpdate">
+        update notice set notice_content = #{notice_content} , notice_mod_date = now()  where notice_id = #{notice_id}
+    </update>
+
+    <select id="noticeCount" resultType="int">
+        select count(*) from notice
+    </select>
+</mapper>

@@ -5,6 +5,43 @@
 
 <mapper namespace="com.ball.mapper.UserMapper">
     <insert id="insertUser" parameterType="com.ball.vo.UserVO">
-        insert into user values(#{user_id},NULL,NULL,NULL,NULL,NULL)
+        insert into user (user_id, user_password, user_nickname, user_email, user_reg_date, user_mod_date)
+        values(#{user_id},#{user_password},#{user_nickname}, #{user_email}, sysdate(), sysdate())
     </insert>
+
+    <select id="selectByIdAndPassword" resultType="com.ball.vo.UserVO">
+        select user_id, user_password, user_nickname, user_email, user_reg_date, user_mod_date
+        from user where user_id = #{user_id} and user_password = #{user_password}
+    </select>
+
+    <update id="updateUser">
+        update user set user_password = #{user_password}, user_nickname = #{user_nickname}
+                      , user_email = #{user_email}, user_mod_date = sysdate()
+        where user_id = #{user_id}
+    </update>
+    <select id="userJoinGroup" resultType="com.ball.vo.GroupVO">
+        select u.user_nickname as user_nickname_group_header,g.group_name,g.group_category,g.group_is_secret,
+               g.group_password,g.group_person_count,g.group_content,g.group_reg_date,count(gr1.user_id) as group_join_person_number
+        from group_user_relationship gr1
+                 join group_user_relationship gr2 on gr1.group_id = gr2.group_id
+                 inner join group_table g on gr2.group_id = g.group_id
+                 inner join user u on g.user_id_group_header = u.user_id
+        where gr2.user_id = #{user_id}
+        group by gr1.group_id
+    </select>
+
+    <select id="selectUserNickNameByID" resultType="String">
+        select user_nickname
+        from user where user_id = #{user_id}
+    </select>
+
+    <select id="selectUserIDByEmail" resultType="String">
+        select user_id
+        from user where user_email = #{user_email}
+    </select>
+
+    <select id="selectEmailAdmin" resultType="com.ball.vo.UserVO">
+        select *
+        from user where user_id = 'admin_email'
+    </select>
 </mapper>

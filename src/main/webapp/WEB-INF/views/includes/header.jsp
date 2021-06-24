@@ -10,47 +10,61 @@
     <title>10.0</title>
 
     <!-- 부트스트랩 -->
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <!-- 부트스트랩 테마스타일 파일 연결 -->
-    <link href="/resources/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script src="/resources/js/bootstrap.min.js"></script>
 
     <!--Custom CSS-->
     <link href="/resources/css/custom.css" rel="stylesheet">
+    <script>
+        $(document).click(function (event) {
+            if (!$(event.target).closest('#navbarNavDropdown').length) {
+                $('.navbar-collapse').collapse('hide');
+            }
+        });
+    </script>
 
-    <nav class="navbar navbar-custom navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header" style="margin-bottom:9px;">
-                <!-- 사이즈 축소시 햄버거가 속할 태그 내부에 아래 코드 생성 -->
-                <!-- data-target을 'collapse navbar-collapse' 클래스의 id로 맞춰야 -->
-                <!-- 숨긴 데이터들이 햄버거 안으로 들어가게 된다 -->
-                <button type="button" class="navbar-toggle collapsed navbar-toggle-custom"
-                        data-toggle="collapse" data-target="#bs-nav-demo" aria-expanded="false">
-                    <!-- 햄버거 내부에 들어갈 줄들 -->
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">
-                    <img src="/resources/logo/pc_logo.jpg" alt="" id="custom-img">
-                </a>
+
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top" style="border-bottom: black solid 1px;">
+        <div class="container" >
+
+            <a class="navbar-brand" href="#"><img src="/resources/logo/pc_logo.jpg" alt="" id="custom-img"></a>
+            <button type="button" class="navbar-toggle navbar-toggle-custom"
+                    data-bs-toggle="collapse" aria-label="Toggle navigation" data-bs-target="#navbarNavDropdown" aria-expanded="false">
+                <!-- 햄버거 내부에 들어갈 줄들 -->
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav navbar-collapse-custom">
+                    <li class="nav-item" >
+                        <a class="nav-link" href="page.html">열공 하기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">스터디 그룹 찾기</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">로그아웃</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">회원정보수정</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">공지사항</a>
+                    </li>
+                </ul>
             </div>
-            <div class="collapse navbar-collapse" id="bs-nav-demo">
-                <ul class="nav navbar-nav navbar-nav-custom">
-                    <li><a href="page.html">열공 하기</a></li>
-                    <li><a href="#">스터디 그룹 찾기</a></li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right navbar-nav-custom">
-                    <li><a href="#">로그아웃</a></li>
-                    <li><a href="#">정보수정</a></li>
-                    <li><a href="#">공지사항</a></li>
-                </ul>
-            </div> <!-- collapse navbar-collapse (햄버거 감싸는 div 태그) -->
-        </div> <!-- container -->
+        </div>
     </nav>
+
 </head>
 <body id="margin">
-<div class="wrapper">
-
-
+<div class="wrapper"/>
