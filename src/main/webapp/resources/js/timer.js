@@ -1,25 +1,24 @@
-var timerID;
-var timerIsPlay;
-var accumulatedTimeStr;
+let timerID;
+let timerIsPlay;
+let accumulatedTimeStr;
 
-var hour;
-var minute;
-var second;
+let hour;
+let minute;
+let second;
 
-var hourScreen;
-var minScreen;
-var secScreen;
+let hourScreen;
+let minScreen;
+let secScreen;
 
-var timerIntervalID;
+let timerIntervalID;
 
 function setAccumulatedTimeStrFromHHMMSS(){
-  accumulatedTimeStr = (hour < 10 ? '0' : '') + hour + ":"
+  return (hour < 10 ? '0' : '') + hour + ":"
       + (minute < 10 ? '0' : '') + minute +":"+(second < 10 ? '0' : '')+ second;
 }
-
 function getRemainSecondsFrom3AM(){
-  var nowTime = new Date();
-  var tomorrowDawn = new Date();
+  let nowTime = new Date();
+  let tomorrowDawn = new Date();
 
   if(nowTime.getHours()>3){
     tomorrowDawn.setDate(nowTime.getDate()+1);
@@ -32,7 +31,7 @@ function getRemainSecondsFrom3AM(){
 // 초기 타이머 세팅
 function timerNumberInit(myTimer, myTimerBtn, timerCookieStr) {
   [timerID, timerIsPlay, accumulatedTimeStr] = timerCookieStr.split('-');
-  var timeArray = accumulatedTimeStr.split(':');
+  const timeArray = accumulatedTimeStr.split(':');
   hour = Number(timeArray[0]);
   minute = Number(timeArray[1]);
   second = Number(timeArray[2]);
@@ -45,12 +44,13 @@ function timerNumberInit(myTimer, myTimerBtn, timerCookieStr) {
   minScreen.html((minute < 10 ? '0' : '') + minute);
   secScreen.html((second < 10 ? '0' : '') + second);
 
-  console.log("timerIsPlay",timerIsPlay)
   if(timerIsPlay==="1"){
     //타이머가 play상태이면 click이벤트 발생으로 timer start를 해준다
     myTimerBtn.trigger("click");
   }
 }
+
+
 function viewTimerStartInterval(){
   timerIntervalID = setInterval(function () {
     second = second + 1;
@@ -73,44 +73,63 @@ function viewTimerStartInterval(){
   }, 1000);
 }
 
-var timerStart = function(resultFunc) {
-  setAccumulatedTimeStrFromHHMMSS();//타이머시간-> accumulatedTimeStr string변환
-  //DB에 상태를 play상태를 업데이트 하면 timer시작
+function viewTimerStartInterval(){
+  timerIntervalID = setInterval(function () {
+    second = second + 1;
+    if (second >= 60) {
+      minute = minute + 1;
+      second = 0;
+    }
+    if (minute >= 60) {
+      hour = hour + 1;
+      minute = 0;
+    }
+    hourScreen.html((hour < 10 ? '0' : '') + hour);
+    minScreen.html((minute < 10 ? '0' : '') + minute);
+    secScreen.html((second < 10 ? '0' : '') + second);
+  }, 1000);
+}
+
+const saveTimerToDB = function(resultFunc){
   $.ajax({
     type: "PUT",
-    url: "/ajax/timer/putstart/"+timerID,
+    url: "/ajax/timer/"+timerID+"/"+timerIsPlay,
+    data : accumulatedTimeStr,
+    contentType: "application/json; charset=UTF-8;",
     success: function(result, status, xhr){
       console.log("success")
       clearInterval(timerIntervalID);
-      viewTimerStartInterval();
-      if(resultFunc != null){
-        resultFunc(timerID+"-1-"+accumulatedTimeStr);
+      if(timerIsPlay == 1){
+        viewTimerStartInterval();
       }
+      resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
     },
     error: function(xhr, status, er){
       clearInterval(timerIntervalID);
-      viewTimerStartInterval();
+      if(timerIsPlay == 1){
+        viewTimerStartInterval();
+      }
       alert("error : "+er)
     }
   });//end ajax
 }
-var timerStop = function (resultFunc) {
-  setAccumulatedTimeStrFromHHMMSS();//타이머시간-> accumulatedTimeStr string변환
 
-  $.ajax({
-    type: "PUT",
-    url: "/ajax/timer/putstop/"+timerID,
-    data : accumulatedTimeStr,
-    contentType: "application/json; charset=UTF-8;",
-    success: function(result, status, xhr){
-      clearInterval(timerIntervalID);
-      if(resultFunc !=null){
-        resultFunc(timerID+"-0-"+accumulatedTimeStr);
-      }
-    },
-    error: function(xhr, status, er){
-      clearInterval(timerIntervalID);
-      alert("error : "+er)
-    }
-  });//end ajax
+
+const timerStart = function(resultFunc) {
+  accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();
+  timerIsPlay = "1";
+  //DB에 상태를 play상태를 업데이트 하면 timer시작
+  saveTimerToDB(resultFunc);
+}
+
+
+const timerStop = function (resultFunc) {
+  accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
+  timerIsPlay = "0";
+  saveTimerToDB(resultFunc);
 };//end timerStop
+
+const timerSaveBeforeUnloadPage= function (resultFunc) {
+  accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
+  saveTimerToDB(resultFunc);
+};
