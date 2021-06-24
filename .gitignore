@@ -1,0 +1,5 @@
+/target/
+/.idea/
+/out/
+pom.xml
+ball10.iml
