@@ -1,4 +1,4 @@
-package main.java.com.ball.service;
+package com.ball.service;
 
 import com.ball.mail.service.MailService;
 import com.ball.mapper.UserMapper;

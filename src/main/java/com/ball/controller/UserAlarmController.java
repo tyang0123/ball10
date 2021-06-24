@@ -1,4 +1,4 @@
-package main.java.com.ball.controller;
+package com.ball.controller;
 
 import com.ball.service.AlarmService;
 import com.ball.service.UserService;

@@ -1,4 +1,4 @@
-package test.java.com.ball.service;
+package com.ball.service;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;

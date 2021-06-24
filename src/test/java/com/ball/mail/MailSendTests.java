@@ -1,4 +1,4 @@
-package test.java.com.ball.mail;
+package com.ball.mail;
 
 import com.ball.mail.service.MailService;
 import com.ball.mail.vo.MailVO;

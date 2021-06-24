@@ -86,19 +86,22 @@
             console.log("버튼 눌리나")
             $("#listForm").attr("action", "/group/create").submit();
         })
-        $('.move').click(function (){
-            // prompt('비밀번호를 입력하세요');
-            $.ajax({
-                type:"post",
-                url:"/group/list/ajax/list",
-                data:{},
-                dataType:"json",
-                success: function (){
-                    alert('성공');
-                }
-
-            })
-        })
+        // $('.move').click(function (){
+        //     prompt('비밀번호를 입력하세요');
+        //     $.ajax({
+        //         type:"post",
+        //         url:"/group/list/ajax/list",
+        //         data:{
+        //             password: 'password'
+        //         },
+        //         dataType:"json",
+        //         success: function (){
+        //             alert('성공');
+        //
+        //         }
+        //
+        //     })
+        // })
 
     })
 

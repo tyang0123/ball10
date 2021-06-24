@@ -1,4 +1,4 @@
-package main.java.com.ball.vo;
+package com.ball.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

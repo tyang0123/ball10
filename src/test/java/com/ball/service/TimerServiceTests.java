@@ -1,4 +1,4 @@
-package test.java.com.ball.service;
+package com.ball.service;
 
 import com.ball.vo.TimerVO;
 import lombok.Setter;

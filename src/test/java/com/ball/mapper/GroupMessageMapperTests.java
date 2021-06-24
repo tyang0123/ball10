@@ -1,4 +1,4 @@
-package test.java.com.ball.mapper;
+package com.ball.mapper;
 
 import com.ball.vo.Criteria;
 import com.ball.vo.GroupMessageVO;

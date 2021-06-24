@@ -1,4 +1,4 @@
-package main.java.com.ball.controller;
+package com.ball.controller;
 
 
 import com.ball.service.GroupService;
@@ -42,12 +42,12 @@ public class GroupController {
     @GetMapping("/list")
     public String groupList(Long group_id , Criteria cri,  Model model) {
         System.out.println("컨트롤러 그룹 전체 목록 조회");
-        model.addAttribute("list",messageService.groupMessageRead(1L));
+//        model.addAttribute("list",messageService.groupMessageRead(1L));
 //        HashMap<String,Object> hashMap = new HashMap<>();
 //        hashMap.put("criterionNumber",cri);
 //        hashMap.put("group_id",group_id);
 //        model.addAttribute("list",messageService.groupMessageRead(hashMap));
-        model.addAttribute("group", groupService.allRead(cri));
+        model.addAttribute("list", groupService.allRead(cri));
 
         System.out.println("컨트롤러에 cri가 들어오나 " +cri);
         System.out.println("검색어가 들어오나 "+ cri.getKeyword());
@@ -95,6 +95,7 @@ public class GroupController {
 //        groupService.remove(group_id);
 
         model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
+//        model.addAttribute("firstCriNumber",5);
         return "group/groupRead";
     }
     @PostMapping("/read")

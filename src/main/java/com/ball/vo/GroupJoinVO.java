@@ -1,4 +1,4 @@
-package main.java.com.ball.vo;
+package com.ball.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

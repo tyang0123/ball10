@@ -1,4 +1,4 @@
-package main.java.com.ball.mail.vo;
+package com.ball.mail.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

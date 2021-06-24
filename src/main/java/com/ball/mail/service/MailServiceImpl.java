@@ -1,4 +1,4 @@
-package main.java.com.ball.mail.service;
+package com.ball.mail.service;
 
 import com.ball.mail.vo.MailVO;
 import lombok.Setter;

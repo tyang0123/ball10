@@ -1,4 +1,4 @@
-package main.java.com.ball.controller;
+package com.ball.controller;
 
 import com.ball.service.GroupService;
 import com.ball.vo.Criteria;
@@ -23,13 +23,12 @@ public class GroupAjaxController {
     @Setter(onMethod_=@Autowired)
     private GroupService groupService;
 
-    @GetMapping(value = "/list")
-    public ResponseEntity<List<GroupVO>> getPassword (Criteria cri){
+    @PostMapping (value = "/list")
+    public ResponseEntity<HashMap<String, Object>> getPassword (Long group_id){
         System.out.println("아작스 컨트롤러에 진입이 되나");
-//        model.addAttribute("check",groupService.passwordCheck(group_id));
-        return new ResponseEntity<>(groupService.allRead(cri), HttpStatus.OK);
-
-
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("password", groupService.passwordCheck(group_id));
+        return ResponseEntity.ok(result);
     }
 
 

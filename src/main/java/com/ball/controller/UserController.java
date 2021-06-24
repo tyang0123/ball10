@@ -1,4 +1,4 @@
-package main.java.com.ball.controller;
+package com.ball.controller;
 
 import com.ball.mail.service.MailService;
 import com.ball.mail.vo.MailVO;

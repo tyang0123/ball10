@@ -203,19 +203,19 @@
                 return false;
             }
 
-            if(${group.group_is_secret==1}){
+            <%--if(${group.group_is_secret==1}){--%>
 
-                const checkPass = prompt('비밀번호를 입력하세요');
+            <%--    // const checkPass = prompt('비밀번호를 입력하세요');--%>
 
-                if(checkPass === password){
-                    $(operForm).attr("action","/group/read").attr("method","post").submit();  //비밀번호 입력 후 회원가입
-                }
-                <%--if(checkPass === ${check}){--%>
-                <%--    $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입--%>
-                <%--}--%>
-                return false;
+            <%--    // if(checkPass === password){--%>
+            <%--    //     $(operForm).attr("action","/group/read").attr("method","post").submit();  //비밀번호 입력 후 회원가입--%>
+            <%--    // }--%>
+            <%--    &lt;%&ndash;if(checkPass === ${check}){&ndash;%&gt;--%>
+            <%--    &lt;%&ndash;    $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입&ndash;%&gt;--%>
+            <%--    &lt;%&ndash;}&ndash;%&gt;--%>
+            <%--    return false;--%>
 
-            }
+            <%--}--%>
             $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
         $('.btn-danger').click(function (){
@@ -227,7 +227,7 @@
 
         var group_id = '${group.group_id}'
         var criterionNumber = ${firstCriNumber};
-        //스크롤로 더보기 구현
+        // 스크롤로 더보기 구현
         var isLoading = false;
 
         //modal창 보여주기
@@ -362,7 +362,7 @@
     function getGroupUserTimerList(){
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/ajax/timer/gettimers/"+group_id,
+            url: "/ajax/timer/gettimers/"+group_id,
             success: function(result, status, xhr){
                 for(var i in result){
                     console.log(result[i])

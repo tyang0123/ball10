@@ -1,4 +1,4 @@
-package main.java.com.ball.service;
+package com.ball.service;
 
 import com.ball.mapper.GroupMapper;
 import com.ball.vo.Criteria;
