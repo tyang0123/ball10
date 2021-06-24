@@ -18,6 +18,9 @@ public interface UserService {
     //get userID by email
     public String getUserId(String userEmail);
 
+    //get userPassword by userID,email
+    public String getUserPassword(String userId,String userEmail);
+
     //get Admin Email and password
     public UserVO getAdminEmailAndPW();
 }

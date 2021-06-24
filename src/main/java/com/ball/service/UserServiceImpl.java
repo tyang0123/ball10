@@ -37,5 +37,10 @@ public class UserServiceImpl implements UserService{
     public String getUserId(String userEmail) {return userMapper.selectUserIDByEmail(userEmail); }
 
     @Override
+    public String getUserPassword(String userId, String userEmail) {
+        return userMapper.selectUserPasswordByIdAndEmail(userId,userEmail);
+    }
+
+    @Override
     public UserVO getAdminEmailAndPW() {return userMapper.selectEmailAdmin(); }
 }

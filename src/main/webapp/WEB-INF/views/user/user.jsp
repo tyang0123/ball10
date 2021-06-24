@@ -32,10 +32,10 @@
 
 <!-- 유저페이지 그룹리스트 -->
 <div class="row">
-    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
+    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block;">
         <c:if test="${empty userJoinGroupList}">
             <div style="text-align: center; margin-top: 20px;">
-            <img src='/resources/img/group_empty.jpg' class="group-empty"/>
+                <img src='/resources/img/group_empty.jpg' class="group-empty"/>
             </div>
         </c:if>
         <c:forEach var="groupList" items="${userJoinGroupList}">
@@ -45,7 +45,9 @@
                         <div class="col-10 group-category">${groupList.group_category}</div>
                         <div class="col-2 text-end groupSecret">
                             <c:if test="${groupList.group_is_secret==1}">
-                                <img src='/resources/img/lock.png' id='lockImg'/>
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <img src='/resources/img/lock.png' id='lockImg'/>
+                                </div>
                             </c:if>
                         </div>
                     </div>
@@ -81,19 +83,17 @@
                 <button style="color: black;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="modal_body">
-                    <table cellspacing="0" class="alarmTable table table-hover">
-                        <thead>
-                        <tr>
-                            <th style="width: 20%;">날짜</th>
-                            <th style="width: 70%;">내용</th>
-                            <th style="width: 10%;">확인</th>
-                        </tr>
-                        </thead>
-                        <tbody id="dataSection">
-                        </tbody>
-                    </table>
-                </div>
+                <table class="alarmTable table table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 20%;">날짜</th>
+                        <th style="width: 70%;">내용</th>
+                        <th style="width: 10%;">확인</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dataSection">
+                    </tbody>
+                </table>
             </div>
             <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
                 <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
@@ -112,12 +112,12 @@
             moreList(changeCriterionNumber);
 
             //더보기 버튼 클릭시
-           $("#addBtn").click(function (){
-               moreList(changeCriterionNumber);
-           })
+            $("#addBtn").click(function (){
+                moreList(changeCriterionNumber);
+            })
         });
 
-     });
+    });
     //시간 디스플레이 변환
     const displayTime = (timeValue)=>{
         var today = new Date();
@@ -221,9 +221,9 @@
 <script>
     $(document).ready(function () {
         var timerCookieStr = document.cookie
-                      .split('; ')
-                      .find(row => row.startsWith('timerCookie'))
-                      .split('=')[1];
+            .split('; ')
+            .find(row => row.startsWith('timerCookie'))
+            .split('=')[1];
 
         // var timerCookieStr = "125-1-10:20:10"
 

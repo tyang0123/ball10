@@ -19,4 +19,9 @@ public class UserServiceTests {
     public void testUserJoinGroupList(){
         service.userJoinGroupList("user1").forEach(i -> System.out.println(i));
     }
+
+    @Test
+    public void testSelectUserPassword(){
+        System.out.println(service.getUserPassword("user1","a@naver.com"));
+    }
 }

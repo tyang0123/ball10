@@ -11,5 +11,4 @@ public interface NoticeService {
     public void deleteNotice(Long notice_id);
     public List<NoticeVO> readListNotice(); //notice 페이지에 보여줄 리스트
 
-    public int getNoticeCount();
 }

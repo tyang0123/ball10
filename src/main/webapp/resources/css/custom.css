@@ -54,14 +54,6 @@ body {
   height: 20px;
 }
 
-#modal_body {
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: relative;
-}
-
 .showContent {
   display: table-row;
 }
@@ -269,6 +261,19 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   max-width: 94vw;
   border-radius: 1em;
 }
+#noticeTable{
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+}
+#noticeDate{
+  font-size: 12px;
+}
+.smileSize{
+  width:16px;
+  height: 16px;
+}
+
 
 @media (min-width: 768px) {
   #margin {
@@ -351,6 +356,21 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .group-empty {
     max-width: 80vw;
+  }
+  #noticeTable{
+    width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  #noticeDate{
+    font-size: 15px;
+  }
+  .smileSize{
+    width:18px;
+    height: 18px;
+  }
+  .noticeContent{
+    font-size: 15px;
   }
 }
 
@@ -446,6 +466,21 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .group-empty {
     max-width: 80vw;
   }
+  #noticeTable{
+    width: 900px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  #noticeDate{
+    font-size: 15px;
+  }
+  .smileSize{
+    width:20px;
+    height: 20px;
+  }
+  .noticeContent{
+    font-size: 17px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -487,5 +522,20 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .group-empty {
     max-width: 70vw;
+  }
+  #noticeTable{
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  #noticeDate{
+    font-size: 17px;
+  }
+  .smileSize{
+    width:22px;
+    height: 22px;
+  }
+  .noticeContent{
+    font-size: 19px;
   }
 }

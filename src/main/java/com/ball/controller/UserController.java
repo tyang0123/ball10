@@ -211,5 +211,39 @@ public class UserController {
         rAttr.addFlashAttribute("sendID", "이메일로 ID를 전송하였습니다.");
         return "redirect:/user/login";
     }
+    @PostMapping("/findPassword")
+    public String findPasswordPostSendEmailID(String user_id
+            ,String user_email
+            , RedirectAttributes rAttr){
+        log.info("user findIDPostSendEmailID..................................."+user_email);
 
+        String userPassword = userService.getUserPassword(user_id,user_email);
+
+        if(userPassword == null){
+            rAttr.addFlashAttribute("sendID", "등록된 정보가 없습니다. 확인 후 다시 입력하여 주세요.");
+            return "redirect:/user/findPassword";
+        }
+
+        ///// 매칭되면 ID값을 이메일로 보내기
+        if(adminEmail == null){
+            log.info("admin email Setting..................");
+            if(!prepareSendingAdminEmail()){
+                rAttr.addFlashAttribute("sendID", "오류가 발생했습니다. 관리자에게 문의해주세요. 1");
+                return "redirect:/user/findPassword";
+            }
+        }
+
+        MailVO vo = new MailVO();
+        vo.setReceive(user_email);
+        vo.setSubject("10-0사이트의 회원님의 비밀번호를 전달합니다.");
+        vo.setContent("회원님의 ID는 < "+userPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n https://10-0.imweb.me/");
+
+        if(!mailService.sendEmail(vo)){
+            rAttr.addFlashAttribute("sendID", "오류가 발생했습니다. 관리자에게 문의해주세요. 2");
+            return "redirect:/user/findPassword";
+        };
+
+        rAttr.addFlashAttribute("sendID", "이메일로 비밀번호를 전송하였습니다.");
+        return "redirect:/user/login";
+    }
 }

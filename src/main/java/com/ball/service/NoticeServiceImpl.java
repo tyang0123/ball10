@@ -43,8 +43,4 @@ public class NoticeServiceImpl implements NoticeService{
         return mapper.noticeReadList();
     }
 
-    @Override
-    public int getNoticeCount() {
-        return mapper.noticeCount();
-    }
 }

@@ -72,6 +72,11 @@ public class UserMapperTests {
     }
 
     @Test
+    public void testSelectUserPassword(){
+        System.out.println(mapper.selectUserPasswordByIdAndEmail("user1","a@naver.com"));
+    }
+
+    @Test
     public void testSelectEmailAdmin(){
         System.out.println(mapper.selectEmailAdmin());
     }

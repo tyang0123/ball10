@@ -24,6 +24,9 @@ public interface UserMapper {
     //유저 ID 조회
     public String selectUserIDByEmail(@Param("user_email") String userEmail);
 
+    //유저 Password 조회
+    public String selectUserPasswordByIdAndEmail(@Param("user_id") String userId,@Param("user_email") String userEmail);
+
     //이메일 관리자 정보 조회
     public UserVO selectEmailAdmin();
 }
