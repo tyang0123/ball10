@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapeer 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ball.mapper.AlarmMapper">
+    <insert id="insert" parameterType="com.ball.vo.AlarmVO">
+        insert into alarm_message(user_id,alarm_message_content,alarm_message_is_new,alarm_message_reg_date,alarm_message_mod_date) values(#{user_id},#{alarm_message_content},#{alarm_message_is_new},now(),now())
+    </insert>
+    <select id ="read" resultType="com.ball.vo.AlarmVO" parameterType="Long">
+        select * from alarm_message where alarm_message_id = #{alarm_message_id}
+    </select>
+    <select id ="getNewID" parameterType="String" resultType="Long" >
+        select alarm_message_id from alarm_message where user_id = #{user_id} order by alarm_message_id desc limit 1
+    </select>
+    <update id="update" parameterType="Long">
+        update alarm_message set alarm_message_is_new = 0, alarm_message_mod_date=now() where alarm_message_id = #{alarm_message_id}
+    </update>
+    <select id="count" resultType="String" parameterType="String">
+        select count(alarm_message_is_new)as alarm_message_count from alarm_message where user_id=#{user_id} and alarm_message_is_new=1;
+    </select>
+    <select id="getListWithPaging" resultType="com.ball.vo.AlarmVO">
+        select * from alarm_message
+        <where>
+            user_id = #{user_id}
+            <if test="cri.criterionNumber > 0">
+                <![CDATA[
+                    and alarm_message_id < #{cri.criterionNumber}
+                    ]]>
+            </if>
+        </where>
+        order by alarm_message_id desc limit #{cri.amount}
+    </select>
+</mapper>

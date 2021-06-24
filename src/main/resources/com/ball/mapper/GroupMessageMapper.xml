@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapeer 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ball.mapper.GroupMessageMapper">
+<!--    now() 함수로도 가능-->
+    <insert id="insertGroupMessage" parameterType="com.ball.vo.GroupMessageVO">
+        insert into group_message (group_id, user_id, group_message_content, group_message_reg_date, group_message_mod_date)
+        values(#{group_id},#{user_id},#{group_message_content}, sysdate(), sysdate())
+    </insert>
+
+    <select id="readGroupMessage" resultType="com.ball.vo.GroupMessageVO">
+        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id}
+    </select>
+
+<!--    추후에 group_id 추가할지 생각 -->
+    <delete id="deleteGroupMessage">
+        delete from group_message where group_message_id = #{group_message_id}
+    </delete>
+
+    <select id="readGroupMessagePaging" resultType="com.ball.vo.GroupMessageVO">
+        <![CDATA[
+            select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} and group_message.group_message_id > #{cri.criterionNumber}
+        ]]>
+    </select>
+
+    <select id="getFirstGroupMessageId" resultType="int">
+        select group_message_id from group_message where group_id = #{group_id} order by group_message_id desc limit 1
+    </select>
+
+</mapper>
