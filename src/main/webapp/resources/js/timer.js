@@ -90,11 +90,11 @@ function viewTimerStartInterval(){
   }, 1000);
 }
 
-const saveTimerToDB = function(resultFunc){
+const saveTimerToDB = function(data, resultFunc){
   $.ajax({
     type: "PUT",
-    url: "/ajax/timer/"+timerID+"/"+timerIsPlay,
-    data : accumulatedTimeStr,
+    url: "/ajax/timer/"+timerID,
+    data : JSON.stringify(data),
     contentType: "application/json; charset=UTF-8;",
     success: function(result, status, xhr){
       console.log("success")
@@ -109,6 +109,7 @@ const saveTimerToDB = function(resultFunc){
       if(timerIsPlay == 1){
         viewTimerStartInterval();
       }
+      resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
       alert("error : "+er)
     }
   });//end ajax
@@ -117,19 +118,34 @@ const saveTimerToDB = function(resultFunc){
 
 const timerStart = function(resultFunc) {
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();
-  timerIsPlay = "1";
+  timerIsPlay = 1;
+  const data = {
+    'accumulatedTime' : accumulatedTimeStr,
+    'timerIsPlay': timerIsPlay,
+    'timerIsOnSite' : 1
+  };
   //DB에 상태를 play상태를 업데이트 하면 timer시작
-  saveTimerToDB(resultFunc);
+  saveTimerToDB(data, resultFunc);
 }
 
 
 const timerStop = function (resultFunc) {
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
   timerIsPlay = "0";
-  saveTimerToDB(resultFunc);
+  const data = {
+    'accumulatedTime' : accumulatedTimeStr,
+    'timerIsPlay': timerIsPlay,
+    'timerIsOnSite' : 1
+  };
+  saveTimerToDB(data, resultFunc);
 };//end timerStop
 
 const timerSaveBeforeUnloadPage= function (resultFunc) {
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
-  saveTimerToDB(resultFunc);
+  const data = {
+    'accumulatedTime' : accumulatedTimeStr,
+    'timerIsPlay': timerIsPlay,
+    'timerIsOnSite' : 0
+  };
+  saveTimerToDB(data, resultFunc);
 };

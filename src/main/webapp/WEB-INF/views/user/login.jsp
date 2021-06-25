@@ -109,7 +109,7 @@
             border-color: black;
             color: black;
         }
-        .button-login:hover {
+        .button-join:hover {
             background-color: #ffc107;
             border-color: black;
             color: black;
