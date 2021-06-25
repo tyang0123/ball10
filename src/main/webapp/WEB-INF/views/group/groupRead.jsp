@@ -119,7 +119,7 @@
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="readGroupMessage" id = "readGroupMessage"></div>
+                                <div id="readGroupMessage"></div>
                                 <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                     <div class = 'md-3'>
                                         <label for = 'message-text' class='col-form-label'> 입력창 </label>
@@ -182,7 +182,7 @@
         })
 
         if(${group.user_id_group_header eq user_id}) {
-            console.log("아이디가 같나?")
+            // console.log("아이디가 같나?")
             $('.btn-warning').attr('hidden', true)
             $('.btn-block').attr('hidden', true)
         }else{
@@ -237,16 +237,19 @@
 
             //메세지 가져오기
             messageService.getList(group_id, criterionNumber, function (result) {
-                $('.readGroupMessage').html(result);
+                $('#readGroupMessage').append(result);
             })
         });
 
         //메세지 삭제
-        $(".remove_message").click(function () {
-            console.log("여기는 들어오는지 확인")
+        $("#readGroupMessage").on("click","button",function () {
+            console.log("버튼은 눌리는지 확인")
             var group_message_id = $(this).val()
             messageService.remove(group_message_id, function (deleteResult) {
                 if (deleteResult == "success") {
+                    messageService.getList(group_id, criterionNumber, function (result) {
+                        $('#readGroupMessage').html(result);
+                    })
                 }
             })
         })
@@ -260,6 +263,7 @@
             messageService.add(group_id, message, function (result) {
                 if(result == "success"){
                     $('#message-text').val("");
+
                 }
             })
         })
@@ -342,8 +346,8 @@
             url: "/ajax/timer/gettimers/"+group_id,
             success: function(result, status, xhr){
                 for(var i in result){
-                    console.log(result[i])
-                    console.log(new Date(...result[i].timer_mod_date))
+                    // console.log(result[i])
+                    // console.log(new Date(...result[i].timer_mod_date))
 
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];
