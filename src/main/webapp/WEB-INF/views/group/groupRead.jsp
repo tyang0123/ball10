@@ -11,48 +11,35 @@
             <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->
             <div class="panel-body">
                 <form id='operForm' action="/group/read">
-                <div class="form-group">
-                    <label for="group_id">방번호</label>
-                    <input class="form-control" name="group_id" id="group_id" value="${group.group_id}"
-                           readonly="readonly">
-                </div>
-                <div class="form-group">
-                    <label for="group_name"> 방제목</label>
-                    <input class="form-control" name="group_name" id="group_name" value="${group.group_name}"
-                           readonly="readonly">
-                </div>
-                <div>
-                    <label for="group_category">그룹 카테고리</label>
-                    <input class="form-control" name="group_category" id="group_category" value="${group.group_category}"
-                           readonly="readonly">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="group_content">텍스트 영역</label>
-                    <textarea class="form-control" rows="3" name="group_content" id="group_content"
-                              readonly="readonly">${group.group_content}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="user_nickname_group_header">그룹장</label>
-                    <input class="form-control" name="user_nickname_group_header" id="user_nickname_group_header" value="${group.user_nickname_group_header}"
-                           readonly="readonly">
-                </div>
-                <div class="form-group">
-                    <label for="group_person_count">참여인원</label>
-                    <input class="form-control" name="group_person_count" id="group_person_count" value="${group.group_join_person_number}/${group.group_person_count}"
-                           readonly="readonly">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="group_reg_date">그룹 생성일</label>
-
-                    <input class="form-control" name="group_reg_date" id="group_reg_date"
-                           value="<fmt:parseDate var="date1" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/><fmt:formatDate value="${date1}" type="DATE" pattern="yyyy-MM-dd"/>"
-                           readonly="readonly">
-
-                </div>
+                    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
+                            <div class="card user-card-group"  value="${group.group_is_secret}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-10 group-category">${group.group_category}</div>
+                                        <div class="col-2 text-end groupSecret">
+                                            <c:if test="${group.group_is_secret==1}">
+                                                <img src='/resources/img/lock.png' id='lockImg'/>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                    <div class="group-list-margin">
+                                        <span class="group-title">${group.group_name}</span>
+                                    </div>
+                                    <div>
+                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
+                                    </div>
+                                    <div>
+                                        <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
+                                        <span class="group-list-title">  시작일 : </span><span class="group-list-content">
+                        <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
+                            <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item group-content">${group.group_content}</li>
+                                </ul>
+                            </div>
+                    </div>
                     <button data-oper='modify' class="btn btn-default"> 수정</button>
                     <button data-oper='list' class="btn btn-info">목록 </button>
                     <button data-oper='remove' class="btn btn-danger">그룹 파괴</button>
@@ -164,6 +151,7 @@
     .my-img-balck{
         background:black;
     }
+
 </style>
 <!---------------------------------------------------------------------------------------->
 
@@ -206,7 +194,7 @@
         $('.btn-danger').click(function (){
             $(operForm).attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
-        $('.btn-block').click(function (){
+        $('.btn btn-block').click(function (){
             $(operForm).attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
         })
 
