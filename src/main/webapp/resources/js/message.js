@@ -9,6 +9,7 @@ var messageService = (function (){
             data : JSON.stringify(message),
             contentType : "application/json; charset=utf-8",
             success : function(result){
+                // window.location.reload();
                 callback(result)
             },
             error:(log)=>{alert("실패"+log)}

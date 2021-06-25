@@ -235,16 +235,6 @@
         $("#modalShowButton").click(function (){
             $('.modal').modal("show")
 
-            function sampleModalPopup(){
-
-                var url = window.location.href;
-
-                // 팝업 호출
-                $(".modal").load(url, function() {
-                    $(".modal").modal("show");
-                });
-            }
-
             //메세지 가져오기
             messageService.getList(group_id,criterionNumber,function(result) {
                 $('.readGroupMessage').text(result);
@@ -255,7 +245,6 @@
                     var group_message_id = $(this).val()
                     messageService.remove(group_message_id,function (deleteResult){
                         if(deleteResult == "success"){
-                            // sampleModalPopup()
                         }
                     }, function (err){
                         alert("에러 발생");
