@@ -37,7 +37,6 @@ public class TimerServiceImpl implements TimerService{
     public int modifyTimerPlayState(TimerVO vo) {
         TimerVO resultVO = timerMapper.selectTimerByTimerID(vo.getTimer_id());
         resultVO.setTimer_is_play(1);
-        log.info(resultVO.toString());
         return timerMapper.updateAccumulatedTimeAndState(resultVO);
     }
 

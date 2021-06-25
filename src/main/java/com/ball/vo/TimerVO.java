@@ -19,6 +19,7 @@ public class TimerVO {
     private LocalDateTime timer_date;
     private LocalTime timer_accumulated_day;
     private int timer_is_play;
+    private int timer_is_on_site;
     private LocalDateTime timer_reg_date;
     private LocalDateTime timer_mod_date;
 }
