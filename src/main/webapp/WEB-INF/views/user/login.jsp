@@ -9,24 +9,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
-            <h1>LOGIN</h1>
+        <div>
+            <figure class="text-center"><h1>로그인</h1></figure>
 
             <form method="post" action="/user/login">
                 <div class="form-group m-3">
-                    <input type="text" class="form-control" id="user-id" name="user_id" placeholder="아이디">
-                    <div id="id-help" class="form-text" style="display: none;">영문자+숫자, 40글자</div>
+                    <input type="text" class="form-control border border-dark border-2" id="user-id" name="user_id" placeholder="아이디">
                 </div>
                 <div class="form-group m-3">
-                    <input type="password" class="form-control" id="user-password" name="user_password" placeholder="비밀번호">
+                    <input type="password" class="form-control border border-dark border-2" id="user-password" name="user_password" placeholder="비밀번호">
+                    <small id="result-login" class="form-text text-danger">asdf</small>
                 </div>
-                <div class="form-check">
+                <div class="form-check text-center">
                     <input class="form-check-input" type="checkbox" id="user-check" value="true" checked="checked" name="user_remember">
                     <label class="form-check-label" for="user-check">
                         로그인 상태 유지하기
                     </label>
                 </div>
-                <input type="submit" class="btn btn-primary" style="margin-top: 1rem;" value="로그인">
+                <div class="form-group text-center">
+                    <button type="submit" class="button-timer-custom" style="width: 150px;margin-top: 1rem;">로그인</button>
+                </div>
             </form>
         </div> <!-- end form div col-sm-12 -->
     </div>
@@ -51,6 +53,25 @@
 </div><!--end div container -->
 
 <style>
+    body {
+        height: 100%;
+        background-color: #efefef;
+    }
+    form {
+        margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+        form {
+            margin: 0 auto;
+            width:700px;
+        }
+    }
+
+    #result-login {
+        display:block;
+        height:8px;
+        margin-left: 10px;
+    }
     /* a tag reset */
     a {color: #fff; text-decoration: none; outline: none}
     a:hover, a:active {text-decoration: none; color:#fff;}
