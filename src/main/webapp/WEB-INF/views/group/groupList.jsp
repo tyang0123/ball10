@@ -49,9 +49,10 @@
                     </tr>
                     </thead>
                     <c:forEach items="${list}" var="list" end="${list.size()}">
-                    <tr>
+                    <tr class='move' style="cursor: pointer;" value="${list.group_is_secret}">
+                        <input type="hidden" name="group_id" value="${list.group_id}"/>
                         <td>${list.group_id}</td>
-                        <td><a class='move' href='read?group_id=${list.group_id}'>${list.group_name}</a></td>
+                        <td>${list.group_name}</td>
                         <td>${list.user_nickname_group_header}</td>
                         <td>${list.group_category}</td>
                         <td>${list.group_join_person_number}/${list.group_person_count}
@@ -66,15 +67,27 @@
                     </tr>
                     </c:forEach>
         </table>
+    </div>
+</div>
 
-        <%--            <c:forEach var="group" items="${group}">--%>
-        <%--                <div>--%>
-        <%--                    <row>--%>
-        <%--                            ${list.user_nickname}--%>
-        <%--                            ${list.group_message_reg_date}--%>
-        <%--                    </row>--%>
-        <%--                </div>--%>
-        <%--            </c:forEach>--%>
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">비밀번호 입력</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+    <form  method='post'>
+            <div class="modal-body">
+                    <input id="inputPass" type="text"  placeholder="비밀번호를 입력하세요">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="submit" class="btn btn-primary" >입력</button>
+            </div>
+    </form>
+        </div>
     </div>
 </div>
 </body>
@@ -82,28 +95,56 @@
 
 <script>
     $(document).ready(function (){
+        <%--var password = ${password}--%>
+
         $("#createBtn").click(function(){
             console.log("버튼 눌리나")
             $("#listForm").attr("action", "/group/create").submit();
         })
-        // $('.move').click(function (){
-        //     prompt('비밀번호를 입력하세요');
-        //     $.ajax({
-        //         type:"post",
-        //         url:"/group/list/ajax/list",
-        //         data:{
-        //             password: 'password'
-        //         },
-        //         dataType:"json",
-        //         success: function (){
-        //             alert('성공');
-        //
-        //         }
-        //
-        //     })
-        // })
 
+
+        $(".move").on('click',function (){
+            var groupID = $(this).find('input[name=group_id]').attr('value');
+            console.log("move눌리나 값"+ $(this).attr('value'));
+            let url = "/group/read?group_id="+groupID;
+
+            if($(this).attr('value')==1){
+                console.log("move 그룹 아이디 가져오기"+ groupID);
+                $('.modal').modal('show');
+                $(".btn-primary").click(function (){
+
+                    console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
+                    $.ajax({
+                        type:"POST",
+                        url:"/ajax/list/"+groupID,
+                        dataType:"json",
+                        success: function (res){
+                            let passwordAjax = res['password'];
+                            let passInput = $('#inputPass').val();
+                            if(passwordAjax === passInput){
+                                alert("hi ajax");
+
+                                location.replace(url);
+                            }else{
+                                $('#inputPass').attr("required",true);
+                                console.log("bye ajax");
+                            }
+
+                            console.log("아작스 안에 들어온 패스워드",passwordAjax);
+                            console.log("아작스 안에 들어온 인풋 패스워드",passInput);
+                        },error : ()=>{}
+                    })
+                })
+            }else{
+                location.replace(url);
+            }
+        })
     })
+
+    function clickGroup(){
+        console.log("함수가 출력되나?")
+
+    }
 
 
 

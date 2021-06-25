@@ -170,14 +170,13 @@
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
-        var password =  ${group.group_password}
 
         $(".btn-default").click(function (){
             $(operForm).attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
         })
 
         $(".btn-info").click(function (){
-            $(operForm).find("#group_id").remove();
+            $(operForm).find('${group.group_id}').remove();
             $(operForm).attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
         })
 
@@ -202,20 +201,6 @@
                 alert('인원수가 초과되었습니다.')
                 return false;
             }
-
-            <%--if(${group.group_is_secret==1}){--%>
-
-            <%--    // const checkPass = prompt('비밀번호를 입력하세요');--%>
-
-            <%--    // if(checkPass === password){--%>
-            <%--    //     $(operForm).attr("action","/group/read").attr("method","post").submit();  //비밀번호 입력 후 회원가입--%>
-            <%--    // }--%>
-            <%--    &lt;%&ndash;if(checkPass === ${check}){&ndash;%&gt;--%>
-            <%--    &lt;%&ndash;    $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입&ndash;%&gt;--%>
-            <%--    &lt;%&ndash;}&ndash;%&gt;--%>
-            <%--    return false;--%>
-
-            <%--}--%>
             $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
         $('.btn-danger').click(function (){
