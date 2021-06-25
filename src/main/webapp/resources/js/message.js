@@ -38,7 +38,7 @@ var messageService = (function (){
         });
     }
 
-    function remove(group_message_id,callback,error){
+    function remove(group_message_id,callback){
         $.ajax({
             type : 'delete',
             url : '/group/read/ajax/delete/?group_message_id='+group_message_id,
@@ -47,11 +47,7 @@ var messageService = (function (){
                     callback(deleteResult);
                 }
             },
-            error:function (xhr,status,er){
-                if(error){
-                    error(er);
-                }
-            }
+            error:(log)=>{alert(log)}
         });
     }
 

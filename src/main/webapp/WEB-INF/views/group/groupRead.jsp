@@ -119,7 +119,7 @@
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="readGroupMessage"></div>
+                                <div class="readGroupMessage" id = "readGroupMessage"></div>
                                 <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                     <div class = 'md-3'>
                                         <label for = 'message-text' class='col-form-label'> 입력창 </label>
@@ -232,36 +232,39 @@
         <%--var criterionNumber = ${firstCriNumber};--%>
 
         //modal창 보여주기
-        $("#modalShowButton").click(function (){
+        $("#modalShowButton").click(function () {
             $('.modal').modal("show")
 
             //메세지 가져오기
-            messageService.getList(group_id,criterionNumber,function(result) {
-                $('.readGroupMessage').text(result);
+            messageService.getList(group_id, criterionNumber, function (result) {
+                $('.readGroupMessage').html(result);
+            })
+        });
 
+        //메세지 삭제
+        $(".remove_message").click(function () {
+            console.log("여기는 들어오는지 확인")
+            var group_message_id = $(this).val()
+            messageService.remove(group_message_id, function (deleteResult) {
+                if (deleteResult == "success") {
+                }
+            })
+        })
 
-                //메세지 삭제
-                $(".remove_message").click(function (){
-                    var group_message_id = $(this).val()
-                    messageService.remove(group_message_id,function (deleteResult){
-                        if(deleteResult == "success"){
-                        }
-                    }, function (err){
-                        alert("에러 발생");
-                    })
-                })
+        //메세지 추가
+        $("#message_submit").click(function () {
+            var message = {
+                "user_id": 'user1', //이후 쿠키에서 가져온 뒤 수정
+                "group_message_content": $('#message-text').val()
+            }
+            messageService.add(group_id, message, function (result) {
+                if(result == "success"){
+                    $('#message-text').val("");
+                }
+            })
+        })
 
-                //메세지 추가
-                $("#message_submit").click(function (){
-                    var message = {
-                        "user_id":'user1', //이후 쿠키에서 가져온 뒤 수정
-                        "group_message_content": $('#message-text').val()
-                    }
-                    messageService.add(group_id,message,function (result){
-                        $('#message-text').val("");
-                    })
-                })
-            });
+        // })
 
         $("#modal_close").click(function (){
             $('.modal').modal("hide")
