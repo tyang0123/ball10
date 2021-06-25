@@ -263,7 +263,9 @@
             messageService.add(group_id, message, function (result) {
                 if(result == "success"){
                     $('#message-text').val("");
-
+                    messageService.getList(group_id, criterionNumber, function (result) {
+                        $('#readGroupMessage').html(result);
+                    })
                 }
             })
         })
