@@ -43,8 +43,6 @@
 <script type="text/javascript">
     $(document).ready(function (){
 
-        var operForm = $("#operForm");
-
         $('#modal_click').click(function (){
             $('.modal').modal("show")
         })

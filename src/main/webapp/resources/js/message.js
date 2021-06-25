@@ -24,7 +24,7 @@ var messageService = (function (){
             },
             dataType: "json",
             success:function (data){
-                console.log(data['list'])
+                // console.log(data['list'])
                 text = ""
                 const list = data['list'];
                 for(var i=0; i<list.length; i++){
