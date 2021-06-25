@@ -25,7 +25,7 @@ public class GroupMessageAjaxController {
 
     //메세지(댓글) 목록 확인
     @GetMapping("/list")
-    public ResponseEntity<HashMap<String,Object>> readMessage(@RequestParam("group_id") Long group_id, Long criterionNumber, Model model){
+    public ResponseEntity<HashMap<String,Object>> readMessage(@RequestParam("group_id") Long group_id, Long criterionNumber){
         System.out.println("메세지 목록 확인: "+criterionNumber);
 
         Criteria cri = new Criteria();
