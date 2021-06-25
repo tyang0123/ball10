@@ -31,6 +31,7 @@
         form {
             margin: 0 auto;
         }
+        /* content 수직 정렬 과련 css*/
         .wrapper {
             display: table;
             position: absolute;
@@ -47,11 +48,15 @@
             margin-left: auto;
             margin-right: auto;
         }
+        /* end  content 수직 정렬 과련 css */
+
+        /* bootstrap form focus shadow 기능 reset */
         .form-control:focus,
         .form-check-input:focus {
             border-color: #FF0000;
             box-shadow: unset;
         }
+
         .form-check-input:checked {
             outline: #333333;
             border-color: #FF8800;
