@@ -1,5 +1,6 @@
 package com.ball.mapper;
 
+import com.ball.vo.Criteria;
 import com.ball.vo.NoticeVO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -17,9 +18,17 @@ public class NoticeMapperTests {
     private NoticeMapper mapper;
 
     @Test
-    public void testNoticeReadList(){
-        System.out.println(mapper.noticeReadList());
+    public void testNoticeReadNew(){
+        System.out.println(mapper.noticeReadNew());
     }
+
+    @Test
+    public void testGetListWithPaging(){
+        Criteria cri = new Criteria();
+        cri.setCriterionNumber(5L);
+        mapper.getListWithPaging(cri).forEach(i -> System.out.println(i));
+    }
+
     @Test
     public void testNoticeInsert(){
         NoticeVO noticeVO = new NoticeVO();

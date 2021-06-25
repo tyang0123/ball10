@@ -1,6 +1,7 @@
 package com.ball.service;
 
 import com.ball.mapper.NoticeMapper;
+import com.ball.vo.Criteria;
 import com.ball.vo.NoticeVO;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -39,8 +40,13 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     @Override
-    public List<NoticeVO> readListNotice() {
-        return mapper.noticeReadList();
+    public Long noticeNewId() {
+        return mapper.noticeReadNew();
+    }
+
+    @Override
+    public List<NoticeVO> getListWithPage(Criteria cri) {
+        return mapper.getListWithPaging(cri);
     }
 
 }

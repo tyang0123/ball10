@@ -1,6 +1,7 @@
 package com.ball.controller;
 
 import com.ball.service.NoticeService;
+import com.ball.vo.Criteria;
 import com.ball.vo.NoticeVO;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -16,15 +17,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
-@Controller
+
 @Slf4j
+@Controller
 @RequestMapping("/notice/*")
 public class NoticeController {
 
     @Setter(onMethod_=@Autowired)
-    private NoticeService service;
+    private NoticeService noticeService;
 
     @GetMapping("/list")
     public String list(HttpSession session, Model model){
@@ -32,20 +35,11 @@ public class NoticeController {
         String userID = String.valueOf(session.getAttribute("userID"));
         System.out.println("session에서 가져온 값 : "+userID);
 
+        Long criterionNumber = noticeService.noticeNewId();
+        model.addAttribute("firstCriterionNumber", criterionNumber==null? 0: criterionNumber+1);
         model.addAttribute("userID",userID);
-        model.addAttribute("list",service.readListNotice());
         return "notice/noticelist";
     }
 
-//    @ResponseBody
-//    @PostMapping("/add")
-//    public ResponseEntity<String> addNotice(@RequestBody NoticeVO vo){
-//        System.out.println("/notice/add 들어오는지 확인");
-//        log.info("NoticeVO: "+vo);
-//
-//        int insertCount = service.insertNotice(vo);
-//        return insertCount == 1
-//                ? new ResponseEntity<>("success", HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+
 }
