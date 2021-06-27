@@ -273,7 +273,72 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   width:16px;
   height: 16px;
 }
+.button-create-customY:focus,
+.button-create-customO:focus,
+.form-custom:focus{
+  box-shadow: unset;
+  border-color: #ff9000;
+}
 
+.createForm{
+  width: 400px;
+  border: black 2px solid;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.form-custom{
+  border: black 2px solid;
+  width: 300px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.button-create-customY {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #ffc107;
+  border: 2px solid black;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.1rem;
+  width: 145px;
+  margin-right: 3px;
+}
+
+.button-create-customY:hover {
+  background-color: #ff9000;
+  border-color: black;
+  color: black;
+}
+.button-create-customO {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #ff9000;
+  border: 2px solid black;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.1rem;
+  width: 145px;
+  margin-left: 3px;
+}
+
+.button-create-customO:hover {
+  background-color: #ffc107;
+  border-color: black;
+  color: black;
+}
 
 @media (min-width: 768px) {
   #margin {
@@ -371,6 +436,23 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .noticeContent{
     font-size: 15px;
+  }
+
+  .createForm{
+    width: 450px;
+  }
+
+  .form-custom {
+    width: 350px;
+  }
+  .button-create-customY {
+    width: 170px;
+    margin-right: 4px;
+  }
+
+  .button-create-customO {
+    width: 170px;
+    margin-left: 4px;
   }
 }
 
@@ -537,5 +619,21 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .noticeContent{
     font-size: 19px;
+  }
+  .createForm{
+    width: 500px;
+  }
+
+  .form-custom {
+    width: 400px;
+  }
+  .button-create-customY {
+    width: 190px;
+    margin-right: 8px;
+  }
+
+  .button-create-customO {
+    width: 190px;
+    margin-left: 8px;
   }
 }

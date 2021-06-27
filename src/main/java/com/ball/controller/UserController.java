@@ -124,6 +124,28 @@ public class UserController {
     public String temp(){
         return "user/create";
     }
+    @PostMapping("/create")
+    public String create(UserVO vo,Model model, RedirectAttributes rAttr){
+
+        //아이디 중복 조회
+        boolean Idcheck = userService.idCheck(vo.getUser_id());
+        if(! Idcheck){// id가 존재할때 다시 회원가입 페이지로
+            rAttr.addFlashAttribute("idFail", "fail");
+            rAttr.addFlashAttribute("writing", vo);
+            return "redirect:/user/create";
+        }
+
+        //이메일 중복 조회
+        boolean emailcheck = userService.emailCheck(vo.getUser_email());
+        if(! emailcheck){// 이메일이 존재할때 다시 회원가입 페이지로
+            rAttr.addFlashAttribute("emailFail", "fail");
+            rAttr.addFlashAttribute("writing", vo);
+            return "redirect:/user/create";
+        }
+
+        userService.userCreate(vo);
+        return "redirect:/user/login";
+    }
 
     @GetMapping("/user")
     public String userGet(HttpServletResponse response, HttpServletRequest request
@@ -246,4 +268,5 @@ public class UserController {
         rAttr.addFlashAttribute("sendID", "이메일로 비밀번호를 전송하였습니다.");
         return "redirect:/user/login";
     }
+
 }

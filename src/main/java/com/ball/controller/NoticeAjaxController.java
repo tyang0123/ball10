@@ -19,7 +19,7 @@ public class NoticeAjaxController {
     @Setter(onMethod_=@Autowired)
     private NoticeService noticeService;
 
-    @ResponseBody
+
     @PostMapping("/list")
     public ResponseEntity<HashMap<String, Object>> noticeList(Long criterionNumber,String userID) throws Exception {
 

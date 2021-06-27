@@ -35,6 +35,17 @@ public class UserMapperTests {
         vo.setUser_nickname("테스트유저");
         mapper.insertUser(vo);
     }
+    @Test
+    public void testGet(){
+        System.out.println(mapper.getUser("yoojung"));
+    }
+
+    @Test
+    public void testUpdateUser(){
+        UserVO vo = mapper.getUser("yoojung");
+        vo.setUser_nickname("유정수정");
+        mapper.updateUser(vo);
+    }
 
     @Test
     public void testSelectByIdAndPassword(){
@@ -45,7 +56,7 @@ public class UserMapperTests {
     }
 
     @Test
-    public void testUpdateUser(){
+    public void testUpdateUser1(){
         UserVO vo = new UserVO();
         vo.setUser_id("testmapper2");
         vo.setUser_password("1111");
@@ -56,7 +67,6 @@ public class UserMapperTests {
     }
 
     @Test
-
     public void testUserJoinGroup(){
         mapper.userJoinGroup("user1").forEach(i -> System.out.println(i));
     }
@@ -80,4 +90,15 @@ public class UserMapperTests {
     public void testSelectEmailAdmin(){
         System.out.println(mapper.selectEmailAdmin());
     }
+
+    @Test
+    public void testIdCheck(){
+        System.out.println(mapper.selectIdCheck("user1"));
+    }
+
+    @Test
+    public void testEmailCheck(){
+        System.out.println(mapper.selectEmailCheck("a@naver.com"));
+    }
+
 }

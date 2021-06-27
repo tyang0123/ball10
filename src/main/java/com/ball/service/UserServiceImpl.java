@@ -17,6 +17,21 @@ public class UserServiceImpl implements UserService{
     private UserMapper userMapper;
 
     @Override
+    public void userCreate(UserVO vo) {
+        userMapper.insertUser(vo);
+    }
+
+    @Override
+    public void userModify(UserVO vo) {
+        userMapper.updateUser(vo);
+    }
+
+    @Override
+    public UserVO userRead(String userID) {
+        return userMapper.getUser(userID);
+    }
+
+    @Override
     public boolean userLoginCheck(String userId, String userPassword) {
         UserVO vo = userMapper.selectByIdAndPassword(userId, userPassword);
         if(vo != null)
@@ -43,4 +58,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserVO getAdminEmailAndPW() {return userMapper.selectEmailAdmin(); }
+
+    @Override
+    public boolean idCheck(String userId) {
+        String user_id = userMapper.selectIdCheck(userId);
+        if(user_id != null)
+            return false;
+        return true;
+    }
+
+    @Override
+    public boolean emailCheck(String userEmail) {
+        String user_email = userMapper.selectEmailCheck(userEmail);
+        if(user_email != null)
+            return false;
+        return true;
+    }
 }
