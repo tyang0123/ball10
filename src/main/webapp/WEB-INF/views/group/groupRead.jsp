@@ -101,7 +101,7 @@
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 align="center">그룹 메세지</h3>
+                                <h3>그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
@@ -222,10 +222,15 @@
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
-                    $('#readGroupMessage').prepend(result);
-                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
-                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
-                    isLoading = false;
+                    if(result == []){
+                        console.log("다 가져왔습니다")
+                        isLoading = true;
+                    }else {
+                        $('#readGroupMessage').prepend(result);
+                        $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                        // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                        isLoading = false;
+                    }
                 })
             }
 
