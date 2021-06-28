@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../includes/header.jsp" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<link href="/resources/css/group.css" rel="stylesheet">
 
 <div class="row">
     <div class="col-lg-12">

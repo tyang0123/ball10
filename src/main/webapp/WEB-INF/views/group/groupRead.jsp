@@ -39,7 +39,7 @@
                                 </ul>
                             </div>
                     </div>
-                    <button class="btn btn-default"> 수정</button>
+                    <button id="modifyBtn" class="btn btn-default"> 수정</button>
                     <button class="btn btn-info">목록 </button>
                     <button class="btn btn-danger">그룹 파괴</button>
                     <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
@@ -147,6 +147,9 @@
 
     .my-img-balck{
         background:black;
+    }
+    #modifyBtn {
+        background-color : #ff9000;
     }
 
 </style>

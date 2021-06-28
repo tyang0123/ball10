@@ -12,6 +12,7 @@
     <title>그룹</title>
 </head>
 <body>
+<link href="/resources/css/group.css" rel="stylesheet">
 <div class="row">
     <div class="col-sm-12">
         <h2>스터디 그룹</h2>
@@ -20,7 +21,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <form id="listForm" action="/group/list" method="get">
-                        <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
                         <select name="category">
                             <option value="" <c:out value="${cri.category ==null?'selected':''}"/>>---</option>
                             <option value="토익"
@@ -32,9 +32,10 @@
                             <option value="이직"
                                     <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                         </select>
-                        <input type="text" name="keyword"/>
-                        <button class='btn btn-default'>검색</button>
+                        <input type="text" id="listSearch" name="keyword"/>
+                        <button id="searchBtn" class='btn btn-default'>검색</button>
                     </form>
+                    <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
                 </div>
                     <div class="row">
                         <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
@@ -134,8 +135,6 @@
             location.replace(url);
         }
     })
-
-
 </script>
 
 
