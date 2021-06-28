@@ -4,55 +4,41 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp" %>
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->
             <div class="panel-body">
                 <form id='operForm' action="/group/read">
-                <div class="form-group">
-                    <label for="group_id">방번호</label>
-                    <input class="form-control" name="group_id" id="group_id" value="${group.group_id}"
-                           readonly="readonly">
-                </div>
-                <div class="form-group">
-                    <label for="group_name"> 방제목</label>
-                    <input class="form-control" name="group_name" id="group_name" value="${group.group_name}"
-                           readonly="readonly">
-                </div>
-                <div>
-                    <label for="group_category">그룹 카테고리</label>
-                    <input class="form-control" name="group_category" id="group_category" value="${group.group_category}"
-                           readonly="readonly">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="group_content">텍스트 영역</label>
-                    <textarea class="form-control" rows="3" name="group_content" id="group_content"
-                              readonly="readonly">${group.group_content}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="user_nickname_group_header">그룹장</label>
-                    <input class="form-control" name="user_nickname_group_header" id="user_nickname_group_header" value="${group.user_nickname_group_header}"
-                           readonly="readonly">
-                </div>
-                <div class="form-group">
-                    <label for="group_person_count">참여인원</label>
-                    <input class="form-control" name="group_person_count" id="group_person_count" value="${group.group_join_person_number}/${group.group_person_count}"
-                           readonly="readonly">
-                </div>
-
-
-                <div class="form-group">
-                    <label for="group_reg_date">그룹 생성일</label>
-
-                    <input class="form-control" name="group_reg_date" id="group_reg_date"
-                           value="<fmt:parseDate var="date1" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/><fmt:formatDate value="${date1}" type="DATE" pattern="yyyy-MM-dd"/>"
-                           readonly="readonly">
-
-                </div>
+                    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
+                            <div class="card user-card-group"  value="${group.group_is_secret}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-10 group-category">${group.group_category}</div>
+                                        <div class="col-2 text-end groupSecret">
+                                            <c:if test="${group.group_is_secret==1}">
+                                                <img src='/resources/img/lock.png' id='lockImg'/>
+                                            </c:if>
+                                        </div>
+                                    </div>
+                                    <div class="group-list-margin">
+                                        <span class="group-title">${group.group_name}</span>
+                                    </div>
+                                    <div>
+                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
+                                    </div>
+                                    <div>
+                                        <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
+                                        <span class="group-list-title">  시작일 : </span><span class="group-list-content">
+                        <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
+                            <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
+                                    </div>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item group-content">${group.group_content}</li>
+                                </ul>
+                            </div>
+                    </div>
                     <button data-oper='modify' class="btn btn-default"> 수정</button>
                     <button data-oper='list' class="btn btn-info">목록 </button>
                     <button data-oper='remove' class="btn btn-danger">그룹 파괴</button>
@@ -112,14 +98,14 @@
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 class="modal-title">그룹 메세지</h3>
+                                <h3 align="center">그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="readGroupMessage"></div>
+                                <div id="readGroupMessage"></div>
                                 <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                     <div class = 'md-3'>
                                         <label for = 'message-text' class='col-form-label'> 입력창 </label>
@@ -133,8 +119,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div> <!-- end panel-body -->
         </div> <!-- end panel -->
     </div> <!-- col-lg-12 -->
@@ -164,25 +148,25 @@
     .my-img-balck{
         background:black;
     }
+
 </style>
 <!---------------------------------------------------------------------------------------->
 
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
-        var password =  ${group.group_password}
 
         $(".btn-default").click(function (){
             $(operForm).attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
         })
 
         $(".btn-info").click(function (){
-            $(operForm).find("#group_id").remove();
+            $(operForm).find('${group.group_id}').remove();
             $(operForm).attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
         })
 
         if(${group.user_id_group_header eq user_id}) {
-            console.log("아이디가 같나?")
+            // console.log("아이디가 같나?")
             $('.btn-warning').attr('hidden', true)
             $('.btn-block').attr('hidden', true)
         }else{
@@ -202,99 +186,114 @@
                 alert('인원수가 초과되었습니다.')
                 return false;
             }
-
-            <%--if(${group.group_is_secret==1}){--%>
-
-            <%--    // const checkPass = prompt('비밀번호를 입력하세요');--%>
-
-            <%--    // if(checkPass === password){--%>
-            <%--    //     $(operForm).attr("action","/group/read").attr("method","post").submit();  //비밀번호 입력 후 회원가입--%>
-            <%--    // }--%>
-            <%--    &lt;%&ndash;if(checkPass === ${check}){&ndash;%&gt;--%>
-            <%--    &lt;%&ndash;    $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입&ndash;%&gt;--%>
-            <%--    &lt;%&ndash;}&ndash;%&gt;--%>
-            <%--    return false;--%>
-
-            <%--}--%>
             $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
         $('.btn-danger').click(function (){
             $(operForm).attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
-        $('.btn-block').click(function (){
+        $('.btn btn-block').click(function (){
             $(operForm).attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
         })
 
+
+        <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
-        var criterionNumber = ${firstCriNumber};
-        // 스크롤로 더보기 구현
-        var isLoading = false;
+        var user_id = '${user_id}';
 
         //modal창 보여주기
-        $("#modalShowButton").click(function (){
+        $("#modalShowButton").click(function () {
+            var limit = 0
             $('.modal').modal("show")
-            //첫번째 10개 메세지
-            criterionNumber = criterionNumber-10;
-            console.log(criterionNumber)
 
-            messageService.getList(group_id,criterionNumber,function(result){
-                $('.readGroupMessage').html(result);
-                    //스크롤 이벤트
-                    function loadNewPage(){
-                        //다음 10개 추가
-                        criterionNumber = criterionNumber-10;
-                        console.log("스크롤 했을때 크리넘버: "+criterionNumber)
+            //처음 메세지 가져오기
+            messageService.getList(group_id, limit, function (result) {
+                $('#readGroupMessage').html(result);
+            })
 
-                        var temp = $('.modal').height();
-                        messageService.getList(group_id,criterionNumber,function (result){
-                            $('.readGroupMessage').html(result);
-                            if(criterionNumber < 0) alert("마지막 메세지입니다.")
+            //열었을때 입력창 보여주기
+            var offset = $('#sendGroupMessage').offset();
+            $('.modal-body').animate({scrollTop : offset.top}, 40);
 
-                            $('.modal').scrollTop($('.modal').height()-temp);
-                            isLoading = false;
-                        })
-                    }
+            //상위로 스크롤 했을때 메세지 더보기
+            var isLoading = false;
 
-                    $('.modal').scroll(function (){
-                        if($('.modal').scrollTop() <60 && !isLoading){
+            function loadNewPage() {
+                limit += 10;
+                console.log("limit 값 : "+limit);
+                var temp = $('.modal-body').prop('scrollHeight');
+                messageService.getList(group_id, limit, function (result) {
+                    $('#readGroupMessage').prepend(result);
+                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                    isLoading = false;
+                })
+            }
+
+            function upNdown() {
+                var lastScroll = 0;
+                $('.modal-body').scroll(function (event) {
+                    var st = $(this).scrollTop();
+                    if (st > lastScroll) {
+                    } else {
+                        if ($('.modal-body').scrollTop() < 5 && !isLoading) {
                             isLoading = true;
-                            setTimeout(loadNewPage,1200);
+                            setTimeout(loadNewPage, 1200);
                         }
-                    })
-
-                $(".remove_message").click(function (){
-                    var group_message_id = $(this).val()
-                    messageService.remove(group_message_id,function (deleteResult){
-                        if(deleteResult == "success"){
-                            alert("삭제되었습니다.");
-                            $('.modal').modal("hide");
-                        }
-                    }, function (err){
-                        alert("에러 발생");
-                    })
-                })
-
-                $("#message_submit").click(function (){
-                    var message = {
-                        "user_id":'user1', //이후 쿠키에서 가져온 뒤 수정
-                        "group_message_content": $('#message-text').val()
+                        lastScroll = st;
                     }
-                    messageService.add(group_id,message,function (result){
-                        if(result == "success"){
-                            alert("입력되었습니다.")
-                            $('#message-text').val("");
-                            $('.modal').modal("hide");
-                        }
+                    ;
+                });
+            };
+            upNdown();
+            //상위로 스크롤 했을때 메세지 더보기 끝
+        // });
+
+
+
+        //메세지 삭제
+        $("#readGroupMessage").on("click","button",function () {
+            var group_message_id = $(this).val()
+            messageService.remove(group_message_id, function (deleteResult) {
+                if (deleteResult == "success") {
+                    messageService.getList(group_id, limit, function (result) {
+                        $('#readGroupMessage').html(result);
                     })
-                })
-            });
+                }
+            })
         })
+
+        //메세지 추가
+        $("#message_submit").click(function () {
+            var message = {
+                "user_id": user_id,
+                "group_message_content": $('#message-text').val()
+            }
+            messageService.add(group_id, message, function (result) {
+                if(result == "success"){
+                    $('#message-text').val("");
+                    messageService.getList(group_id, limit, function (result) {
+                        $('#readGroupMessage').html(result);
+                    })
+                }
+            })
+        })
+        });
 
         $("#modal_close").click(function (){
             $('.modal').modal("hide")
         })
+
+        //해당 그룹 멤버한테만 메세지 보이기
+        var userJoined = '${userJoinedGroup}';
+        console.log(userJoined);
+        for(var i = 0; i<userJoined.length; i++){
+            if(user_id == userJoined[i]){
+
+            }
+        }
     })
 </script>
+
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 script -->
 <script>
@@ -365,8 +364,8 @@
             url: "/ajax/timer/gettimers/"+group_id,
             success: function(result, status, xhr){
                 for(var i in result){
-                    console.log(result[i])
-                    console.log(new Date(...result[i].timer_mod_date))
+                    // console.log(result[i])
+                    // console.log(new Date(...result[i].timer_mod_date))
 
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];

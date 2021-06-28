@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,15 +26,11 @@ public class GroupMessageAjaxController {
 
     //메세지(댓글) 목록 확인
     @GetMapping("/list")
-    public ResponseEntity<HashMap<String,Object>> readMessage(@RequestParam("group_id") Long group_id, Long criterionNumber, Model model){
-        System.out.println("메세지 목록 확인: "+criterionNumber);
-
-        Criteria cri = new Criteria();
-        cri.setCriterionNumber(criterionNumber);
-
+    public ResponseEntity<HashMap<String,Object>> readMessage(@RequestParam("group_id") Long group_id, int limit,HttpSession session){
+        String userID = String.valueOf(session.getAttribute("userID"));
         HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("list",messageService.groupMessageMoreRead(cri,group_id));
-
+        hashMap.put("list",messageService.groupMessageMoreRead(limit,group_id));
+        hashMap.put("userID",userID);
         return ResponseEntity.ok(hashMap);
     }
 

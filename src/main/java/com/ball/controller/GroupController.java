@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +57,14 @@ public class GroupController {
 
         return "group/groupList";
     }
+    @PostMapping("/list")
+    public String groupList(Criteria cri,Model model) {
+        System.out.println("Post List에 들어오나");
+        model.addAttribute("list", groupService.allRead(cri));
+
+        return "group/groupList";
+    }
+
 
     @GetMapping("/create")
     public String register(HttpServletRequest request, Model model){
@@ -72,7 +81,7 @@ public class GroupController {
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         groupService.register(group, userID);
         System.out.println("컨트롤러에 레지스터 값이 들어오나?"+group.getGroup_category());
-        rttr.addFlashAttribute("result", group.getGroup_id());
+//        rttr.addFlashAttribute("result", group.getGroup_id());
         join.setGroup_id(group_id);
         join.setUser_id(userID);
         return "redirect:/group/list";
@@ -92,14 +101,12 @@ public class GroupController {
         System.out.println("리드에서 유저 아이디의 값이 들어오나 : "+userID);
         model.addAttribute("user_id",userID);
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
-//        groupService.remove(group_id);
 
-        model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
-//        model.addAttribute("firstCriNumber",5);
+        model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(group_id));
         return "group/groupRead";
     }
     @PostMapping("/read")
-    public String oneRead(Long group_id, GroupJoinVO join, HttpServletRequest request){
+    public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         join.setGroup_id(group_id);
         join.setUser_id(userID);
@@ -110,14 +117,14 @@ public class GroupController {
     }
 
 
-    @PostMapping({"/list","/modify"})
+    @PostMapping({"/modify"})
     public String modify(GroupVO group, RedirectAttributes rttr, @ModelAttribute ("cri") Criteria cri){
         System.out.println("컨트롤러에서 수정이 들어오나 : "+ group);
         groupService.modify(group);
-        rttr.addAttribute("amount", cri.getAmount());
-        rttr.addAttribute("criterionNumber", cri.getCriterionNumber());
-        rttr.addAttribute("category", cri.getCategory());
-        rttr.addAttribute("keyword", cri.getKeyword());
+//        rttr.addAttribute("amount", cri.getAmount());
+//        rttr.addAttribute("criterionNumber", cri.getCriterionNumber());
+//        rttr.addAttribute("category", cri.getCategory());
+//        rttr.addAttribute("keyword", cri.getKeyword());
         return "redirect:/group/list";
     }
     @PostMapping("/groupRemove")

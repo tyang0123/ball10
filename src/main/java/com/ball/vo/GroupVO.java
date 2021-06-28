@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @ToString
@@ -25,6 +26,8 @@ public class GroupVO {
 
     private int group_join_person_number;
     private int group_person_count;
+    private LocalTime group_target_time;
+    private LocalTime group_accumulated_avg_time;
 
     private String group_target_time;
     private String group_content;

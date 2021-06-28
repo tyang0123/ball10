@@ -11,6 +11,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalTime;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Log4j
@@ -124,4 +129,33 @@ public class GroupMapperTests {
         System.out.println(mapper.passwordCheck(40L));
     }
 
+
+    @Test
+    public void makeMoreGroupAndUserRelationship(){
+        LongStream.rangeClosed(3, 100).forEach(i->{
+
+            GroupVO groupVO = new GroupVO();
+
+            groupVO.setUser_id_group_header("user"+i);
+            groupVO.setGroup_name("테스트추가 그룹이름"+i);
+            groupVO.setGroup_category("입시");
+            groupVO.setGroup_is_secret(0);
+            groupVO.setGroup_person_count(5);
+            groupVO.setGroup_target_time(LocalTime.of(3,30));
+            groupVO.setGroup_content(i+"테스트 그룹을 생성합니다. 카테고리는 입시입니다. 테스트합니다. 테스트!!!!!!!!!!!!!!");
+
+            mapper.insertGroup(groupVO);
+
+
+            GroupJoinVO joinVO = new GroupJoinVO();
+            joinVO.setGroup_id(groupVO.getGroup_id());
+            joinVO.setUser_id("user"+i);
+            mapper.joinGroup(joinVO);
+        });
+    }
+
+    @Test
+    public void testUserIdGroupId(){
+        mapper.userJoinedGroupId(8L);
+    }
 }
