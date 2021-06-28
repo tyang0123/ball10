@@ -120,6 +120,7 @@
 </div>
 
 <script type="text/javascript">
+
     var changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
 
@@ -135,9 +136,18 @@
             })
         });
 
+        //수정 후 모달 show
         var successModify = "${successModify}"
-        if( successModify == "success"){
-            $("#modifySuccess").modal("show");
+
+        checkModal(successModify);
+        history.replaceState({},null,null);
+        function checkModal(successModify){
+            if(successModify === '' || history.state){
+                return;
+            }
+            if( successModify == "success"){
+                $("#modifySuccess").modal("show");
+            }
         }
 
     });
