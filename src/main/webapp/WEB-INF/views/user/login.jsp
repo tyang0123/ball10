@@ -108,16 +108,13 @@
         .button-join {
             background-color: #ff9000;
         }
-        .button-login:hover {
-            background-color: #ff9000;
-            border-color: black;
-            color: black;
-        }
+        .button-login:hover,
         .button-join:hover {
-            background-color: #ffc107;
+            background-color: #f75718;
             border-color: black;
             color: black;
         }
+
         span{
             font-size: 1rem;
             color : black;
