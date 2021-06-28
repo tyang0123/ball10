@@ -40,11 +40,11 @@
                                 </ul>
                             </div>
                     </div>
-                    <button data-oper='modify' class="btn btn-default"> 수정</button>
-                    <button data-oper='list' class="btn btn-info">목록 </button>
-                    <button data-oper='remove' class="btn btn-danger">그룹 파괴</button>
-                    <button data-oper='remove' class="btn btn-block">탈퇴 하기</button>
-                    <button data-oper='join' class="btn btn-warning">그룹 가입 </button>
+                    <button class="btn btn-default"> 수정</button>
+                    <button class="btn btn-info">목록 </button>
+                    <button class="btn btn-danger">그룹 파괴</button>
+                    <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
+                    <button class="btn btn-warning">그룹 가입 </button>
 
                     <input type="hidden" name="group_id" value="${group.group_id}" />
 <%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
@@ -160,12 +160,12 @@
     $(document).ready(function (){
 
         $(".btn-default").click(function (){
-            $(operForm).attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
+            $('#operForm').attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
         })
 
         $(".btn-info").click(function (){
-            $(operForm).find('${group.group_id}').remove();
-            $(operForm).attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
+            $('#operForm').find('${group.group_id}').remove();
+            $('#operForm').attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
         })
 
         if(${group.user_id_group_header eq user_id}) {
@@ -185,17 +185,17 @@
         $('.btn-warning').click(function (){
             console.log('그룹가입 버튼이 눌리나')
 
-            if(${group.group_join_person_number == group.group_person_count}){
+            if(${group.group_join_person_number >= group.group_person_count}){
                 alert('인원수가 초과되었습니다.')
                 return false;
             }
-            $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입
+            $('#operForm').attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
         $('.btn-danger').click(function (){
-            $(operForm).attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
+            $('#operForm').attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
-        $('.btn btn-block').click(function (){
-            $(operForm).attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
+        $('#removeOne').click(function (){
+            $('#operForm').attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
         })
 
         var group_id = '${group.group_id}'

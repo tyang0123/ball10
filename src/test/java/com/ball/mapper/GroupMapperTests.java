@@ -111,7 +111,8 @@ public class GroupMapperTests {
         Criteria cri = new Criteria();
     }
 
-
+    @Test
+    public void testdelete(){mapper.joinOneDelete(8L,"user5");}
     @Test
     public void testGroupCheck(){
 

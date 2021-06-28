@@ -25,8 +25,8 @@
                             <option value="" <c:out value="${cri.category ==null?'selected':''}"/>>---</option>
                             <option value="토익"
                                     <c:out value="${cri.category eq '토익'?'selected':''}"/>>토익</option>
-                            <option value="입시"
-                                    <c:out value="${cri.category eq '입시'?'selected':''}"/>>입시</option>
+                            <option value="취업"
+                                    <c:out value="${cri.category eq '취업'?'selected':''}"/>>취업</option>
                             <option value="자격증"
                                     <c:out value="${cri.category eq '자격증'?'selected':''}"/>>자격증</option>
                             <option value="이직"
