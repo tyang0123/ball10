@@ -120,6 +120,43 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/logout")
+    public String loginPost(HttpSession session
+            , @CookieValue(name = "userCookie", required = false) Cookie userCookie
+            , @CookieValue(name = "JSESSIONID", required = false) Cookie JSESSIONID
+            , @CookieValue(name = "timerCookie", required = false) Cookie timerCookie
+            , HttpServletResponse res) {
+
+        if(JSESSIONID != null) {
+            JSESSIONID = new Cookie("JSESSIONID", null);
+            JSESSIONID.setMaxAge(0);
+            JSESSIONID.setSecure(true);
+            JSESSIONID.setHttpOnly(true);
+            JSESSIONID.setPath("/");
+
+            res.addCookie(JSESSIONID);
+        }
+        if(userCookie != null) {
+            userCookie = new Cookie("userCookie", null);
+            userCookie.setMaxAge(0);
+            userCookie.setSecure(true);
+            userCookie.setHttpOnly(true);
+            userCookie.setPath("/");
+
+            res.addCookie(userCookie);
+        }
+        if(timerCookie != null){
+            timerCookie = new Cookie("timerCookie", null);
+            timerCookie.setMaxAge(0);
+            timerCookie.setSecure(true);
+            timerCookie.setHttpOnly(true);
+            timerCookie.setPath("/");
+
+            res.addCookie(timerCookie);
+        }
+        session.setMaxInactiveInterval(1);
+        return "redirect:/";
+    }
     @GetMapping("/create")
     public String temp(){
         return "user/create";
