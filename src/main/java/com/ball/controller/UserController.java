@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -177,23 +178,49 @@ public class UserController {
         model.addAttribute("userJoinGroupList",userService.userJoinGroupList(userID));
         model.addAttribute("nickName",userService.getUserNickname(userID));
 
-        //add timer cookie
-        if(timerCookie != null) {
-            timerCookie.setMaxAge(0);
-        }
-        timerCookie = new Cookie("timerCookie", "");
-        timerCookie.setMaxAge(remainSecondsFrom3AM());
-        timerCookie.setSecure(false);
-        timerCookie.setPath("/");
-        TimerVO timerVO = timerService.addNewTimerToDataBaseIfNotExist(userID);
 
-        if(timerVO != null && timerVO.getTimer_accumulated_day() != null){ //오늘 2번이상 접속해서 timer정보가 있는 경우
-            timerCookie.setValue(timerVO.getTimer_id()+"-"+timerVO.getTimer_is_play()+"-"
-                    +timerVO.getTimer_accumulated_day().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        }else{ //오늘 처음 접속해서 타이머 정보가 없는 경우
-            timerCookie.setValue(timerVO.getTimer_id()+"-0-00:00:00");
+        try {
+            TimerVO timerVO = timerService.addNewTimerToDataBaseIfNotExist(userID);
+
+
+
+            Boolean resetCookie = true;
+            //add timer cookie
+            if (timerCookie != null && timerCookie.getValue() != null) {
+                // cookie값이 있고, timer_id값이 동일하고, accumulate값이 크면 db값을 반영하지 않는다.
+                String[] cookieContent = timerCookie.getValue().split("-");
+                Long cookieTimerId = Long.valueOf(cookieContent[0]);
+                LocalTime cookieTimerAccumulatedTime = LocalTime.parse(cookieContent[2]);
+
+                if(!timerVO.getTimer_id().equals(cookieTimerId)
+                        || timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime)){
+                    System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
+                    System.out.println(timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
+                    resetCookie = false;
+                    timerCookie.setMaxAge(0);
+                }
+            }
+
+            if(resetCookie) {
+
+                timerCookie = new Cookie("timerCookie", "");
+                timerCookie.setMaxAge(remainSecondsFrom3AM());
+                timerCookie.setSecure(false);
+                timerCookie.setPath("/");
+                resetCookie = true;
+
+                if (timerVO != null && timerVO.getTimer_accumulated_day() != null) { //오늘 2번이상 접속해서 timer정보가 있는 경우
+                    timerCookie.setValue(timerVO.getTimer_id() + "-" + timerVO.getTimer_is_play() + "-"
+                            + timerVO.getTimer_accumulated_day().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                } else { //오늘 처음 접속해서 타이머 정보가 없는 경우
+                    timerCookie.setValue(timerVO.getTimer_id() + "-0-00:00:00");
+                }
+                response.addCookie(timerCookie);
+            }
+        }catch (Exception e){
+            log.warn(e.getMessage());
+            return "redirect:/user/login";
         }
-        response.addCookie(timerCookie);
 
         return "user/user";
     }

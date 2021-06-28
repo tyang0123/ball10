@@ -244,16 +244,14 @@
         });//end time-toggle click
 
         window.addEventListener('beforeunload', (e) => {
-            console.log("ajajaj  "+window.location);
-            console.log("beforeunload  "+window.location);
+            //타이머정보를 쿠키에 저장
+            document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/;";
             // e.preventDefault();
-            timerSaveBeforeUnloadPage(function(resultCookieTimer){
-                //타이머정보가 db에 저장되면 타이머의 정보를 쿠키에 저장
-                document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
-            });
+            timerSaveBeforeUnloadPage();
             // e.returnValue = '';
         });
 
+        console.log(timerCookieStr);
         //타이머 셋팅
         timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr);
     });

@@ -2,6 +2,11 @@ let timerID;
 let timerIsPlay;
 let accumulatedTimeStr;
 
+let cookieLoadingDate;
+let cookieHour;
+let cookieMinute;
+let cookieSecond;
+
 let hour;
 let minute;
 let second;
@@ -29,12 +34,19 @@ function getRemainSecondsFrom3AM(){
 }
 
 // 초기 타이머 세팅
-function timerNumberInit(myTimer, myTimerBtn, timerCookieStr) {
+function timerNumberInit(myTimer, myTimerBtn, timerCookieStr, fnTimerResetWhen3AM) {
   [timerID, timerIsPlay, accumulatedTimeStr] = timerCookieStr.split('-');
   const timeArray = accumulatedTimeStr.split(':');
-  hour = Number(timeArray[0]);
-  minute = Number(timeArray[1]);
-  second = Number(timeArray[2]);
+
+  cookieLoadingDate = Date.now();
+
+  cookieHour = Number(timeArray[0]);
+  cookieMinute = Number(timeArray[1]);
+  cookieSecond = Number(timeArray[2]);
+
+  hour = cookieHour;
+  minute = cookieMinute;
+  second = cookieSecond;
 
   hourScreen = $(myTimer).find('.timer-hours');
   minScreen = $(myTimer).find('.timer-min');
@@ -53,40 +65,26 @@ function timerNumberInit(myTimer, myTimerBtn, timerCookieStr) {
 
 function viewTimerStartInterval(){
   timerIntervalID = setInterval(function () {
-    second = second + 1;
-    if (second >= 60) {
-      minute = minute + 1;
-      second = 0;
-    }
-    if (minute >= 60) {
-      hour = hour + 1;
-      minute = 0;
-    }
+
+    const tempTime = new Date(Date.UTC(0,0,0, cookieHour, cookieMinute, cookieSecond, 0)).getTime();
+    let diffTime = new Date(Date.now() - cookieLoadingDate).getTime() + tempTime;
+    diffTime = new Date(diffTime);
+
+
+    hour = diffTime.getUTCHours();
+    minute = diffTime.getUTCMinutes();
+    second = diffTime.getUTCSeconds();
+
+
     hourScreen.html((hour < 10 ? '0' : '') + hour);
     minScreen.html((minute < 10 ? '0' : '') + minute);
     secScreen.html((second < 10 ? '0' : '') + second);
 
-    if(getRemainSecondsFrom3AM()<2000) {
-      timerStop();
+    if(getRemainSecondsFrom3AM()<1500) {
+      timerStop(null);// null대신 userpage로 새로고침 하게 함
       ////////////////////////////////////////////////////////////////////////////////페이지 리셋 및 user 페이지 이동해야함
+      //timerStop후 프로미스로 user페이지 이동 실행
     }
-  }, 1000);
-}
-
-function viewTimerStartInterval(){
-  timerIntervalID = setInterval(function () {
-    second = second + 1;
-    if (second >= 60) {
-      minute = minute + 1;
-      second = 0;
-    }
-    if (minute >= 60) {
-      hour = hour + 1;
-      minute = 0;
-    }
-    hourScreen.html((hour < 10 ? '0' : '') + hour);
-    minScreen.html((minute < 10 ? '0' : '') + minute);
-    secScreen.html((second < 10 ? '0' : '') + second);
   }, 1000);
 }
 
@@ -102,15 +100,25 @@ const saveTimerToDB = function(data, resultFunc){
       if(timerIsPlay == 1){
         viewTimerStartInterval();
       }
-      resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
+      if(resultFunc != null){
+        resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
+        cookieLoadingDate = Date.now();
+        [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
+        // console.log(cookieHour, cookieMinute, cookieSecond);
+      }
     },
     error: function(xhr, status, er){
       clearInterval(timerIntervalID);
       if(timerIsPlay == 1){
         viewTimerStartInterval();
       }
-      resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
-      alert("error : "+er)
+      if(resultFunc != null){
+        resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
+        cookieLoadingDate = Date.now();
+        [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
+        console.log(cookieHour, cookieMinute, cookieSecond);
+      }
+      console.log("error : "+er);
     }
   });//end ajax
 }
@@ -140,12 +148,17 @@ const timerStop = function (resultFunc) {
   saveTimerToDB(data, resultFunc);
 };//end timerStop
 
-const timerSaveBeforeUnloadPage= function (resultFunc) {
+const timerSaveBeforeUnloadPage= function () {
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
   const data = {
     'accumulatedTime' : accumulatedTimeStr,
     'timerIsPlay': timerIsPlay,
     'timerIsOnSite' : 0
   };
-  saveTimerToDB(data, resultFunc);
+  saveTimerToDB(data, null);
 };
+
+const getPresentTimerStatus = function (){
+  accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
+  return timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr;
+}
