@@ -7,13 +7,13 @@
     <insert id="insertGroup" parameterType="com.ball.vo.GroupVO"
             useGeneratedKeys="true" keyProperty="group_id">
         insert into group_table (user_id_group_header, group_name, group_category, group_is_secret,
-                                 group_password, group_person_count, group_content, group_reg_date, group_mod_date)
+                                 group_password, group_person_count, group_target_hour ,group_target_minute, group_content, group_reg_date, group_mod_date)
         values(#{user_id_group_header},#{group_name},#{group_category}, #{group_is_secret},
-            #{group_password}, #{group_person_count}, #{group_content}, sysdate(), sysdate())
+            #{group_password}, #{group_person_count}, #{group_content}, #{group_target_hour}, #{group_target_minute}, sysdate(), sysdate())
     </insert>
     <select id="selectGroupList" resultType="com.ball.vo.GroupVO">
         select g.group_id, g.user_id_group_header, u.user_nickname as user_nickname_group_header,
-        g.group_name, g.group_category, g.group_is_secret, count(gr.user_id) as group_join_person_number,
+        g.group_name, g.group_category, g.group_is_secret, g.group_target_hour, g.group_target_minute, count(gr.user_id) as group_join_person_number,
         g.group_person_count, g.group_reg_date
         from group_table g
         left outer join user u on g.user_id_group_header = u.user_id
@@ -39,12 +39,12 @@
         update group_table set group_name = #{group_name}, group_category = #{group_category},
                                group_is_secret = #{group_is_secret}, group_password = #{group_password},
                                group_person_count = #{group_person_count}, group_content = #{group_content},
-                               group_mod_date = sysdate()
+                               group_target_hour = #{group_target_hour}, group_target_minute = #{group_target_minute}, group_mod_date = sysdate()
             where group_id = #{group_id}
     </update>
     <select id="groupRead" resultType="com.ball.vo.GroupVO">
         select g.group_id, g.user_id_group_header, u.user_nickname as user_nickname_group_header, g.group_content,
-               g.group_name, g.group_category, group_password, g.group_is_secret, count(gr.user_id) as group_join_person_number,
+               g.group_name, g.group_category, g.group_password, g.group_target_hour, g.group_target_minute, g.group_is_secret, count(gr.user_id) as group_join_person_number,
                g.group_person_count, g.group_reg_date
         from group_table g
                  left outer join user u on g.user_id_group_header = u.user_id

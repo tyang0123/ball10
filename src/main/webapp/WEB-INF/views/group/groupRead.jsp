@@ -25,7 +25,7 @@
                                         <span class="group-title">${group.group_name}</span>
                                     </div>
                                     <div>
-                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
+                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${group.group_target_hour} ${group.group_target_minute} </span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
                                     </div>
                                     <div>
                                         <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>

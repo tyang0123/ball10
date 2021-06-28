@@ -56,12 +56,40 @@
                             <option value="15">15</option>
                             <option value="20">20</option>
                         </select>
-<%--                        <input class="form-control" name="group_person_count" id="group_person_count"  value="${group.group_person_count}"/>--%>
+
                     </div>
                     <div class="form-group">
                         <label for="group_content"/>
                         <textarea class="form-control" rows="3" name="group_content"
                                   id="group_content" placeholder="그룹 소개">${group.group_content}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="group_target_hour">목표 시간</label>
+                        <select name="group_target_hour" id="group_target_hour">
+                            <option value="1시간">1시간</option>
+                            <option value="2시간">2시간</option>
+                            <option value="3시간">3시간</option>
+                            <option value="4시간">4시간</option>
+                            <option value="5시간">5시간</option>
+                            <option value="6시간">6시간</option>
+                            <option value="7시간">7시간</option>
+                            <option value="8시간">8시간</option>
+                            <option value="9시간">9시간</option>
+                            <option value="10시간">10시간</option>
+                            <option value="11시간">11시간</option>
+                            <option value="12시간">12시간</option>
+                            <option value="13시간">13시간</option>
+                            <option value="14시간">14시간</option>
+                            <option value="15시간">15시간</option>
+                        </select>
+                        <select name="group_target_minute" id="group_target_minute">
+                            <option value="0분">0분</option>
+                            <option value="10분">10분</option>
+                            <option value="20분">20분</option>
+                            <option value="30분">30분</option>
+                            <option value="40분">40분</option>
+                            <option value="50분">50분</option>
+                        </select>
                     </div>
 
 
@@ -95,6 +123,8 @@
 
         $("#group_category").val("${group.group_category}").attr("selected", true);
         $("#group_person_count").val("${group.group_person_count}").attr("selected", true);
+        $("#group_target_hour").val("${group.group_target_hour}").attr("selected", true);
+        $("#group_target_minute").val("${group.group_target_minute}").attr("selected", true);
 
         $("#group_is_secret").click(function (){
             if($("#group_is_secret").is(':checked')){
@@ -119,11 +149,12 @@
                 $("#operForm").attr("action", "/group/list").attr("method", "get")
             }
         })
-
-
+        $('#group_target_time').selectpicker({
+            multipleSeparator: ' '
+        }).on('changed.bs.select', function() {
+            $(this).selectpicker('refresh');
+        })
     })
-
-
     function checkClick() {
         var valueClick = 0;
         if ($("#group_is_secret").is(':checked')) {

@@ -54,7 +54,7 @@
                                             <span class="group-title">${list.group_name}</span>
                                         </div>
                                         <div>
-                                            <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${list.group_join_person_number}/${list.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${list.user_nickname_group_header}</span>
+                                            <span class="group-list-title">목표시간 : </span><span class="group-list-content">${list.group_target_hour} ${list.group_target_minute}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${list.group_join_person_number}/${list.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${list.user_nickname_group_header}</span>
                                         </div>
                                         <div>
                                             <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
@@ -63,9 +63,6 @@
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                         </div>
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item group-content">${list.group_content}</li>
-                                    </ul>
                                 </div>
                             </c:forEach>
                         </div>
