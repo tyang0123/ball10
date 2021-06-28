@@ -94,8 +94,6 @@ public class GroupController {
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
 //        groupService.remove(group_id);
 
-        model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
-//        model.addAttribute("firstCriNumber",5);
         return "group/groupRead";
     }
     @PostMapping("/read")

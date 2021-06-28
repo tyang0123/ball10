@@ -31,13 +31,8 @@ public class GroupMassageImpl implements GroupMessageService{
     }
 
     @Override
-    public List<GroupMessageVO> groupMessageMoreRead(Criteria cri, Long group_id) {
-        return mapper.readGroupMessagePaging(cri,group_id);
-    }
-
-    @Override
-    public int getFirstGroupMessageId(Long group_id) {
-        return mapper.getFirstGroupMessageId(group_id);
+    public List<GroupMessageVO> groupMessageMoreRead(int limit, Long group_id) {
+        return mapper.readGroupMessagePaging(limit,group_id);
     }
 
 }

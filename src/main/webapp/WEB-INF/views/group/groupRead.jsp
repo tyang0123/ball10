@@ -112,10 +112,10 @@
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 class="modal-title">그룹 메세지</h3>
+                                <h3 align="center">그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
@@ -228,26 +228,50 @@
 
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
-        var criterionNumber = 1;
-        <%--var criterionNumber = ${firstCriNumber};--%>
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
+            var limit = 0
             $('.modal').modal("show")
 
-            //메세지 가져오기
-            messageService.getList(group_id, criterionNumber, function (result) {
-                $('#readGroupMessage').append(result);
+            //처음 메세지 가져오기
+            messageService.getList(group_id, limit, function (result) {
+                $('#readGroupMessage').html(result);
             })
-        });
+
+            //열었을때 입력창 보여주기
+            var offset = $('#sendGroupMessage').offset();
+            $('.modal-body').animate({scrollTop : offset.top}, 40);
+
+            // //상위로 스크롤 했을때 메세지 더보기
+            // var isLoading = false;
+            //
+            // function loadNewPage() {
+            //     limit += 10;
+            //     console.log("limit 값 : "+limit);
+            //     var temp = $('.modal-body').height();
+            //     messageService.getList(group_id, limit, function (result) {
+            //         $('#readGroupMessage').prepend(result);
+            //     })
+            //     $('.modal-body').scrollTop($('.modal-body').height()-temp);
+            //     isLoading = false;
+            // }
+            //
+            // $('.modal-body').scroll(function() {
+            //     if($('.modal-body').scrollTop() < 5 && !isLoading) {
+            //         isLoading = true;
+            //         setTimeout(loadNewPage, 1200);
+            //     }
+            // });
+            // // // $('.modal-body').scrollTop($('.modal-body').height());
+        // });
 
         //메세지 삭제
         $("#readGroupMessage").on("click","button",function () {
-            console.log("버튼은 눌리는지 확인")
             var group_message_id = $(this).val()
             messageService.remove(group_message_id, function (deleteResult) {
                 if (deleteResult == "success") {
-                    messageService.getList(group_id, criterionNumber, function (result) {
+                    messageService.getList(group_id, limit, function (result) {
                         $('#readGroupMessage').html(result);
                     })
                 }
@@ -263,14 +287,13 @@
             messageService.add(group_id, message, function (result) {
                 if(result == "success"){
                     $('#message-text').val("");
-                    messageService.getList(group_id, criterionNumber, function (result) {
+                    messageService.getList(group_id, limit, function (result) {
                         $('#readGroupMessage').html(result);
                     })
                 }
             })
         })
-
-        // })
+        });
 
         $("#modal_close").click(function (){
             $('.modal').modal("hide")

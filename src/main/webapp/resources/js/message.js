@@ -16,21 +16,31 @@ var messageService = (function (){
         });
     }
 
-    function getList(group_id,criterionNumber,callback){
+    function getList(group_id,limit,callback){
         $.ajax({
             url:'/group/read/ajax/list/?group_id='+group_id,
             type:'GET',
             data:{
-                criterionNumber:criterionNumber
+                limit:limit
             },
             dataType: "json",
             success:function (data){
                 // console.log(data['list'])
                 text = ""
                 const list = data['list'];
-                for(var i=0; i<list.length; i++){
-                    text += "<div>"+list[i].group_message_content;
-                    text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
+                const userId = data['userID'];
+                for(var i=list.length-1; i >= 0; i--){
+                    if(list[i].user_id == userId){
+                        text += "<div align='right'>"
+                        text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
+                        text += list[i].group_message_content+"</div>"
+
+                    }else{
+                        text += "<div>"+list[i].user_id;
+                        text += "<div>"+list[i].group_message_content+"</div>";
+                    }
+                    // text += "<div>"+list[i].group_message_content;
+                    // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
                 }
                 callback(text)
             },

@@ -49,15 +49,7 @@ public class GroupMessageMapperTests {
 
     @Test
     public void testReadGroupMessagePage(){
-        Criteria cri = new Criteria();
-        cri.setCriterionNumber(1L);
-
-        mapper.readGroupMessagePaging(cri,1L);
-        System.out.println(mapper.readGroupMessagePaging(cri,1L));
-    }
-
-    @Test
-    public void testGetFirst(){
-        System.out.println(mapper.getFirstGroupMessageId(2L));
+        mapper.readGroupMessagePaging(20,1L);
+        System.out.println(mapper.readGroupMessagePaging(10,1L));
     }
 }
