@@ -43,13 +43,13 @@
             <h1 style="margin-top: 40px;margin-bottom: 40px;">회 원 가 입</h1>
             <form action="/user/create" role="form" method="post">
             <div class="form-group">
-                <input type="text" id="user_id" maxlength='20' minlength="5" class="form-control form-custom" aria-describedby="idHelpInline" name="user_id" placeholder="아이디" rel="popover" value="${writing.user_id}"/>
+                <input type="text" id="user_id" maxlength='20' minlength="4" class="form-control form-custom" aria-describedby="idHelpInline" name="user_id" placeholder="아이디" rel="popover" value="${writing.user_id}"/>
             </div>
                 <p id="idHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 50px;">
                     &nbsp;
                 </p>
             <div class="form-group">
-                <input type="password" id="inputPassword1" maxlength='20' minlength="5" class="form-control form-custom" aria-describedby="passwordHelpInline1" placeholder="비밀번호"/>
+                <input type="password" id="inputPassword1" maxlength='20' minlength="4" class="form-control form-custom" aria-describedby="passwordHelpInline1" placeholder="비밀번호"/>
             </div>
                 <p id="passwordHelpInline1" class="form-text text-danger" style="text-align: left;margin-left: 50px;">
                     &nbsp;
@@ -80,17 +80,18 @@
 </div>
 <!-- /#wrapper -->
 
+
 <script>
     $(document).ready(function() {
         //input popover처리
-        $('#user_id').popover({content:"5~20자 사이의 영문자,숫자 입력 👩‍💻",placement:'right',trigger:'focus'});
-        $('#inputPassword1').popover({content:"5~20자 사이의 영문자,숫자 입력 🤫",placement:'right',trigger:'focus'});
+        $('#user_id').popover({content:"4~20자 사이의 영문자,숫자 입력 👩‍💻",placement:'right',trigger:'focus'});
+        $('#inputPassword1').popover({content:"4~20자 사이의 영문자,숫자 입력 🤫",placement:'right',trigger:'focus'});
         $('#inputPassword2').popover({content:"비밀번호 재입력 🙋",placement:'right',trigger:'focus'});
         $('#user_nickname').popover({content:"홈페이지내에서 사용될 닉네임 😋",placement:'right',trigger:'focus'});
         $('#user_email').popover({content:"실제 사용중인 이메일 입력 📧",placement:'right',trigger:'focus'});
 
         //아이디,비밀번호 체크할 정규식 표현
-        var re = /^[a-zA-z0-9]{5,20}$/;
+        var re = /^[a-zA-z0-9]{4,20}$/;
 
         $('#user_id').keyup(function (){
             $('#user_id').val($('#user_id').val().replace(/\s/gi, ""));

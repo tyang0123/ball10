@@ -68,8 +68,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean emailCheck(String userEmail) {
-        String user_email = userMapper.selectEmailCheck(userEmail);
+    public boolean emailCheck(String user_id,String userEmail) {
+        String user_email = userMapper.selectEmailCheck(user_id,userEmail);
         if(user_email != null)
             return false;
         return true;

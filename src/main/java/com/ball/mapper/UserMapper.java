@@ -38,5 +38,5 @@ public interface UserMapper {
     public String selectIdCheck(String user_id);
 
     //유저 email 중복 조회
-    public String selectEmailCheck(String user_email);
+    public String selectEmailCheck(@Param("user_id") String user_id,@Param("user_email")String user_email);
 }

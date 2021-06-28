@@ -50,6 +50,26 @@
     <!-- end 회원찾기 및 비번 찾기-->
 </div><!--end div container -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="createSuccess">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">회원가입 완료</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                열공의 회원이 되신것을 환영합니다. 🙌 🥳
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">확 인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <style>
     /* a tag reset */
     a {color: #fff; text-decoration: none; outline: none}
@@ -72,6 +92,11 @@
             formObj.attr("method", "GET")
             formObj.attr("action", "/user/user");
             formObj.submit();
+        }
+
+        var successCreate = "${successCreate}"
+        if( successCreate == "success"){
+            $("#createSuccess").modal("show");
         }
 
         $("form div input").on('input', function(e){

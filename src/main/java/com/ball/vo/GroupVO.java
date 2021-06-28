@@ -26,8 +26,11 @@ public class GroupVO {
     private int group_join_person_number;
     private int group_person_count;
 
+    private String group_target_time;
     private String group_content;
 
     private LocalDateTime group_reg_date;
     private LocalDateTime group_mod_date;
+
+
 }

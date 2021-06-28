@@ -37,5 +37,5 @@ public interface UserService {
     public boolean idCheck(String userId);
 
     //email check
-    public boolean emailCheck(String userEmail);
+    public boolean emailCheck(String user_id,String userEmail);
 }

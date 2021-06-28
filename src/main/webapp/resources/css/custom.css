@@ -314,7 +314,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .button-create-customY:hover {
-  background-color: #ff9000;
+  background-color: #f75718;
   border-color: black;
   color: black;
 }
@@ -335,7 +335,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .button-create-customO:hover {
-  background-color: #ffc107;
+  background-color: #f75718;
   border-color: black;
   color: black;
 }

@@ -56,6 +56,6 @@ public class UserServiceTests {
 
     @Test
     public void testEmailCheck(){
-        System.out.println(service.emailCheck("a@naver.com"));
+        System.out.println(service.emailCheck("user1","a@naver.com"));
     }
 }

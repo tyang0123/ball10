@@ -121,11 +121,11 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String temp(){
+    public String tempCreate(){
         return "user/create";
     }
     @PostMapping("/create")
-    public String create(UserVO vo,Model model, RedirectAttributes rAttr){
+    public String create(UserVO vo, RedirectAttributes rAttr){
 
         //아이디 중복 조회
         boolean Idcheck = userService.idCheck(vo.getUser_id());
@@ -136,13 +136,14 @@ public class UserController {
         }
 
         //이메일 중복 조회
-        boolean emailcheck = userService.emailCheck(vo.getUser_email());
+        boolean emailcheck = userService.emailCheck(null,vo.getUser_email());
         if(! emailcheck){// 이메일이 존재할때 다시 회원가입 페이지로
             rAttr.addFlashAttribute("emailFail", "fail");
             rAttr.addFlashAttribute("writing", vo);
             return "redirect:/user/create";
         }
 
+        rAttr.addFlashAttribute("successCreate", "success");
         userService.userCreate(vo);
         return "redirect:/user/login";
     }
@@ -269,4 +270,25 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/modify")
+    public String tempModify(Model model, HttpServletRequest request){
+        String userID = String.valueOf(request.getSession().getAttribute("userID"));
+        model.addAttribute("userInfo",userService.userRead(userID));
+        return "user/modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(UserVO vo, RedirectAttributes rAttr){
+
+        //이메일 중복 조회
+        boolean emailcheck = userService.emailCheck(vo.getUser_id(),vo.getUser_email());
+        if(! emailcheck){// 이메일이 존재할때 다시 회원 수정 페이지로
+            rAttr.addFlashAttribute("emailFail", "fail");
+            return "redirect:/user/modify";
+        }
+
+        rAttr.addFlashAttribute("successModify", "success");
+        userService.userModify(vo);
+        return "redirect:/user/user";
+    }
 }

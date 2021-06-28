@@ -46,19 +46,19 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav navbar-collapse-custom">
                     <li class="nav-item" >
-                        <a class="nav-link" href="page.html">열공 하기</a>
+                        <a class="nav-link" href="/user/user">열공 하기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">스터디 그룹 찾기</a>
+                        <a class="nav-link" href="/group/list">스터디 그룹 찾기</a>
                     </li>
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">로그아웃</a>
+                        <a class="nav-link" href="/user/logout">로그아웃</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">회원정보수정</a>
+                        <a class="nav-link" href="/user/modify">회원정보수정</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">공지사항</a>
