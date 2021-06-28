@@ -284,6 +284,8 @@
         $("#modal_close").click(function (){
             $('.modal').modal("hide")
         })
+
+        //해당 그룹 멤버한테만 메세지 보이기
     })
 </script>
 
