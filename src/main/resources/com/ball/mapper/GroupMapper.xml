@@ -72,4 +72,9 @@
     <select id="passwordCheck" resultType="String">
         select group_password from group_table where group_id = #{group_id}
     </select>
+
+<!--    해당 유저가 가입한 group_id 가져오기 태양작성-->
+    <select id="userJoinedGroupId" resultType="string">
+        select user_id from group_user_relationship where group_id = #{group_id}
+    </select>
 </mapper>

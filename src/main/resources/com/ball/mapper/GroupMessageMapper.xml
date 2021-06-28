@@ -11,7 +11,7 @@
     </insert>
 
     <select id="readGroupMessage" resultType="com.ball.vo.GroupMessageVO">
-        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id}
+        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} order by group_message_id desc limit 10
     </select>
 
 <!--    추후에 group_id 추가할지 생각 -->
@@ -21,12 +21,9 @@
 
     <select id="readGroupMessagePaging" resultType="com.ball.vo.GroupMessageVO">
         <![CDATA[
-            select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} and group_message.group_message_id > #{cri.criterionNumber}
+        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} order by group_message_id desc limit #{limit},10
         ]]>
     </select>
 
-    <select id="getFirstGroupMessageId" resultType="int">
-        select group_message_id from group_message where group_id = #{group_id} order by group_message_id desc limit 1
-    </select>
 
 </mapper>

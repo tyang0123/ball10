@@ -1,5 +1,6 @@
 package com.ball.service;
 
+import com.ball.vo.Criteria;
 import com.ball.vo.NoticeVO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -27,7 +28,8 @@ public class NoticeServiceTests {
 
     @Test
     public void testReadListNotice(){
-        service.readListNotice().forEach(notice -> System.out.println(notice));
+        Criteria cri = new Criteria(5L,10);
+        service.getListWithPage(cri).forEach(notice -> System.out.println(notice));
     }
 
     @Test
@@ -49,8 +51,4 @@ public class NoticeServiceTests {
         System.out.println(noticeVO);
     }
 
-    @Test
-    public void testGetNoticeCount(){
-        System.out.println(service.getNoticeCount());
-    }
 }

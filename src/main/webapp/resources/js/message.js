@@ -9,27 +9,38 @@ var messageService = (function (){
             data : JSON.stringify(message),
             contentType : "application/json; charset=utf-8",
             success : function(result){
+                // window.location.reload();
                 callback(result)
             },
             error:(log)=>{alert("실패"+log)}
         });
     }
 
-    function getList(group_id,criterionNumber,callback){
+    function getList(group_id,limit,callback){
         $.ajax({
             url:'/group/read/ajax/list/?group_id='+group_id,
             type:'GET',
             data:{
-                criterionNumber:criterionNumber
+                limit:limit
             },
             dataType: "json",
             success:function (data){
-                // console.log(data['list'])
+                console.log(data['list'])
                 text = ""
                 const list = data['list'];
-                for(var i=0; i<list.length; i++){
-                    text += "<div>"+list[i].group_message_content;
-                    text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
+                const userId = data['userID'];
+                for(var i=list.length-1; i >= 0; i--){
+                    if(list[i].user_id == userId){
+                        text += "<padding><div align='right'>"
+                        text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
+                        text += list[i].group_message_content+"</div></padding>"
+
+                    }else{
+                        text += "<div>"+list[i].user_id;
+                        text += "<div>"+list[i].group_message_content+"</div>";
+                    }
+                    // text += "<div>"+list[i].group_message_content;
+                    // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
                 }
                 callback(text)
             },
@@ -37,7 +48,7 @@ var messageService = (function (){
         });
     }
 
-    function remove(group_message_id,callback,error){
+    function remove(group_message_id,callback){
         $.ajax({
             type : 'delete',
             url : '/group/read/ajax/delete/?group_message_id='+group_message_id,
@@ -46,11 +57,7 @@ var messageService = (function (){
                     callback(deleteResult);
                 }
             },
-            error:function (xhr,status,er){
-                if(error){
-                    error(er);
-                }
-            }
+            error:(log)=>{alert(log)}
         });
     }
 

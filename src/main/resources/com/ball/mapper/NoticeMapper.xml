@@ -4,10 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ball.mapper.NoticeMapper">
-    <select id="noticeReadList" resultType="com.ball.vo.NoticeVO">
-        select * from notice
+    <select id ="noticeReadNew" resultType="Long" >
+        select notice_id from notice order by notice_id desc limit 1
     </select>
-    
+    <select id="getListWithPaging" resultType="com.ball.vo.NoticeVO">
+        select * from notice
+            <if test="cri.criterionNumber > 0">
+                <![CDATA[
+                    where notice_id < #{cri.criterionNumber}
+                    ]]>
+            </if>
+        order by notice_id desc limit #{cri.amount}
+    </select>
+
     <insert id="noticeInsert" parameterType="com.ball.vo.NoticeVO">
         insert into notice values(NULL ,#{notice_content},NOW(),NOW())
     </insert>

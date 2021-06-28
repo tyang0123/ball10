@@ -124,6 +124,15 @@
         a:hover, a:active {text-decoration: none; color:#fff;}
     </style>
 
+
+
+
+<style>
+    /* a tag reset */
+    a {color: #fff; text-decoration: none; outline: none}
+    a:hover, a:active {text-decoration: none; color:#fff;}
+</style>
+
     <script>
         $(document).ready(function(){
 
@@ -150,6 +159,19 @@
                     e.target.value= str.substring(0, str.length-1);
                 }
             })
+        var successCreate = "${successCreate}"
+        if( successCreate == "success"){
+            $("#createSuccess").modal("show");
+        }
+
+        $("form div input").on('input', function(e){
+            var regex = new RegExp("^[A-Za-z0-9]+$"); // alphabet and number
+            if(!regex.test(e.target.value)){
+                console.log("tick");
+                var str = e.target.value;
+                e.target.value= str.substring(0, str.length-1);
+            }
+        })
 
             $("#user-check").click(function(e){
                 $(this).val($(this).is(':checked'));
@@ -201,5 +223,25 @@
         </div><!--end div container -->
     </div>
 <!-- /#wrapper -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="createSuccess">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                    <h4 class="modal-title" style="margin-left: 30px;">회원가입 완료</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    열공의 회원이 되신것을 환영합니다. 🙌 🥳
+                </div>
+                <div class="modal-footer" style="border-color:black;">
+                    <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">확 인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

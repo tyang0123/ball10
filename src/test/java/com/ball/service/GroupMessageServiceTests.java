@@ -22,7 +22,8 @@ public class GroupMessageServiceTests {
 
     @Test
     public void testGroupMessageRead(){
-        service.groupMessageRead(1L);
+//        service.groupMessageRead(1L);
+        System.out.println(service.groupMessageRead(1L));
     }
 
     @Test
@@ -44,14 +45,7 @@ public class GroupMessageServiceTests {
 
     @Test
     public void testGroupMessageMoreRead(){
-        Criteria cri = new Criteria();
-        cri.setCriterionNumber(1L);
-
-        service.groupMessageMoreRead(cri,1L);
-    }
-
-    @Test
-    public void testFirstGroupMessageId(){
-        System.out.println(service.getFirstGroupMessageId(2L));
+        service.groupMessageMoreRead(20,1L);
+        System.out.println(service.groupMessageMoreRead(20,1L));
     }
 }

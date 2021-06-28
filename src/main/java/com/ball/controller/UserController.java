@@ -159,8 +159,31 @@ public class UserController {
         return "redirect:/";
     }
     @GetMapping("/create")
-    public String temp(){
+    public String tempCreate(){
         return "user/create";
+    }
+    @PostMapping("/create")
+    public String create(UserVO vo, RedirectAttributes rAttr){
+
+        //아이디 중복 조회
+        boolean Idcheck = userService.idCheck(vo.getUser_id());
+        if(! Idcheck){// id가 존재할때 다시 회원가입 페이지로
+            rAttr.addFlashAttribute("idFail", "fail");
+            rAttr.addFlashAttribute("writing", vo);
+            return "redirect:/user/create";
+        }
+
+        //이메일 중복 조회
+        boolean emailcheck = userService.emailCheck(null,vo.getUser_email());
+        if(! emailcheck){// 이메일이 존재할때 다시 회원가입 페이지로
+            rAttr.addFlashAttribute("emailFail", "fail");
+            rAttr.addFlashAttribute("writing", vo);
+            return "redirect:/user/create";
+        }
+
+        rAttr.addFlashAttribute("successCreate", "success");
+        userService.userCreate(vo);
+        return "redirect:/user/login";
     }
 
     @GetMapping("/user")
@@ -275,5 +298,61 @@ public class UserController {
         rAttr.addFlashAttribute("sendID", "이메일로 ID를 전송하였습니다.");
         return "redirect:/user/login";
     }
+    @PostMapping("/findPassword")
+    public String findPasswordPostSendEmailID(String user_id
+            ,String user_email
+            , RedirectAttributes rAttr){
+        log.info("user findIDPostSendEmailID..................................."+user_email);
 
+        String userPassword = userService.getUserPassword(user_id,user_email);
+
+        if(userPassword == null){
+            rAttr.addFlashAttribute("sendID", "등록된 정보가 없습니다. 확인 후 다시 입력하여 주세요.");
+            return "redirect:/user/findPassword";
+        }
+
+        ///// 매칭되면 ID값을 이메일로 보내기
+        if(adminEmail == null){
+            log.info("admin email Setting..................");
+            if(!prepareSendingAdminEmail()){
+                rAttr.addFlashAttribute("sendID", "오류가 발생했습니다. 관리자에게 문의해주세요. 1");
+                return "redirect:/user/findPassword";
+            }
+        }
+
+        MailVO vo = new MailVO();
+        vo.setReceive(user_email);
+        vo.setSubject("10-0사이트의 회원님의 비밀번호를 전달합니다.");
+        vo.setContent("회원님의 ID는 < "+userPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n https://10-0.imweb.me/");
+
+        if(!mailService.sendEmail(vo)){
+            rAttr.addFlashAttribute("sendID", "오류가 발생했습니다. 관리자에게 문의해주세요. 2");
+            return "redirect:/user/findPassword";
+        };
+
+        rAttr.addFlashAttribute("sendID", "이메일로 비밀번호를 전송하였습니다.");
+        return "redirect:/user/login";
+    }
+
+    @GetMapping("/modify")
+    public String tempModify(Model model, HttpServletRequest request){
+        String userID = String.valueOf(request.getSession().getAttribute("userID"));
+        model.addAttribute("userInfo",userService.userRead(userID));
+        return "user/modify";
+    }
+
+    @PostMapping("/modify")
+    public String modify(UserVO vo, RedirectAttributes rAttr){
+
+        //이메일 중복 조회
+        boolean emailcheck = userService.emailCheck(vo.getUser_id(),vo.getUser_email());
+        if(! emailcheck){// 이메일이 존재할때 다시 회원 수정 페이지로
+            rAttr.addFlashAttribute("emailFail", "fail");
+            return "redirect:/user/modify";
+        }
+
+        rAttr.addFlashAttribute("successModify", "success");
+        userService.userModify(vo);
+        return "redirect:/user/user";
+    }
 }

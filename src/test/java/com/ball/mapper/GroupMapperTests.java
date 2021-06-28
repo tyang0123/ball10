@@ -141,7 +141,7 @@ public class GroupMapperTests {
             groupVO.setGroup_category("입시");
             groupVO.setGroup_is_secret(0);
             groupVO.setGroup_person_count(5);
-            groupVO.setGroup_target_time(LocalTime.of(3,30));
+            //groupVO.setGroup_target_time(LocalTime.of(3,30));
             groupVO.setGroup_content(i+"테스트 그룹을 생성합니다. 카테고리는 입시입니다. 테스트합니다. 테스트!!!!!!!!!!!!!!");
 
             mapper.insertGroup(groupVO);
@@ -152,5 +152,10 @@ public class GroupMapperTests {
             joinVO.setUser_id("user"+i);
             mapper.joinGroup(joinVO);
         });
+    }
+
+    @Test
+    public void testUserIdGroupId(){
+        mapper.userJoinedGroupId(8L);
     }
 }

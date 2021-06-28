@@ -6,6 +6,15 @@ import com.ball.vo.UserVO;
 import java.util.List;
 
 public interface UserService {
+    //user create
+    public void userCreate(UserVO vo);
+
+    //user modify
+    public void userModify(UserVO vo);
+
+    //user read
+    public UserVO userRead(String userID);
+
     //login check
     public boolean userLoginCheck(String userId, String userPassword);
 
@@ -18,6 +27,15 @@ public interface UserService {
     //get userID by email
     public String getUserId(String userEmail);
 
+    //get userPassword by userID,email
+    public String getUserPassword(String userId,String userEmail);
+
     //get Admin Email and password
     public UserVO getAdminEmailAndPW();
+
+    //id check
+    public boolean idCheck(String userId);
+
+    //email check
+    public boolean emailCheck(String user_id,String userEmail);
 }
