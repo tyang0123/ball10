@@ -50,10 +50,14 @@
         }
         /* end  content 수직 정렬 과련 css */
 
+        .form-control{
+            border: 2px solid black;
+        }
+
         /* bootstrap form focus shadow 기능 reset */
         .form-control:focus,
         .form-check-input:focus {
-            border-color: #FF0000;
+            border-color: #ff9000;
             box-shadow: unset;
         }
 
@@ -167,10 +171,10 @@
 
                     <form method="post" action="/user/login">
                         <div class="form-group m-3">
-                            <input type="text" class="form-control border border-dark border-2" id="user-id" name="user_id" placeholder="아이디">
+                            <input type="text" class="form-control" id="user-id" name="user_id" placeholder="아이디">
                         </div>
                         <div class="form-group m-3">
-                            <input type="password" class="form-control border border-dark border-2" id="user-password" name="user_password" placeholder="비밀번호">
+                            <input type="password" class="form-control" id="user-password" name="user_password" placeholder="비밀번호">
                             <small id="result-login" class="form-text text-danger"></small>
                         </div>
                         <div class="form-check text-center">
