@@ -56,7 +56,7 @@ public class UserController {
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
 
-        if(cal.get(Calendar.HOUR_OF_DAY)>3) {
+        if(cal.get(Calendar.HOUR_OF_DAY)>=3 && cal.get(Calendar.SECOND)>=1) {
             cal.add(Calendar.DATE, 1);
         }
         cal.set(Calendar.HOUR_OF_DAY, 3);
@@ -215,22 +215,24 @@ public class UserController {
                 Long cookieTimerId = Long.valueOf(cookieContent[0]);
                 LocalTime cookieTimerAccumulatedTime = LocalTime.parse(cookieContent[2]);
 
-                if(!timerVO.getTimer_id().equals(cookieTimerId)
-                        || timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime)){
-                    System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
-                    System.out.println(timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
+                //타이머 id가 다르거나, db누적시간이 타이머 시간보다 많을 경우 cookie를 db누적시간을 리셋한다.
+                if(timerVO.getTimer_id().equals(cookieTimerId)
+                        && timerVO.getTimer_accumulated_day().isBefore(cookieTimerAccumulatedTime)){
+//                    System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
+//                    System.out.println(timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
                     resetCookie = false;
-                    timerCookie.setMaxAge(0);
                 }
             }
 
             if(resetCookie) {
-
+                if(timerCookie != null){
+                    timerCookie.setMaxAge(0);
+                }
+                System.out.println("cookie reset");
                 timerCookie = new Cookie("timerCookie", "");
                 timerCookie.setMaxAge(remainSecondsFrom3AM());
                 timerCookie.setSecure(false);
                 timerCookie.setPath("/");
-                resetCookie = true;
 
                 if (timerVO != null && timerVO.getTimer_accumulated_day() != null) { //오늘 2번이상 접속해서 timer정보가 있는 경우
                     timerCookie.setValue(timerVO.getTimer_id() + "-" + timerVO.getTimer_is_play() + "-"

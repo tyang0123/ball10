@@ -280,6 +280,7 @@
         window.addEventListener('beforeunload', (e) => {
             //타이머정보를 쿠키에 저장
             document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/;";
+            alert("");
             // e.preventDefault();
             timerSaveBeforeUnloadPage();
             // e.returnValue = '';
