@@ -283,12 +283,13 @@
             $('.modal').modal("hide")
         })
 
-        //해당 그룹 멤버한테만 메세지 보이기
-        var userJoined = '${userJoinedGroup}';
-        console.log(userJoined);
+        //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
+        var userJoined = ${userJoinedGroup};
+        $("#modalShowButton").hide();
         for(var i = 0; i<userJoined.length; i++){
-            if(user_id == userJoined[i]){
-
+            if(group_id == userJoined[i]){
+                console.log("쇼")
+                $('#modalShowButton').show();
             }
         }
     })
