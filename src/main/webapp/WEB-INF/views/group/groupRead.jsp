@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp" %>
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -99,14 +98,14 @@
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h3 class="modal-title">그룹 메세지</h3>
+                                <h3 align="center">그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="readGroupMessage"></div>
+                                <div id="readGroupMessage"></div>
                                 <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                     <div class = 'md-3'>
                                         <label for = 'message-text' class='col-form-label'> 입력창 </label>
@@ -120,8 +119,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div> <!-- end panel-body -->
         </div> <!-- end panel -->
     </div> <!-- col-lg-12 -->
@@ -169,7 +166,7 @@
         })
 
         if(${group.user_id_group_header eq user_id}) {
-            console.log("아이디가 같나?")
+            // console.log("아이디가 같나?")
             $('.btn-warning').attr('hidden', true)
             $('.btn-block').attr('hidden', true)
         }else{
@@ -201,55 +198,99 @@
 
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
-        var criterionNumber = 1;
-        <%--var criterionNumber = ${firstCriNumber};--%>
+        var user_id = '${user_id}';
 
         //modal창 보여주기
-        $("#modalShowButton").click(function (){
+        $("#modalShowButton").click(function () {
+            var limit = 0
             $('.modal').modal("show")
 
-            function sampleModalPopup(){
+            //처음 메세지 가져오기
+            messageService.getList(group_id, limit, function (result) {
+                $('#readGroupMessage').html(result);
+            })
 
-                var url = window.location.href;
+            //열었을때 입력창 보여주기
+            var offset = $('#sendGroupMessage').offset();
+            $('.modal-body').animate({scrollTop : offset.top}, 40);
 
-                // 팝업 호출
-                $(".modal").load(url, function() {
-                    $(".modal").modal("show");
-                });
+            //상위로 스크롤 했을때 메세지 더보기
+            var isLoading = false;
+
+            function loadNewPage() {
+                limit += 10;
+                console.log("limit 값 : "+limit);
+                var temp = $('.modal-body').prop('scrollHeight');
+                messageService.getList(group_id, limit, function (result) {
+                    $('#readGroupMessage').prepend(result);
+                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                    isLoading = false;
+                })
             }
 
-            //메세지 가져오기
-            messageService.getList(group_id,criterionNumber,function(result) {
-                $('.readGroupMessage').text(result);
-
-
-                //메세지 삭제
-                $(".remove_message").click(function (){
-                    var group_message_id = $(this).val()
-                    messageService.remove(group_message_id,function (deleteResult){
-                        if(deleteResult == "success"){
-                            // sampleModalPopup()
+            function upNdown() {
+                var lastScroll = 0;
+                $('.modal-body').scroll(function (event) {
+                    var st = $(this).scrollTop();
+                    if (st > lastScroll) {
+                    } else {
+                        if ($('.modal-body').scrollTop() < 5 && !isLoading) {
+                            isLoading = true;
+                            setTimeout(loadNewPage, 1200);
                         }
-                    }, function (err){
-                        alert("에러 발생");
-                    })
-                })
-
-                //메세지 추가
-                $("#message_submit").click(function (){
-                    var message = {
-                        "user_id":'user1', //이후 쿠키에서 가져온 뒤 수정
-                        "group_message_content": $('#message-text').val()
+                        lastScroll = st;
                     }
-                    messageService.add(group_id,message,function (result){
-                        $('#message-text').val("");
+                    ;
+                });
+            };
+            upNdown();
+            //상위로 스크롤 했을때 메세지 더보기 끝
+        // });
+
+
+
+        //메세지 삭제
+        $("#readGroupMessage").on("click","button",function () {
+            var group_message_id = $(this).val()
+            messageService.remove(group_message_id, function (deleteResult) {
+                if (deleteResult == "success") {
+                    messageService.getList(group_id, limit, function (result) {
+                        $('#readGroupMessage').html(result);
                     })
-                })
-            });
+                }
+            })
+        })
+
+        //메세지 추가
+        $("#message_submit").click(function () {
+            var message = {
+                "user_id": user_id,
+                "group_message_content": $('#message-text').val()
+            }
+            messageService.add(group_id, message, function (result) {
+                if(result == "success"){
+                    $('#message-text').val("");
+                    messageService.getList(group_id, limit, function (result) {
+                        $('#readGroupMessage').html(result);
+                    })
+                }
+            })
+        })
+        });
 
         $("#modal_close").click(function (){
             $('.modal').modal("hide")
         })
+
+        //해당 그룹 멤버한테만 메세지 보이기
+        var userJoined = '${userJoinedGroup}';
+        console.log(userJoined);
+        for(var i = 0; i<userJoined.length; i++){
+            if(user_id == userJoined[i]){
+
+            }
+        }
     })
 </script>
 
@@ -323,8 +364,8 @@
             url: "/ajax/timer/gettimers/"+group_id,
             success: function(result, status, xhr){
                 for(var i in result){
-                    console.log(result[i])
-                    console.log(new Date(...result[i].timer_mod_date))
+                    // console.log(result[i])
+                    // console.log(new Date(...result[i].timer_mod_date))
 
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];

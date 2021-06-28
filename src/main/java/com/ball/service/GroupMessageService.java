@@ -11,6 +11,5 @@ public interface GroupMessageService {
     public int groupMessageDelete(Long group_message_id);
     public List<GroupMessageVO> groupMessageRead(Long group_id);
 
-    public List<GroupMessageVO> groupMessageMoreRead(Criteria cri, Long group_id);
-    public int getFirstGroupMessageId(Long group_id);
+    public List<GroupMessageVO> groupMessageMoreRead(int limit, Long group_id);
 }
