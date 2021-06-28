@@ -106,15 +106,18 @@
                             </div>
                             <div class="modal-body">
                                 <div id="readGroupMessage"></div>
+                            </div>
+                            <div class="modal-footer" style="display: block">
+                                <div class="row">
                                 <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                    <div class = 'md-3'>
-                                        <label for = 'message-text' class='col-form-label'> 입력창 </label>
+                                    <div class = 'col-sm-10'>
                                         <textarea class='form-control' id='message-text'></textarea>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="message_submit" class="btn btn-primary">전송</button>
+                                    <div class = 'col-sm-2'>
+                                    <button type="submit" id="message_submit" class="btn btn-primary">전송</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -293,7 +296,6 @@
         $("#modalShowButton").hide();
         for(var i = 0; i<userJoined.length; i++){
             if(group_id == userJoined[i]){
-                console.log("쇼")
                 $('#modalShowButton').show();
             }
         }
