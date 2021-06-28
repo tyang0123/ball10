@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -100,8 +101,8 @@ public class GroupController {
         System.out.println("리드에서 유저 아이디의 값이 들어오나 : "+userID);
         model.addAttribute("user_id",userID);
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
-//        model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
-//        model.addAttribute("firstCriNumber",5);
+
+        model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(group_id));
         return "group/groupRead";
     }
     @PostMapping("/read")

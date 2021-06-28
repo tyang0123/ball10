@@ -153,4 +153,9 @@ public class GroupMapperTests {
             mapper.joinGroup(joinVO);
         });
     }
+
+    @Test
+    public void testUserIdGroupId(){
+        mapper.userJoinedGroupId(8L);
+    }
 }

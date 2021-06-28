@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp" %>
 
-
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
@@ -120,8 +119,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div> <!-- end panel-body -->
         </div> <!-- end panel -->
     </div> <!-- col-lg-12 -->
@@ -201,6 +198,7 @@
 
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
+        var user_id = '${user_id}';
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
@@ -267,7 +265,7 @@
         //메세지 추가
         $("#message_submit").click(function () {
             var message = {
-                "user_id": 'user1', //이후 쿠키에서 가져온 뒤 수정
+                "user_id": user_id,
                 "group_message_content": $('#message-text').val()
             }
             messageService.add(group_id, message, function (result) {
@@ -286,6 +284,13 @@
         })
 
         //해당 그룹 멤버한테만 메세지 보이기
+        var userJoined = '${userJoinedGroup}';
+        console.log(userJoined);
+        for(var i = 0; i<userJoined.length; i++){
+            if(user_id == userJoined[i]){
+
+            }
+        }
     })
 </script>
 
