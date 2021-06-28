@@ -106,5 +106,14 @@
             }
         }
     })
+
+    $("#group_password").on('input', function(e){
+        var regex = new RegExp("^[A-Za-z0-9]+$"); // 비밀번호 설정
+        if(!regex.test(e.target.value)){
+            console.log("tick");
+            var str = e.target.value;
+            e.target.value= str.substring(0, str.length-1);
+        }
+    })
 </script>
 
