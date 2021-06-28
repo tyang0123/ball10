@@ -218,13 +218,11 @@
 <!-- 타이머 관련 Script-->
 <script src="/resources/js/timer.js"></script>
 <script>
+    var timerCookieStr = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('timerCookie'))
+        .split('=')[1];
     $(document).ready(function () {
-        var timerCookieStr = document.cookie
-                      .split('; ')
-                      .find(row => row.startsWith('timerCookie'))
-                      .split('=')[1];
-
-        // var timerCookieStr = "125-1-10:20:10"
 
         var timerPlayFlag = false;
         $("#time-toggle").click(function(e){
@@ -233,22 +231,33 @@
                 timerPlayFlag = false;
                 timerStop(function(resultCookieTimer){
                     //타이머정보가 db에 저장되면 타이머의 정보를 쿠키에 저장
-                    document.cookie = "timerCookie="+resultCookieTimer;
+                    document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
                 });
             }else{
                 $(this).html('공부그만하기');
                 timerPlayFlag = true;
                 timerStart(function(resultCookieTimer){
                     //타이머정보가 db에 저장되면 타이머의 정보를 쿠키에 저장
-                    document.cookie = "timerCookie="+resultCookieTimer;
+                    document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
                 });
             }
         });//end time-toggle click
+
+        window.addEventListener('beforeunload', (e) => {
+            console.log("ajajaj  "+window.location);
+            console.log("beforeunload  "+window.location);
+            // e.preventDefault();
+            timerSaveBeforeUnloadPage(function(resultCookieTimer){
+                //타이머정보가 db에 저장되면 타이머의 정보를 쿠키에 저장
+                document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
+            });
+            // e.returnValue = '';
+        });
 
         //타이머 셋팅
         timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr);
     });
 </script>
-
+<!--end 타이머 관련 Script-->
 
 <%@ include file="../includes/footer.jsp" %>

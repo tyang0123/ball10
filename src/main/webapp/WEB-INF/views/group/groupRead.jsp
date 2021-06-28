@@ -198,76 +198,61 @@
             $('#operForm').attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
         })
 
+
+        <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
-        var criterionNumber = ${firstCriNumber};
-        // 스크롤로 더보기 구현
-        var isLoading = false;
+        var criterionNumber = 1;
+        <%--var criterionNumber = ${firstCriNumber};--%>
 
         //modal창 보여주기
         $("#modalShowButton").click(function (){
             $('.modal').modal("show")
-            //첫번째 10개 메세지
-            criterionNumber = criterionNumber-10;
-            console.log(criterionNumber)
 
-            messageService.getList(group_id,criterionNumber,function(result){
-                $('.readGroupMessage').html(result);
-                    //스크롤 이벤트
-                    function loadNewPage(){
-                        //다음 10개 추가
-                        criterionNumber = criterionNumber-10;
-                        console.log("스크롤 했을때 크리넘버: "+criterionNumber)
+            function sampleModalPopup(){
 
-                        var temp = $('.modal').height();
-                        messageService.getList(group_id,criterionNumber,function (result){
-                            $('.readGroupMessage').html(result);
-                            if(criterionNumber < 0) alert("마지막 메세지입니다.")
+                var url = window.location.href;
 
-                            $('.modal').scrollTop($('.modal').height()-temp);
-                            isLoading = false;
-                        })
-                    }
+                // 팝업 호출
+                $(".modal").load(url, function() {
+                    $(".modal").modal("show");
+                });
+            }
 
-                    $('.modal').scroll(function (){
-                        if($('.modal').scrollTop() <60 && !isLoading){
-                            isLoading = true;
-                            setTimeout(loadNewPage,1200);
-                        }
-                    })
+            //메세지 가져오기
+            messageService.getList(group_id,criterionNumber,function(result) {
+                $('.readGroupMessage').text(result);
 
+
+                //메세지 삭제
                 $(".remove_message").click(function (){
                     var group_message_id = $(this).val()
                     messageService.remove(group_message_id,function (deleteResult){
                         if(deleteResult == "success"){
-                            alert("삭제되었습니다.");
-                            $('.modal').modal("hide");
+                            // sampleModalPopup()
                         }
                     }, function (err){
                         alert("에러 발생");
                     })
                 })
 
+                //메세지 추가
                 $("#message_submit").click(function (){
                     var message = {
                         "user_id":'user1', //이후 쿠키에서 가져온 뒤 수정
                         "group_message_content": $('#message-text').val()
                     }
                     messageService.add(group_id,message,function (result){
-                        if(result == "success"){
-                            alert("입력되었습니다.")
-                            $('#message-text').val("");
-                            $('.modal').modal("hide");
-                        }
+                        $('#message-text').val("");
                     })
                 })
             });
-        })
 
         $("#modal_close").click(function (){
             $('.modal').modal("hide")
         })
     })
 </script>
+
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 script -->
 <script>
