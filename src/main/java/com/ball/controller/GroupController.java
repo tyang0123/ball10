@@ -100,7 +100,7 @@ public class GroupController {
         System.out.println("리드에서 유저 아이디의 값이 들어오나 : "+userID);
         model.addAttribute("user_id",userID);
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
-        model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
+//        model.addAttribute("firstCriNumber",messageService.getFirstGroupMessageId(group_id));
 //        model.addAttribute("firstCriNumber",5);
         return "group/groupRead";
     }

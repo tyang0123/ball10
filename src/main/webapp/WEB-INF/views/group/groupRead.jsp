@@ -216,28 +216,41 @@
             var offset = $('#sendGroupMessage').offset();
             $('.modal-body').animate({scrollTop : offset.top}, 40);
 
-            // //상위로 스크롤 했을때 메세지 더보기
-            // var isLoading = false;
-            //
-            // function loadNewPage() {
-            //     limit += 10;
-            //     console.log("limit 값 : "+limit);
-            //     var temp = $('.modal-body').height();
-            //     messageService.getList(group_id, limit, function (result) {
-            //         $('#readGroupMessage').prepend(result);
-            //     })
-            //     $('.modal-body').scrollTop($('.modal-body').height()-temp);
-            //     isLoading = false;
-            // }
-            //
-            // $('.modal-body').scroll(function() {
-            //     if($('.modal-body').scrollTop() < 5 && !isLoading) {
-            //         isLoading = true;
-            //         setTimeout(loadNewPage, 1200);
-            //     }
-            // });
-            // // // $('.modal-body').scrollTop($('.modal-body').height());
+            //상위로 스크롤 했을때 메세지 더보기
+            var isLoading = false;
+
+            function loadNewPage() {
+                limit += 10;
+                console.log("limit 값 : "+limit);
+                var temp = $('.modal-body').prop('scrollHeight');
+                messageService.getList(group_id, limit, function (result) {
+                    $('#readGroupMessage').prepend(result);
+                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                    isLoading = false;
+                })
+            }
+
+            function upNdown() {
+                var lastScroll = 0;
+                $('.modal-body').scroll(function (event) {
+                    var st = $(this).scrollTop();
+                    if (st > lastScroll) {
+                    } else {
+                        if ($('.modal-body').scrollTop() < 5 && !isLoading) {
+                            isLoading = true;
+                            setTimeout(loadNewPage, 1200);
+                        }
+                        lastScroll = st;
+                    }
+                    ;
+                });
+            };
+            upNdown();
+            //상위로 스크롤 했을때 메세지 더보기 끝
         // });
+
+
 
         //메세지 삭제
         $("#readGroupMessage").on("click","button",function () {

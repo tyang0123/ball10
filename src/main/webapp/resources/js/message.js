@@ -25,15 +25,15 @@ var messageService = (function (){
             },
             dataType: "json",
             success:function (data){
-                // console.log(data['list'])
+                console.log(data['list'])
                 text = ""
                 const list = data['list'];
                 const userId = data['userID'];
                 for(var i=list.length-1; i >= 0; i--){
                     if(list[i].user_id == userId){
-                        text += "<div align='right'>"
+                        text += "<padding><div align='right'>"
                         text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
-                        text += list[i].group_message_content+"</div>"
+                        text += list[i].group_message_content+"</div></padding>"
 
                     }else{
                         text += "<div>"+list[i].user_id;
