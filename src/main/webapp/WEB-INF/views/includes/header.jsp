@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     <title>10.0</title>
+    <!-- 파비콘 -->
+    <link rel=" shortcut icon" href="/resources/logo/icon.png">
+    <link rel="icon" href="/resources/logo/icon.png">
 
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -43,22 +46,22 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav navbar-collapse-custom">
                     <li class="nav-item" >
-                        <a class="nav-link" href="page.html">열공 하기</a>
+                        <a class="nav-link" href="/user/user">열공 하기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">스터디 그룹 찾기</a>
+                        <a class="nav-link" href="/group/list">스터디 그룹 찾기</a>
                     </li>
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">로그아웃</a>
+                        <a class="nav-link" href="/user/logout">로그아웃</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">회원정보수정</a>
+                        <a class="nav-link" href="/user/modify">회원정보수정</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">공지사항</a>
+                        <a class="nav-link" href="/notice/list">공지사항</a>
                     </li>
                 </ul>
             </div>
@@ -67,4 +70,4 @@
 
 </head>
 <body id="margin">
-<div class="wrapper"/>
+<div class="wrapper">

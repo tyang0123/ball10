@@ -32,20 +32,22 @@
 
 <!-- 유저페이지 그룹리스트 -->
 <div class="row">
-    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
+    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block;">
         <c:if test="${empty userJoinGroupList}">
             <div style="text-align: center; margin-top: 20px;">
-            <img src='/resources/img/group_empty.jpg' class="group-empty"/>
+                <img src='/resources/img/group_empty.jpg' class="group-empty" style="cursor: pointer;" onclick="location.href='/group/list'" />
             </div>
         </c:if>
         <c:forEach var="groupList" items="${userJoinGroupList}">
-            <div class="card user-card-group">
+            <div class="card user-card-group" style="cursor: pointer;" onclick="location.href='/group/read?group_id=${groupList.group_id}'">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-10 group-category">${groupList.group_category}</div>
                         <div class="col-2 text-end groupSecret">
                             <c:if test="${groupList.group_is_secret==1}">
-                                <img src='/resources/img/lock.png' id='lockImg'/>
+                                <div style="text-align: center; margin-top: 7px;">
+                                    <img src='/resources/img/lock.png' id='lockImg'/>
+                                </div>
                             </c:if>
                         </div>
                     </div>
@@ -53,7 +55,7 @@
                         <span class="group-title">${groupList.group_name}</span>
                     </div>
                     <div>
-                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${groupList.group_join_person_number}/${groupList.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${groupList.user_nickname_group_header}</span>
+                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${groupList.group_target_time}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${groupList.group_join_person_number}/${groupList.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${groupList.user_nickname_group_header}</span>
                     </div>
                     <div>
                         <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
@@ -71,7 +73,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- 알람 Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
@@ -80,19 +82,17 @@
                 <button style="color: black;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div id="modal_body">
-                    <table cellspacing="0" class="alarmTable table table-hover">
-                        <thead>
-                        <tr>
-                            <th style="width: 20%;">날짜</th>
-                            <th style="width: 70%;">내용</th>
-                            <th style="width: 10%;">확인</th>
-                        </tr>
-                        </thead>
-                        <tbody id="dataSection">
-                        </tbody>
-                    </table>
-                </div>
+                <table class="alarmTable table table-hover">
+                    <thead>
+                    <tr>
+                        <th style="width: 20%;">날짜</th>
+                        <th style="width: 70%;">내용</th>
+                        <th style="width: 10%;">확인</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dataSection">
+                    </tbody>
+                </table>
             </div>
             <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
                 <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
@@ -100,7 +100,27 @@
         </div>
     </div>
 </div>
+
+<!-- 수정 Modal -->
+<div class="modal fade" id="modifySuccess">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">정보수정 완료</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                회원님의 정보가 수정되었습니다. 🤗 📝
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">확 인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
     var changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
 
@@ -111,12 +131,26 @@
             moreList(changeCriterionNumber);
 
             //더보기 버튼 클릭시
-           $("#addBtn").click(function (){
-               moreList(changeCriterionNumber);
-           })
+            $("#addBtn").click(function (){
+                moreList(changeCriterionNumber);
+            })
         });
 
-     });
+        //수정 후 모달 show
+        var successModify = "${successModify}"
+
+        checkModal(successModify);
+        history.replaceState({},null,null);
+        function checkModal(successModify){
+            if(successModify === '' || history.state){
+                return;
+            }
+            if( successModify == "success"){
+                $("#modifySuccess").modal("show");
+            }
+        }
+
+    });
     //시간 디스플레이 변환
     const displayTime = (timeValue)=>{
         var today = new Date();
