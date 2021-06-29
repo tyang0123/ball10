@@ -36,8 +36,9 @@ var messageService = (function (){
                         text += list[i].group_message_content+"</div></padding>"
 
                     }else{
-                        text += "<div>"+list[i].user_id;
-                        text += "<div>"+list[i].group_message_content+"</div>";
+                        text += "<div class='row row-cols-1'>"
+                        text += "<div class='col' style='font-size : 15px;font-weight: lighter;'>"+list[i].user_id+"</div>";
+                        text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;'>"+list[i].group_message_content+"</div><div class='col-sm-4'></div></div>";
                     }
                     // text += "<div>"+list[i].group_message_content;
                     // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"

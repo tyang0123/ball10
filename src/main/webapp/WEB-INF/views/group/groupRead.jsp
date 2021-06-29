@@ -94,28 +94,32 @@
                 <!---------------------------------------------------------------------------------------->
 
 
-
+<%--                <style>--%>
+<%--                    #modal_close:hover{--%>
+<%--                        color: #ff9000;--%>
+<%--                    }--%>
+<%--                </style>--%>
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h3>그룹 메세지</h3>
-                                <button id="modal_close" class="btn-close"></button>
+                            <div class="modal-header" style="border-bottom: 2px solid #ff9000;">
+                                <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
+                                <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
                                 <div id="readGroupMessage"></div>
                             </div>
-                            <div class="modal-footer" style="display: block">
+                            <div class="modal-footer" style="display: block; border-top:2px solid #ff9000;">
                                 <div class="row">
-                                <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                     <div class = 'col-sm-10'>
+                                    <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
                                         <textarea class='form-control' id='message-text'></textarea>
+                                    </form>
                                     </div>
-                                </form>
                                     <div class = 'col-sm-2'>
-                                    <button type="submit" id="message_submit" class="btn btn-primary">전송</button>
+                                        <button id="message_submit" class="form-control" type="submit" style="height:100%">전송</button>
                                     </div>
                                 </div>
                             </div>
@@ -248,8 +252,7 @@
                             setTimeout(loadNewPage, 1200);
                         }
                         lastScroll = st;
-                    }
-                    ;
+                    };
                 });
             };
             upNdown();
