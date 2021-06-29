@@ -156,6 +156,7 @@ public class GroupMapperTests {
 
     @Test
     public void testUserIdGroupId(){
-        mapper.userJoinedGroupId(8L);
+        String user_id = "user1";
+        mapper.userJoinedGroupId(user_id);
     }
 }

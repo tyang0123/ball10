@@ -94,27 +94,34 @@
                 <!---------------------------------------------------------------------------------------->
 
 
-
+<%--                <style>--%>
+<%--                    #modal_close:hover{--%>
+<%--                        color: #ff9000;--%>
+<%--                    }--%>
+<%--                </style>--%>
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 align="center">그룹 메세지</h3>
-                                <button id="modal_close" class="btn-close"></button>
+                            <div class="modal-header" style="border-bottom: 2px solid #ff9000;">
+                                <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
+                                <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
                                 <div id="readGroupMessage"></div>
-                                <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                    <div class = 'md-3'>
-                                        <label for = 'message-text' class='col-form-label'> 입력창 </label>
-                                        <textarea class='form-control' id='message-text'></textarea>
-                                    </div>
-                                </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="message_submit" class="btn btn-primary">전송</button>
+                            <div class="modal-footer" style="display: block; border-top:2px solid #ff9000;">
+                                <div class="row">
+                                    <div class = 'col-sm-10'>
+                                    <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
+                                        <textarea class='form-control' id='message-text'></textarea>
+                                    </form>
+                                    </div>
+                                    <div class = 'col-sm-2'>
+                                        <button id="message_submit" class="form-control" type="submit" style="height:100%">전송</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,10 +229,15 @@
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
-                    $('#readGroupMessage').prepend(result);
-                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
-                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
-                    isLoading = false;
+                    if(result == []){
+                        console.log("다 가져왔습니다")
+                        isLoading = true;
+                    }else {
+                        $('#readGroupMessage').prepend(result);
+                        $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                        // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                        isLoading = false;
+                    }
                 })
             }
 
@@ -240,8 +252,7 @@
                             setTimeout(loadNewPage, 1200);
                         }
                         lastScroll = st;
-                    }
-                    ;
+                    };
                 });
             };
             upNdown();
@@ -283,12 +294,12 @@
             $('.modal').modal("hide")
         })
 
-        //해당 그룹 멤버한테만 메세지 보이기
-        var userJoined = '${userJoinedGroup}';
-        console.log(userJoined);
+        //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
+        var userJoined = ${userJoinedGroup};
+        $("#modalShowButton").hide();
         for(var i = 0; i<userJoined.length; i++){
-            if(user_id == userJoined[i]){
-
+            if(group_id == userJoined[i]){
+                $('#modalShowButton').show();
             }
         }
     })
