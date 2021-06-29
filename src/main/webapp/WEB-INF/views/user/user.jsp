@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<%
+    response.setHeader("Expires", "일자");
+    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+%>
+
 <%@ include file="../includes/header.jsp" %>
 
 
@@ -275,16 +281,32 @@
                     document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
                 });
             }
-        });//end time-toggle click
+        });//end time-toggle
 
-        window.addEventListener('beforeunload', (e) => {
-            //타이머정보를 쿠키에 저장
+
+        //beforeunload는 ios에서 안돌아감
+        window.addEventListener('beforeunload', (e) =>{
+            timerSaveBeforeUnloadPage()
             document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/;";
-            alert("");
-            // e.preventDefault();
-            timerSaveBeforeUnloadPage();
-            // e.returnValue = '';
+            //타이머정보를 쿠키에
         });
+
+        var isIOS = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+            $(".userMarker span").html("ios");
+            alert("ios")
+        }
+
+        $(window).bind("pagehide", function (e){
+            timerPlayFlag = false;
+            timerSaveBeforeUnloadPage();
+        })
+
+        $(window).bind("pageshow", function (e){
+            if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
+                //location.reload();
+            }
+        })
 
         console.log(timerCookieStr);
         //타이머 셋팅

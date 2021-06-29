@@ -215,9 +215,12 @@ public class UserController {
                 Long cookieTimerId = Long.valueOf(cookieContent[0]);
                 LocalTime cookieTimerAccumulatedTime = LocalTime.parse(cookieContent[2]);
 
+
+                System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
+                System.out.println(!timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
                 //타이머 id가 다르거나, db누적시간이 타이머 시간보다 많을 경우 cookie를 db누적시간을 리셋한다.
                 if(timerVO.getTimer_id().equals(cookieTimerId)
-                        && timerVO.getTimer_accumulated_day().isBefore(cookieTimerAccumulatedTime)){
+                        && !timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime)){
 //                    System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
 //                    System.out.println(timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
                     resetCookie = false;

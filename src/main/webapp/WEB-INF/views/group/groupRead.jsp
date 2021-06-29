@@ -2,6 +2,12 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+    response.setHeader("Expires", "일자");
+    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+
+%>
 <%@ include file="../includes/header.jsp" %>
 
 <style>
@@ -432,7 +438,7 @@
         clearInterval(viewTimer);
         getStringIconUserDOMObjects(list)
         viewTimer = setInterval(function(){
-            //getStringIconUserDOMObjects(list)
+            getStringIconUserDOMObjects(list)
         }, 1000)
     }
 
@@ -480,6 +486,13 @@
     $(document).ready(function () {
         startIntervalGetUserTimerList();
     });
+
+    $(window).bind("pageshow", function (e){
+        if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
+            // alert( window.performance.navigation.type);
+            location.reload();
+        }
+    })
 </script>
 <!-- end timer script -->
 

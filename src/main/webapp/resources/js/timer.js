@@ -80,7 +80,6 @@ function viewTimerStartInterval(){
     minScreen.html((minute < 10 ? '0' : '') + minute);
     secScreen.html((second < 10 ? '0' : '') + second);
 
-    console.log(getRemainSecondsFrom3AMPerSeconds());
     if(getRemainSecondsFrom3AMPerSeconds()<1) {  //200
       timerStop(function (){ // 이 콜백함수를 user.jsp에서 선언해서 init에서 함수 저장후 여기에 파라미터값으로 지정해야함
         // alert("타이머가 리셋되었습니다.")
@@ -124,7 +123,7 @@ const saveTimerToDB = function(data, resultFunc){
         resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
         timerStartDateTime = Date.now();
         [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
-        console.log(cookieHour, cookieMinute, cookieSecond);
+
       }
       console.log("error : "+er);
     }
