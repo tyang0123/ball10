@@ -124,15 +124,6 @@
         a:hover, a:active {text-decoration: none; color:#fff;}
     </style>
 
-
-
-
-<style>
-    /* a tag reset */
-    a {color: #fff; text-decoration: none; outline: none}
-    a:hover, a:active {text-decoration: none; color:#fff;}
-</style>
-
     <script>
         $(document).ready(function(){
 
@@ -203,7 +194,7 @@
                             </label>
                         </div>
                         <div class="form-group text-center">
-                            <button type="submit" class="btn-loginpage-custom button-login" style=" ">로그인</button>
+                            <button type="submit" class="btn-loginpage-custom button-login" >로그인</button>
 
                             <div class="div-line" ></div>
                         </div>
@@ -211,7 +202,7 @@
                 </div> <!-- end form div col-sm-12 -->
                 <!-- start 회원찾기 및 비번 찾기 -->
                 <div class="div-btn-container" style="text-align: center;">
-                    <button style="margin:1rem 2px" type="button" class="btn-loginpage-custom button-join">회원가입</button>
+                    <a href="/user/create"><button style="margin:1rem 2px" type="button" class="btn-loginpage-custom button-join">회원가입</button></a>
                 </div>
                 <div class="div-btn-container" style="text-align: center; margin-top:1rem;">
                     <a href="/user/findID"><span>아이디 찾기</span></a>

@@ -21,6 +21,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class UserController {
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
 
-        if(cal.get(Calendar.HOUR_OF_DAY)>3) {
+        if(cal.get(Calendar.HOUR_OF_DAY)>=3 && cal.get(Calendar.SECOND)>=1) {
             cal.add(Calendar.DATE, 1);
         }
         cal.set(Calendar.HOUR_OF_DAY, 3);
@@ -120,6 +121,43 @@ public class UserController {
         return "redirect:/user/login";
     }
 
+    @GetMapping("/logout")
+    public String loginPost(HttpSession session
+            , @CookieValue(name = "userCookie", required = false) Cookie userCookie
+            , @CookieValue(name = "JSESSIONID", required = false) Cookie JSESSIONID
+            , @CookieValue(name = "timerCookie", required = false) Cookie timerCookie
+            , HttpServletResponse res) {
+
+        if(JSESSIONID != null) {
+            JSESSIONID = new Cookie("JSESSIONID", null);
+            JSESSIONID.setMaxAge(0);
+            JSESSIONID.setSecure(true);
+            JSESSIONID.setHttpOnly(true);
+            JSESSIONID.setPath("/");
+
+            res.addCookie(JSESSIONID);
+        }
+        if(userCookie != null) {
+            userCookie = new Cookie("userCookie", null);
+            userCookie.setMaxAge(0);
+            userCookie.setSecure(true);
+            userCookie.setHttpOnly(true);
+            userCookie.setPath("/");
+
+            res.addCookie(userCookie);
+        }
+        if(timerCookie != null){
+            timerCookie = new Cookie("timerCookie", null);
+            timerCookie.setMaxAge(0);
+            timerCookie.setSecure(true);
+            timerCookie.setHttpOnly(true);
+            timerCookie.setPath("/");
+
+            res.addCookie(timerCookie);
+        }
+        session.setMaxInactiveInterval(1);
+        return "redirect:/";
+    }
     @GetMapping("/create")
     public String tempCreate(){
         return "user/create";
@@ -163,23 +201,51 @@ public class UserController {
         model.addAttribute("userJoinGroupList",userService.userJoinGroupList(userID));
         model.addAttribute("nickName",userService.getUserNickname(userID));
 
-        //add timer cookie
-        if(timerCookie != null) {
-            timerCookie.setMaxAge(0);
-        }
-        timerCookie = new Cookie("timerCookie", "");
-        timerCookie.setMaxAge(remainSecondsFrom3AM());
-        timerCookie.setSecure(false);
-        timerCookie.setPath("/");
-        TimerVO timerVO = timerService.addNewTimerToDataBaseIfNotExist(userID);
 
-        if(timerVO != null && timerVO.getTimer_accumulated_day() != null){ //오늘 2번이상 접속해서 timer정보가 있는 경우
-            timerCookie.setValue(timerVO.getTimer_id()+"-"+timerVO.getTimer_is_play()+"-"
-                    +timerVO.getTimer_accumulated_day().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-        }else{ //오늘 처음 접속해서 타이머 정보가 없는 경우
-            timerCookie.setValue(timerVO.getTimer_id()+"-0-00:00:00");
+        try {
+            TimerVO timerVO = timerService.addNewTimerToDataBaseIfNotExist(userID);
+
+
+
+            Boolean resetCookie = true;
+            //add timer cookie
+            if (timerCookie != null && timerCookie.getValue() != null) {
+                // cookie값이 있고, timer_id값이 동일하고, accumulate값이 크면 db값을 반영하지 않는다.
+                String[] cookieContent = timerCookie.getValue().split("-");
+                Long cookieTimerId = Long.valueOf(cookieContent[0]);
+                LocalTime cookieTimerAccumulatedTime = LocalTime.parse(cookieContent[2]);
+
+                //타이머 id가 다르거나, db누적시간이 타이머 시간보다 많을 경우 cookie를 db누적시간을 리셋한다.
+                if(timerVO.getTimer_id().equals(cookieTimerId)
+                        && timerVO.getTimer_accumulated_day().isBefore(cookieTimerAccumulatedTime)){
+//                    System.out.println(timerVO.getTimer_id() +" "+ cookieTimerId);
+//                    System.out.println(timerVO.getTimer_accumulated_day().isAfter(cookieTimerAccumulatedTime));
+                    resetCookie = false;
+                }
+            }
+
+            if(resetCookie) {
+                if(timerCookie != null){
+                    timerCookie.setMaxAge(0);
+                }
+                System.out.println("cookie reset");
+                timerCookie = new Cookie("timerCookie", "");
+                timerCookie.setMaxAge(remainSecondsFrom3AM());
+                timerCookie.setSecure(false);
+                timerCookie.setPath("/");
+
+                if (timerVO != null && timerVO.getTimer_accumulated_day() != null) { //오늘 2번이상 접속해서 timer정보가 있는 경우
+                    timerCookie.setValue(timerVO.getTimer_id() + "-" + timerVO.getTimer_is_play() + "-"
+                            + timerVO.getTimer_accumulated_day().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                } else { //오늘 처음 접속해서 타이머 정보가 없는 경우
+                    timerCookie.setValue(timerVO.getTimer_id() + "-0-00:00:00");
+                }
+                response.addCookie(timerCookie);
+            }
+        }catch (Exception e){
+            log.warn(e.getMessage());
+            return "redirect:/user/login";
         }
-        response.addCookie(timerCookie);
 
         return "user/user";
     }
@@ -208,7 +274,7 @@ public class UserController {
         String userID = userService.getUserId(user_email);
 
         if(userID == null){
-            rAttr.addFlashAttribute("sendID", "등록된 이메일이 없습니다. 확인 후 다시 입력하여 주세요.");
+            rAttr.addFlashAttribute("sendID", "등록되어 있지 않은 이메일입니다.");
             return "redirect:/user/findID";
         }
 
