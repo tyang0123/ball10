@@ -93,13 +93,8 @@
                 </div>
                 <!---------------------------------------------------------------------------------------->
 
-
-<%--                <style>--%>
-<%--                    #modal_close:hover{--%>
-<%--                        color: #ff9000;--%>
-<%--                    }--%>
-<%--                </style>--%>
-                <button id="modalShowButton">그룹메세지</button>
+                <img id = "modalShowButton" src="/resources/img/chat-left-dots.svg">
+<%--                <button id="modalShowButton">그룹메세지</button>--%>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
@@ -115,7 +110,7 @@
                                 <div class="row">
                                     <div class = 'col-sm-10'>
                                     <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                        <textarea class='form-control' id='message-text'></textarea>
+                                        <textarea class='form-control' id='message-text' style='resize: none'></textarea>
                                     </form>
                                     </div>
                                     <div class = 'col-sm-2'>
@@ -206,6 +201,19 @@
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
         var user_id = '${user_id}';
+
+        //메세지 버튼 플로팅배너
+        var floatPosition = parseInt($("#modalShowButton").css('top'));
+        $(window).scroll(function() {
+        // 현재 스크롤 위치를 가져온다.
+            var scrollTop = $(window).scrollTop();
+            var newPosition = scrollTop + floatPosition + "px";
+
+            $("#modalShowButton").stop().animate({
+                "top" : newPosition
+            }, 500);
+
+        }).scroll();
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {

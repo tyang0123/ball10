@@ -7,9 +7,25 @@
 }
 #message-text:focus{
     border: 1px solid #f75718;
+    box-shadow: none;
 }
 #message_submit:hover{
     background: #ff9000;
     border: 1px solid #ff9000;
     color: white;
+}
+
+#modalShowButton{
+    position:fixed; _position:absolute;
+    width:60px; /* 가로폭 조절*/
+    overflow:hidden;
+    right:45%;
+    top:24%; /* 이미지 높이 조절 */
+    background-color: transparent;
+    margin-right: -530px; /* 좌우측 여백 조절 */
+    padding:0;
+}
+
+@media (min-width: 400px) {
+    
 }
