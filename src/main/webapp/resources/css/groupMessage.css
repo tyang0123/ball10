@@ -2,3 +2,14 @@
     border-radius: 0.9rem !important;
     border: 1px solid #ff9000 !important;
 }
+#message-text:hover{
+    border: 1px solid #f75718;
+}
+#message-text:focus{
+    border: 1px solid #f75718;
+}
+#message_submit:hover{
+    background: #ff9000;
+    border: 1px solid #ff9000;
+    color: white;
+}

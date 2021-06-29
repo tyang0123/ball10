@@ -104,14 +104,14 @@
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
-                            <div class="modal-header" style="border-bottom: 2px solid #ff9000;">
+                            <div class="modal-header" style="border-bottom: 1px solid black;">
                                 <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
                             <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
                                 <div id="readGroupMessage"></div>
                             </div>
-                            <div class="modal-footer" style="display: block; border-top:2px solid #ff9000;">
+                            <div class="modal-footer" style="display: block; border-top:1px solid black;">
                                 <div class="row">
                                     <div class = 'col-sm-10'>
                                     <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
