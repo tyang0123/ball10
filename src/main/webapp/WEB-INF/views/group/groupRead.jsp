@@ -4,15 +4,47 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp" %>
 
+<style>
+    .btn{
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #ffc107;
+        border: 2px solid black;
+        padding: 0.375rem 0.75rem;
+        font-size: 1.1rem;
+        width: 145px;
+        margin-right: 3px;
+    }
+    .btn-info{
+        float: right;
+    }
+    #removeGroup{
+        background-color: red;
+    }
+
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->
+<%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
             <div class="panel-body">
+                <div>
+                    <button class="btn btn-warning">그룹 가입 </button>
+                    <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
+                    <button class="btn btn-info">목록 </button>
+                    <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
+                </div>
+                <button id="modifyBtn" class="btn btn-default"> 수정</button>
                 <form id='operForm' action="/group/read">
                     <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
                             <div class="card user-card-group"  value="${group.group_is_secret}">
-                                <div class="card-body">
+<%--                                <div class="card-body">--%>
                                     <div class="row">
                                         <div class="col-10 group-category">${group.group_category}</div>
                                         <div class="col-2 text-end groupSecret">
@@ -33,25 +65,22 @@
                         <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                     </div>
-                                </div>
+<%--                                </div> <!-- card-body -->--%>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item group-content">${group.group_content}</li>
                                 </ul>
                             </div>
                     </div>
-                    <button id="modifyBtn" class="btn btn-default"> 수정</button>
-                    <button class="btn btn-info">목록 </button>
-                    <button class="btn btn-danger">그룹 파괴</button>
-                    <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
-                    <button class="btn btn-warning">그룹 가입 </button>
-
                     <input type="hidden" name="group_id" value="${group.group_id}" />
 <%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
 <%--                    <input type="hidden" name="amount" value="${cri.amount}" />--%>
 <%--                    <input type='hidden' name='type' value='<c:out value ="${cri.type}"/>'>--%>
 <%--                    <input type='hidden' name='keyword' value='<c:out value ="${cri.keyword}"/>'>--%>
                 </form>
-
+            </div>
+        </div>
+    </div>
+</div>
                 <!---------------------------------------------------------------------------------------->
                 <!-- 타이머  표시 -->
                 <div class="container">

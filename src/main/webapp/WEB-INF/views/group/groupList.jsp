@@ -15,7 +15,11 @@
 <link href="/resources/css/group.css" rel="stylesheet">
 <div class="row">
     <div class="col-sm-12">
-        <h2>스터디 그룹</h2>
+        <div style="text-align: center">
+            <h2>스터디 그룹
+                <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
+            </h2>
+        </div>
         <table width="100%" class="table table-striped table-bordered table-hover"
                id="dataTables-example">
             <div class="row">
@@ -35,8 +39,7 @@
                         <input type="text" id="listSearch" name="keyword"/>
                         <button id="searchBtn" class='btn btn-default'>검색</button>
                     </form>
-                    <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
-                </div>
+                </div>  <!-- col-lg-12 -->
                     <div class="row">
                         <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
                             <c:forEach var="list" items="${list}" >
@@ -47,7 +50,9 @@
                                             <div class="col-10 group-category">${list.group_category}</div>
                                             <div class="col-2 text-end groupSecret">
                                                 <c:if test="${list.group_is_secret==1}">
-                                                    <img src='/resources/img/lock.png' id='lockImg'/>
+                                                    <div style="text-align: center; margin-top: 7px;">
+                                                        <img src='/resources/img/lock.png' id='lockImg'/>
+                                                    </div>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -64,6 +69,9 @@
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                         </div>
                                     </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item group-content">${list.group_content}</li>
+                                    </ul>
                                 </div>
                             </c:forEach>
                         </div>

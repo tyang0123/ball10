@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <%@ include file="../includes/header.jsp" %>
+<link href="/resources/css/group.css" rel="stylesheet">
+
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12" style="margin-top: 40px;margin-bottom: 40px;">
         <div class="panel panel-default">
-            <div class="panel-heading"> 그룹 수정 페이지 </div> <!-- /.panel-heading -->
+            <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 수정</h1>
             <div class="panel-body">
                 <form id="operForm" action="/group/modify" role="form" method="post">
                     <div class="form-group">
@@ -91,17 +93,13 @@
                             <option value="50분">50분</option>
                         </select>
                     </div>
-
-
-<%--                    <div class="form-group">--%>
-<%--                        <label for="group_mod_date">수정일</label>--%>
-<%--                        <input type="text" class="form-control" name="updateDate"--%>
-<%--                               value='<fmt:formatDate pattern="yyyy/MM/dd" value="${board.updateDate}"/>'--%>
-<%--                               readonly="readonly">--%>
-<%--                    </div>--%>
-                    <button data-oper="modify" class="btn btn-default" type="submit"> 수정하기 </button>
-                    <button data-oper="list" class="btn btn-info">취소</button>
-                    <a href="group/list"></a>
+                    <div style="margin-top: 30px;margin-bottom: 35px;">
+                        <button data-oper="modify" type="submit" class="createGroup"> 수정하기 </button>
+                        <button data-oper="list" class="createCancel"> 취소 버튼</button>
+                    </div>
+<%--                    <button data-oper="modify" class="btn btn-default" type="submit"> 수정하기 </button>--%>
+<%--                    <button data-oper="list" class="btn btn-info">취소</button>--%>
+<%--                    <a href="group/list"></a>--%>
                 </form>
             </div> <!-- end panel-body -->
         </div> <!-- end panel -->
@@ -135,7 +133,7 @@
                 $("#group_password").attr('value',null)
             }
         })
-        $(".btn-default").click(function (){
+        $(".createGroup").click(function (){
             if($("#group_is_secret").is(':checked')){
                 if($("#group_password").val() == ""){
                     $("#group_password").attr('required', true)
@@ -148,11 +146,6 @@
             if(operation === 'list'){
                 $("#operForm").attr("action", "/group/list").attr("method", "get")
             }
-        })
-        $('#group_target_time').selectpicker({
-            multipleSeparator: ' '
-        }).on('changed.bs.select', function() {
-            $(this).selectpicker('refresh');
         })
     })
     function checkClick() {

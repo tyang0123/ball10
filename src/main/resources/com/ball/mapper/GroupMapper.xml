@@ -13,7 +13,7 @@
     </insert>
     <select id="selectGroupList" resultType="com.ball.vo.GroupVO">
         select g.group_id, g.user_id_group_header, u.user_nickname as user_nickname_group_header,
-        g.group_name, g.group_category, g.group_is_secret, g.group_target_hour, g.group_target_minute, count(gr.user_id) as group_join_person_number,
+        g.group_name, g.group_category, g.group_content, g.group_is_secret, g.group_target_hour, g.group_target_minute, count(gr.user_id) as group_join_person_number,
         g.group_person_count, g.group_reg_date
         from group_table g
         left outer join user u on g.user_id_group_header = u.user_id
