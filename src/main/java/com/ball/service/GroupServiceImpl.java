@@ -77,8 +77,8 @@ public class GroupServiceImpl implements GroupService{
     }
 
     @Override
-    public List<String> getUserJoinedGroupId(Long group_id) {
-        return mapper.userJoinedGroupId(group_id);
+    public List<Integer> getUserJoinedGroupId(String user_id) {
+        return mapper.userJoinedGroupId(user_id);
     }
 
 

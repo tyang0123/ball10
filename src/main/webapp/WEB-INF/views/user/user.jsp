@@ -55,7 +55,7 @@
                         <span class="group-title">${groupList.group_name}</span>
                     </div>
                     <div>
-                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${groupList.group_target_time}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${groupList.group_join_person_number}/${groupList.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${groupList.user_nickname_group_header}</span>
+                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${groupList.group_target_hour}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${groupList.group_join_person_number}/${groupList.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${groupList.user_nickname_group_header}</span>
                     </div>
                     <div>
                         <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
@@ -278,16 +278,15 @@
         });//end time-toggle click
 
         window.addEventListener('beforeunload', (e) => {
-            console.log("ajajaj  "+window.location);
-            console.log("beforeunload  "+window.location);
+            //타이머정보를 쿠키에 저장
+            document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/;";
+            alert("");
             // e.preventDefault();
-            timerSaveBeforeUnloadPage(function(resultCookieTimer){
-                //타이머정보가 db에 저장되면 타이머의 정보를 쿠키에 저장
-                document.cookie = "timerCookie="+resultCookieTimer+";path=/;";
-            });
+            timerSaveBeforeUnloadPage();
             // e.returnValue = '';
         });
 
+        console.log(timerCookieStr);
         //타이머 셋팅
         timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr);
     });

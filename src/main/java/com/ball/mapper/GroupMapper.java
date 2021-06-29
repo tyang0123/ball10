@@ -23,5 +23,5 @@ public interface GroupMapper {
     public String passwordCheck(@Param("group_id") Long group_id);
 
     //해당 유저가 가입한 group_id 가져오기 태양작성
-    public List<String> userJoinedGroupId(Long group_id);
+    public List<Integer> userJoinedGroupId(String user_id);
 }

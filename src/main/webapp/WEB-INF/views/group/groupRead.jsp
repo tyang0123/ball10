@@ -83,14 +83,14 @@
 </div>
                 <!---------------------------------------------------------------------------------------->
                 <!-- 타이머  표시 -->
-                <div class="container">
+                <div class="col-10 offset-1  col-md-8 offset-md-2">
                     <div class="row spinner-row">
                         <button class="btn btn-warning" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span>Loading...</span>
                         </button>
                     </div>
-                    <div class="row my-user-and-timer-row">
+                    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 my-user-and-timer-row">
 
                         <div class="col-md-3 mt-2" hidden>
                             <div class="row">
@@ -123,27 +123,34 @@
                 <!---------------------------------------------------------------------------------------->
 
 
-
+<%--                <style>--%>
+<%--                    #modal_close:hover{--%>
+<%--                        color: #ff9000;--%>
+<%--                    }--%>
+<%--                </style>--%>
                 <button id="modalShowButton">그룹메세지</button>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h3 align="center">그룹 메세지</h3>
-                                <button id="modal_close" class="btn-close"></button>
+                            <div class="modal-header" style="border-bottom: 2px solid #ff9000;">
+                                <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
+                                <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
                                 <div id="readGroupMessage"></div>
-                                <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                    <div class = 'md-3'>
-                                        <label for = 'message-text' class='col-form-label'> 입력창 </label>
-                                        <textarea class='form-control' id='message-text'></textarea>
-                                    </div>
-                                </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" id="message_submit" class="btn btn-primary">전송</button>
+                            <div class="modal-footer" style="display: block; border-top:2px solid #ff9000;">
+                                <div class="row">
+                                    <div class = 'col-sm-10'>
+                                    <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
+                                        <textarea class='form-control' id='message-text'></textarea>
+                                    </form>
+                                    </div>
+                                    <div class = 'col-sm-2'>
+                                        <button id="message_submit" class="form-control" type="submit" style="height:100%">전송</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,12 +163,17 @@
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 스타일 -->
 <style>
+    .img-container{
+        margin:0 auto;
+    }
     .my-img{
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 120px;
 
         -webkit-mask:url("/resources/img/pngegg (1).png");
-        -webkit-mask-size: contain;
+        mask-image: url("/resources/img/pngegg (1).png");
+        -webkit-mask-size: 100%;
+        mask-size: 100%;
         /*-webkit-mask:url("/resources/img/pngegg (1).png") no-repeat center/contain;*/
         /*mask:url("/resources/img/pngegg (1).png") center/contain;*/
     }
@@ -181,6 +193,31 @@
         background-color : #ff9000;
     }
 
+    .my-user-and-timer-row p{
+        max-width: 180px;
+        font-size: 1rem;
+    }
+    
+    @media (max-width: 992px) {
+        .my-img{
+            width: 90px;
+            height: 90px;
+        }
+        .my-user-and-timer-row p{
+            max-width: 140px;
+            font-size: 0.9rem;
+        }
+    }
+    @media (max-width: 767px) {
+        .my-img{
+            width: 60px;
+            height: 60px;
+        }
+        .my-user-and-timer-row p{
+            max-width: 100px;
+            font-size: 0.7rem;
+        }
+    }
 </style>
 <!---------------------------------------------------------------------------------------->
 
@@ -254,10 +291,15 @@
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
-                    $('#readGroupMessage').prepend(result);
-                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
-                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
-                    isLoading = false;
+                    if(result == []){
+                        console.log("다 가져왔습니다")
+                        isLoading = true;
+                    }else {
+                        $('#readGroupMessage').prepend(result);
+                        $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                        // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                        isLoading = false;
+                    }
                 })
             }
 
@@ -272,8 +314,7 @@
                             setTimeout(loadNewPage, 1200);
                         }
                         lastScroll = st;
-                    }
-                    ;
+                    };
                 });
             };
             upNdown();
@@ -315,12 +356,12 @@
             $('.modal').modal("hide")
         })
 
-        //해당 그룹 멤버한테만 메세지 보이기
-        var userJoined = '${userJoinedGroup}';
-        console.log(userJoined);
+        //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
+        var userJoined = ${userJoinedGroup};
+        $("#modalShowButton").hide();
         for(var i = 0; i<userJoined.length; i++){
-            if(user_id == userJoined[i]){
-
+            if(group_id == userJoined[i]){
+                $('#modalShowButton').show();
             }
         }
     })
@@ -342,37 +383,43 @@
 
     function getStringIconUserDOMObjects(list){
         var str = '';
-        list.forEach(data => {
-            str+='<div class="col-md-3 mt-2">'
+        list.forEach((data, idx) => {
+            // timer 계산
+            if(data.timer_is_play===1 && data.timer_is_on_site===1){
+                // timer_accumulated_day가 배열형식으로 되어있음
+                [hour, minute, second] = data.timer_accumulated_day;
+
+                const tempTime = new Date(Date.UTC(0,0,0, hour, minute, second, 0)).getTime();
+                const lastModTime = new Date(...data.timer_mod_date);
+                let diffTime = new Date(Date.now() - lastModTime).getTime() + tempTime;
+                diffTime = new Date(diffTime);
+
+
+                hour = diffTime.getUTCHours();
+                minute = diffTime.getUTCMinutes();
+                second = diffTime.getUTCSeconds();
+
+                data["show_timer"] = [hour, minute, second]
+            }else{
+                data["show_timer"] = [...data.timer_accumulated_day];
+            }
+
+            str+='<div class="col mt-2">'
             str+='  <div class="row">'
-            str+='    <div class="col-6 col-md-12">'
-            str+='      <div class="my-img '+ (data.timer_is_play===1 ?'my-img-yellow':'my-img-balck')+'"></div>'
+            str+='    <div class="d-flex justify-content-center">'
+            str+='      <div class="img-container">'
+            str+='          <div class="my-img '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-img-yellow':'my-img-balck')+'"></div>'
+            str+='      </div>'
             str+='    </div>'
-            str+='    <div class="col-6 col-md-12">'
-            str+='      <div class="caption">'
-            str+='        <p class="h6 text-center '+ (data.timer_is_play===1 ?'my-font-yellow':'')+'">'+data.user_nickname;
-            str+='           <br>'+returnAccumulatedTimeToStringFormat(data.timer_accumulated_day)+'</p>'
+            str+='    <div>'
+            str+='      <div class="caption d-flex justify-content-center">'
+            str+='        <p class="text-center text-truncate '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-font-yellow':'')+'">'+data.user_nickname;
+            str+='           <br>'+returnAccumulatedTimeToStringFormat(data.show_timer)+'</p>'
             str+='      </div>'
             str+='    </div>'
             str+='  </div>'
             str+='</div>'
 
-            // timer 증가
-            if(data.timer_is_play===1){
-                // timer_accumulated_day가 배열형식으로 되어있음
-                [hour, minute, second] = data.timer_accumulated_day;
-
-                second = second + 1;
-                if (second >= 60) {
-                    minute = minute + 1;
-                    second = 0;
-                }
-                if (minute >= 60) {
-                    hour = hour + 1;
-                    minute = 0;
-                }
-                data.timer_accumulated_day = [hour, minute, second]
-            }
         })
 
         $(".spinner-row").hide();
@@ -385,7 +432,7 @@
         clearInterval(viewTimer);
         getStringIconUserDOMObjects(list)
         viewTimer = setInterval(function(){
-            getStringIconUserDOMObjects(list)
+            //getStringIconUserDOMObjects(list)
         }, 1000)
     }
 
@@ -402,18 +449,18 @@
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];
                     }
-                    if(result[i].timer_is_play===1){
-                        // timer_accumulated_day가 배열형식으로 되어있음
-                        var now = new Date();
-                        var lastModTime = new Date(...result[i].timer_mod_date);
-
-                        [hour, minute, second] = result[i].timer_accumulated_day
-                        result[i].timer_accumulated_day = [
-                            now.getHours()-lastModTime.getHours()+hour,
-                            now.getMinutes()-lastModTime.getMinutes()+minute,
-                            now.getSeconds()-lastModTime.getSeconds()+second
-                        ]
-                    }
+                    // if(result[i].timer_is_play===1 && result[i].timer_is_on_site===1){
+                    //     // // timer_accumulated_day가 배열형식으로 되어있음
+                    //     // var now = new Date();
+                    //     // var lastModTime = new Date(...result[i].timer_mod_date);
+                    //     //
+                    //     // [hour, minute, second] = result[i].timer_accumulated_day
+                    //     // result[i].timer_accumulated_day = [
+                    //     //     now.getHours()-lastModTime.getHours()+hour,
+                    //     //     now.getMinutes()-lastModTime.getMinutes()+minute,
+                    //     //     now.getSeconds()-lastModTime.getSeconds()+second
+                    //     // ]
+                    // }
                 }
                 startIntervalViewUserTimerList(result);
             },//end ajax success
