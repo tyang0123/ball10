@@ -35,7 +35,7 @@ var messageService = (function (){
                         text += "<div class='container' style='margin-top: 10px;padding-left: 0px;'><div class='row'>"
                         // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
                         text += "<div style='font-weight: lighter;font-size: 15px; text-align: left;color: #acacac;' class='col-sm-4 align-self-center'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
-                        text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;width: auto;margin-left: auto;'>"+list[i].group_message_content+"</div>"
+                        text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;'>"+list[i].group_message_content+"</div>"
                         text += "</div></div>"
 
                     }else{
