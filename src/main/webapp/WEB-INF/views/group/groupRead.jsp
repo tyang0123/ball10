@@ -4,15 +4,47 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ include file="../includes/header.jsp" %>
 
+<style>
+    .btn{
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #000000;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: #ffc107;
+        border: 2px solid black;
+        padding: 0.375rem 0.75rem;
+        font-size: 1.1rem;
+        width: 145px;
+        margin-right: 3px;
+    }
+    .btn-info{
+        float: right;
+    }
+    #removeGroup{
+        background-color: red;
+    }
+
+</style>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->
+<%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
             <div class="panel-body">
+                <div>
+                    <button class="btn btn-warning">그룹 가입 </button>
+                    <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
+                    <button class="btn btn-info">목록 </button>
+                    <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
+                </div>
+                <button id="modifyBtn" class="btn btn-default"> 수정</button>
                 <form id='operForm' action="/group/read">
                     <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
                             <div class="card user-card-group"  value="${group.group_is_secret}">
-                                <div class="card-body">
+<%--                                <div class="card-body">--%>
                                     <div class="row">
                                         <div class="col-10 group-category">${group.group_category}</div>
                                         <div class="col-2 text-end groupSecret">
@@ -25,7 +57,7 @@
                                         <span class="group-title">${group.group_name}</span>
                                     </div>
                                     <div>
-                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">7시간</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
+                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${group.group_target_hour} ${group.group_target_minute} </span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
                                     </div>
                                     <div>
                                         <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
@@ -33,25 +65,22 @@
                         <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                     </div>
-                                </div>
+<%--                                </div> <!-- card-body -->--%>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item group-content">${group.group_content}</li>
                                 </ul>
                             </div>
                     </div>
-                    <button data-oper='modify' class="btn btn-default"> 수정</button>
-                    <button data-oper='list' class="btn btn-info">목록 </button>
-                    <button data-oper='remove' class="btn btn-danger">그룹 파괴</button>
-                    <button data-oper='remove' class="btn btn-block">탈퇴 하기</button>
-                    <button data-oper='join' class="btn btn-warning">그룹 가입 </button>
-
                     <input type="hidden" name="group_id" value="${group.group_id}" />
 <%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
 <%--                    <input type="hidden" name="amount" value="${cri.amount}" />--%>
 <%--                    <input type='hidden' name='type' value='<c:out value ="${cri.type}"/>'>--%>
 <%--                    <input type='hidden' name='keyword' value='<c:out value ="${cri.keyword}"/>'>--%>
                 </form>
-
+            </div>
+        </div>
+    </div>
+</div>
                 <!---------------------------------------------------------------------------------------->
                 <!-- 타이머  표시 -->
                 <div class="col-10 offset-1  col-md-8 offset-md-2">
@@ -155,6 +184,9 @@
     .my-img-balck{
         background:black;
     }
+    #modifyBtn {
+        background-color : #ff9000;
+    }
 
     .my-user-and-timer-row p{
         max-width: 180px;
@@ -189,12 +221,12 @@
     $(document).ready(function (){
 
         $(".btn-default").click(function (){
-            $(operForm).attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
+            $('#operForm').attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
         })
 
         $(".btn-info").click(function (){
-            $(operForm).find('${group.group_id}').remove();
-            $(operForm).attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
+            $('#operForm').find('${group.group_id}').remove();
+            $('#operForm').attr("action", "/group/list").attr("method","get").submit(); //리스트로 돌아가기
         })
 
         if(${group.user_id_group_header eq user_id}) {
@@ -214,17 +246,17 @@
         $('.btn-warning').click(function (){
             console.log('그룹가입 버튼이 눌리나')
 
-            if(${group.group_join_person_number == group.group_person_count}){
+            if(${group.group_join_person_number >= group.group_person_count}){
                 alert('인원수가 초과되었습니다.')
                 return false;
             }
-            $(operForm).attr("action","/group/read").attr("method","post").submit();  //회원가입
+            $('#operForm').attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
         $('.btn-danger').click(function (){
-            $(operForm).attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
+            $('#operForm').attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
-        $('.btn btn-block').click(function (){
-            $(operForm).attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
+        $('#removeOne').click(function (){
+            $('#operForm').attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
         })
 
 
