@@ -26,6 +26,26 @@
     padding:0;
 }
 
-@media (min-width: 400px) {
-    
+.align-self-end{
+    font-size: 15px;
+}
+
+#groupMessageUserId{
+    font-size : 15px;
+}
+
+@media (max-width: 400px) {
+    .rounded-3{
+        font-size: smaller;
+    }
+    #groupMessageModal{
+        width: 80%;
+        margin-left: 10%;
+    }
+    .align-self-end{
+        font-size: 13px;
+    }
+    #groupMessageUserId{
+        font-size : 13px;
+    }
 }

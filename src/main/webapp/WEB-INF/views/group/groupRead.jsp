@@ -98,7 +98,7 @@
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
+                        <div class="modal-content" id="groupMessageModal">
                             <div class="modal-header" style="border-bottom: 1px solid black;">
                                 <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>

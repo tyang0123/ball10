@@ -35,14 +35,14 @@ var messageService = (function (){
                         text += "<div class='d-flex flex-row-reverse' style='margin-top: 10px;padding-left: 0px;'>"
                         // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
                         text += "<div class='border rounded-3 p-2' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;'>"+list[i].group_message_content+"</div>"
-                        text += "<div style='font-weight: lighter;font-size: 15px; text-align: left;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
+                        text += "<div style='font-weight: lighter; text-align: left;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
                         text += "</div>"
 
                     }else{
-                        text += "<div style='font-size : 15px;font-weight: lighter;padding-top: 8px; margin-left:10px;'>"+list[i].user_id+"</div>";
+                        text += "<div style='font-weight: lighter;padding-top: 8px; margin-left:10px;' id='groupMessageUserId'>"+list[i].user_id+"</div>";
                         text += "<div class='d-flex flex-row'>"
                         text += "<div class='p-2 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;'>"+list[i].group_message_content+"</div>"
-                        text += "<div style='text-align:end; font-weight: lighter;font-size: 15px;color: #acacac;' class='p-2 align-self-end'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div></div>";
+                        text += "<div style='text-align:end; font-weight: lighter;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div></div>";
                     }
                     // text += "<div>"+list[i].group_message_content;
                     // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
