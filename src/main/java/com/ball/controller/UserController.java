@@ -274,7 +274,7 @@ public class UserController {
         String userID = userService.getUserId(user_email);
 
         if(userID == null){
-            rAttr.addFlashAttribute("sendID", "등록된 이메일이 없습니다. 확인 후 다시 입력하여 주세요.");
+            rAttr.addFlashAttribute("sendID", "등록되어 있지 않은 이메일입니다.");
             return "redirect:/user/findID";
         }
 
