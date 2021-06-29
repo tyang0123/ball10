@@ -16,14 +16,10 @@
 }
 
 #modalShowButton{
-    position:fixed; _position:absolute;
-    width:60px; /* 가로폭 조절*/
-    overflow:hidden;
-    right:45%;
-    top:24%; /* 이미지 높이 조절 */
-    background-color: transparent;
-    margin-right: -530px; /* 좌우측 여백 조절 */
-    padding:0;
+    position:absolute;
+    width:60px;
+    margin-left: 90%;
+    top: 85%;
 }
 
 .align-self-end{
@@ -47,5 +43,13 @@
     }
     #groupMessageUserId{
         font-size : 13px;
+    }
+
+    #groupMessageModal > .modal-header{
+        height: 50px;
+    }
+
+    #groupMessageModal > .modal-header > .fw-lighter{
+        font-size: larger;
     }
 }

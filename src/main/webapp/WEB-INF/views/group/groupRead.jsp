@@ -295,7 +295,7 @@
             var isLoading = false;
 
             function loadNewPage() {
-                limit += 10;
+                limit += 15;
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
@@ -331,17 +331,18 @@
 
 
 
-        //메세지 삭제
-        $("#readGroupMessage").on("click","button",function () {
-            var group_message_id = $(this).val()
-            messageService.remove(group_message_id, function (deleteResult) {
-                if (deleteResult == "success") {
-                    messageService.getList(group_id, limit, function (result) {
-                        $('#readGroupMessage').html(result);
-                    })
-                }
-            })
-        })
+        // //메세지 삭제
+        // $("#readGroupMessage").on("click","button",function () {
+        //     var group_message_id = $(this).val()
+        //     messageService.remove(group_message_id, function (deleteResult) {
+        //         if (deleteResult == "success") {
+        //             messageService.getList(group_id, limit, function (result) {
+        //                 $('#readGroupMessage').html(result);
+        //             })
+        //         }
+        //     })
+        // })
+
 
         //메세지 추가
         $("#message_submit").click(function () {
