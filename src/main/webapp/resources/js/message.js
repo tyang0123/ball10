@@ -32,17 +32,17 @@ var messageService = (function (){
                 const userId = data['userID'];
                 for(var i=list.length-1; i >= 0; i--){
                     if(list[i].user_id == userId){
-                        text += "<div class='container' style='margin-top: 18px'><div class='row'>"
+                        text += "<div class='container' style='margin-top: 10px;padding-left: 0px;'><div class='row'>"
                         // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
-                        text += "<div style='font-weight: lighter;font-size: 15px;' class='col-sm-4 align-self-center'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
-                        text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;'>"+list[i].group_message_content+"</div>"
+                        text += "<div style='font-weight: lighter;font-size: 15px; text-align: left;color: #acacac;' class='col-sm-4 align-self-center'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
+                        text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;width: auto;margin-left: auto;'>"+list[i].group_message_content+"</div>"
                         text += "</div></div>"
 
                     }else{
                         text += "<div class='row row-cols-1'>"
                         text += "<div class='col' style='font-size : 15px;font-weight: lighter;padding-top: 8px;'>"+list[i].user_id+"</div>";
                         text += "<div class='col-sm-8 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;'>"+list[i].group_message_content+"</div>"
-                        text += "<div style='text-align:end; font-weight: lighter;font-size: 15px;' class='col-sm-4 align-self-center'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div></div>";
+                        text += "<div style='text-align:end; font-weight: lighter;font-size: 15px;color: #acacac;' class='col-sm-4 align-self-center'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div></div>";
                     }
                     // text += "<div>"+list[i].group_message_content;
                     // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
