@@ -216,7 +216,6 @@
 </style>
 <!---------------------------------------------------------------------------------------->
 
-<script src="//code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
