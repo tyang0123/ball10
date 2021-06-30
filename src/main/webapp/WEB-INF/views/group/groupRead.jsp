@@ -330,22 +330,31 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-            $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
-                $('.remove_message').css({"display":"block","border":"1px solid #ff9000","background-color":"white","width":"auto"})
-                console.log("확인용")
+            //메세지 오른쪽, 왼쪽 스와이프
+            $("#readGroupMessage").on("swipeleft",".flex-row-reverse",function(){
+                $(this).children('.remove_message').css("display","block")
+            });
+            $("#readGroupMessage").on("swiperight",".flex-row-reverse",function(){
+                $(this).children('.remove_message').css("display","none")
             });
 
-        // //메세지 삭제
-        // $("#readGroupMessage").on("click","button",function () {
-        //     var group_message_id = $(this).val()
-        //     messageService.remove(group_message_id, function (deleteResult) {
-        //         if (deleteResult == "success") {
-        //             messageService.getList(group_id, limit, function (result) {
-        //                 $('#readGroupMessage').html(result);
-        //             })
-        //         }
-        //     })
-        // })
+        //메세지 삭제
+        $("#readGroupMessage").on("click",".remove_message",function () {
+            var group_message_id = $(this)[0]
+            var group_message_id2 = $('.remove_message').val()
+            // var group_message_id = $(this).val()
+            console.log($(this))
+            console.log(group_message_id)
+            console.log(group_message_id2)
+
+            // messageService.remove(group_message_id, function (deleteResult) {
+            //     if (deleteResult == "success") {
+            //         messageService.getList(group_id, limit, function (result) {
+            //             $('#readGroupMessage').html(result);
+            //         })
+            //     }
+            // })
+        })
 
 
         //메세지 추가

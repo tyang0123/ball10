@@ -33,10 +33,10 @@ var messageService = (function (){
                 for(var i=list.length-1; i >= 0; i--){
                     if(list[i].user_id == userId){
                         text += "<div class='d-flex flex-row-reverse' style='margin-top: 10px;padding-left: 0px;'>"
-                        // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
+                        text += "<div class='p-2 remove_message' style='display: none' value='"+list[i].group_message_id+"'><img src='/resources/img/x-circle-fill.svg'></div>"
+                        // text += "<button class='remove_message btn' value='"+list[i].group_message_id+"'>삭제</button></div>"
                         text += "<div class='border rounded-3 p-2' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;'>"+list[i].group_message_content+"</div>"
                         text += "<div style='font-weight: lighter; text-align: left;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
-                        text += "<button class='remove_message btn' value='"+list[i].group_message_id+"' style='display: none'>삭제</button></div>"
                         text += "</div>"
                     }else{
                         text += "<div style='font-weight: lighter;padding-top: 8px; margin-left:10px;' id='groupMessageUserId'>"+list[i].user_id+"</div>";
