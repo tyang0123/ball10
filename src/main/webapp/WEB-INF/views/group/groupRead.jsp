@@ -330,8 +330,8 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-            $('#readGroupMessage').on("hide",$('.remove_message'));
             $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
+                $('.remove_message').css({"display":"block","border":"1px solid #ff9000","background-color":"white","width":"auto"})
                 console.log("확인용")
             });
 
