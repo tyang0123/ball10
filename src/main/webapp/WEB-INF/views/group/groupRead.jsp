@@ -216,6 +216,7 @@
 </style>
 <!---------------------------------------------------------------------------------------->
 
+<script src="//code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
@@ -329,7 +330,10 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-
+            $('#readGroupMessage').on("hide",$('.remove_message'));
+            $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
+                console.log("확인용")
+            });
 
         // //메세지 삭제
         // $("#readGroupMessage").on("click","button",function () {
