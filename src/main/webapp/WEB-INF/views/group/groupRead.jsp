@@ -84,7 +84,7 @@
 </div>
                 <!---------------------------------------------------------------------------------------->
                 <!-- 타이머  표시 -->
-                <div class="col-10 offset-1  col-md-8 offset-md-2">
+                <div class="col-10 offset-1 col-lg-8 offset-lg-2">
                     <div class="row spinner-row">
                         <button class="btn btn-warning" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
