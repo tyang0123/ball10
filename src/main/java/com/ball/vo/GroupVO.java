@@ -28,7 +28,8 @@ public class GroupVO {
     private int group_person_count;
     private LocalTime group_accumulated_avg_time;
 
-    private String group_target_time;
+    private String group_target_hour;
+    private String group_target_minute;
     private String group_content;
 
     private LocalDateTime group_reg_date;

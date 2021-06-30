@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapeer 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ball.mapper.ScheduleMapper">
+    <select id ="getSchedule" resultType="com.ball.vo.ScheduleVO" parameterType="Long">
+        select * from schedule where schedule_id = #{schedule_id}
+    </select>
+    <select id ="getScheduleUser" resultType="com.ball.vo.ScheduleVO" parameterType="String">
+        select * from schedule where user_id = #{user_id}
+    </select>
+    <select id ="getScheduleDate" resultType="com.ball.vo.ScheduleVO">
+        select * from schedule where DATE(schedule_date) = #{schedule_date} and user_id = #{user_id}
+    </select>
+    <select id ="getScheduleDateCount" resultType="String">
+        select count(*) as count_schedule from schedule where DATE(schedule_date) = #{schedule_date} and user_id = #{user_id}
+    </select>
+    <insert id="addSchedule" parameterType="com.ball.vo.ScheduleVO">
+        insert into schedule(user_id,schedule_date,schedule_time,schedule_content) values(#{user_id},#{schedule_date},#{schedule_time},#{schedule_content})
+    </insert>
+    <update id="updateSchedule" parameterType="com.ball.vo.ScheduleVO">
+        update schedule set user_id = #{user_id}, schedule_date = #{schedule_date}
+                          , schedule_time = #{schedule_time}, schedule_content = #{schedule_content}
+        where schedule_id = #{schedule_id}
+    </update>
+    <delete id="deleteSchedule">
+        delete from schedule where schedule_id = #{schedule_id}
+    </delete>
+</mapper>
