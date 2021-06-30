@@ -21,8 +21,9 @@ public class GroupServiceTests {
 
     @Test
     public void getUserJoinedTest(){
-        service.getUserJoinedGroupId(8L);
-        System.out.println(service.getUserJoinedGroupId(8L));
+        String user_id = "user1";
+        service.getUserJoinedGroupId(user_id);
+        System.out.println(service.getUserJoinedGroupId(user_id));
     }
 
 }

@@ -85,12 +85,14 @@ public class GroupMapperTests {
     @Test
     public void testUpdateUser(){
         GroupVO vo = new GroupVO();
-        vo.setGroup_id(2L);
+        vo.setGroup_id(5L);
         vo.setGroup_name("테스트 그룹 이름");
-        vo.setGroup_category("공부카테고리");
+        vo.setGroup_category("취업");
         vo.setGroup_is_secret(0);
 //        vo.setGroup_password("1234");
-        vo.setGroup_person_count(7);
+        vo.setGroup_person_count(20);
+        vo.setGroup_target_hour("3시간");
+        vo.setGroup_target_minute("30분");
         vo.setGroup_content("수정이 되나");
 
         mapper.groupUpdate(vo);
@@ -116,7 +118,8 @@ public class GroupMapperTests {
         Criteria cri = new Criteria();
     }
 
-
+    @Test
+    public void testdelete(){mapper.joinOneDelete(8L,"user5");}
     @Test
     public void testGroupCheck(){
 
@@ -141,7 +144,6 @@ public class GroupMapperTests {
             groupVO.setGroup_category("입시");
             groupVO.setGroup_is_secret(0);
             groupVO.setGroup_person_count(5);
-            //groupVO.setGroup_target_time(LocalTime.of(3,30));
             groupVO.setGroup_content(i+"테스트 그룹을 생성합니다. 카테고리는 입시입니다. 테스트합니다. 테스트!!!!!!!!!!!!!!");
 
             mapper.insertGroup(groupVO);
@@ -156,6 +158,7 @@ public class GroupMapperTests {
 
     @Test
     public void testUserIdGroupId(){
-        mapper.userJoinedGroupId(8L);
+        String user_id = "user1";
+        mapper.userJoinedGroupId(user_id);
     }
 }

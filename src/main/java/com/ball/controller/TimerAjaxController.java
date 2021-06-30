@@ -29,7 +29,7 @@ public class TimerAjaxController {
     public ResponseEntity<String> timerStateUpdate(@PathVariable(value = "timer_id") Long timer_id
             , @RequestBody Map<String, String> param
             , HttpSession session){
-        log.info("TimerAjaxController timerStateUpdate........................................");
+        log.info("TimerAjaxController timerStateUpdate........................................"+session.getAttribute("userID"));
 
         try{
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -41,85 +41,86 @@ public class TimerAjaxController {
             vo.setUser_id(String.valueOf(session.getAttribute("userID")));
             vo.setTimer_is_play(Integer.valueOf(param.get("timerIsPlay")));
             vo.setTimer_is_on_site(Integer.valueOf(param.get("timerIsOnSite")));
+            vo.setTimer_is_use_apple(Integer.valueOf(param.get("timerIsUseApple")));
 
             return timerService.modifyTimerAccumulatedDayTimeAndStopState(vo) == 1?
                     new ResponseEntity<String>("success", HttpStatus.OK)
                     : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            log.warn(e.getMessage());
             return new ResponseEntity<String>("parsing error", HttpStatus.EXPECTATION_FAILED);
         }
     }
 
     ///////////////////추후 아래 삭제
-    @PutMapping(value = "/{timer_id}/{timer_is_play}")
-    public ResponseEntity<String> timerStateUpdateBeforeTuning(@PathVariable(value = "timer_id") Long timer_id
-            , @PathVariable(value = "timer_is_play") Integer timer_is_play
-            , @RequestBody String timer_date
-            , HttpSession session){
-        log.info("TimerAjaxController timerStateUpdate........................................");
-        log.info(timer_id+" "+ timer_is_play+" "+ timer_date);
-        try{
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-            LocalTime timer_time = LocalTime.parse(timer_date, dtf);
-
-            TimerVO vo = new TimerVO();
-            vo.setTimer_id(timer_id);
-            vo.setTimer_accumulated_day(timer_time);
-            vo.setUser_id(String.valueOf(session.getAttribute("userID")));
-            vo.setTimer_is_play(timer_is_play);
-
-            return timerService.modifyTimerAccumulatedDayTimeAndStopState(vo) == 1?
-                    new ResponseEntity<String>("success", HttpStatus.OK)
-                    : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<String>("parsing error", HttpStatus.EXPECTATION_FAILED);
-        }
-    }
-
-
-    @PutMapping(value = "/putstart/{timer_id}")
-    public ResponseEntity<String> timerStartUpdate(@PathVariable(value = "timer_id") Long timer_id
-            , HttpSession session){
-
-        TimerVO vo = new TimerVO();
-
-        vo.setTimer_id(timer_id);
-        vo.setUser_id(String.valueOf(session.getAttribute("userID")));
-        vo.setTimer_is_play(1);
-
-        return timerService.modifyTimerPlayState(vo) == 1?
-            new ResponseEntity<String>("success", HttpStatus.OK)
-            : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
-
-    }
-
-    @PutMapping(value = "/putstop/{timer_id}")
-    public ResponseEntity<String> timerStopUpdate(@PathVariable(value = "timer_id") Long timer_id
-            , @RequestBody String timer_date
-            , HttpSession session){
-        log.info("TimerAjaxController timerStopUpdate........................................");
-        log.info(timer_id+" "+ timer_date);
-        try{
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-            LocalTime timer_time = LocalTime.parse(timer_date, dtf);
-
-            log.info(timer_id+" "+ timer_date);
-            TimerVO vo = new TimerVO();
-            vo.setTimer_id(timer_id);
-            vo.setTimer_accumulated_day(timer_time);
-            vo.setUser_id(String.valueOf(session.getAttribute("userID")));
-            vo.setTimer_is_play(0);
-
-            return timerService.modifyTimerAccumulatedDayTimeAndStopState(vo) == 1?
-                    new ResponseEntity<String>("success", HttpStatus.OK)
-                    : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<String>("parsing error", HttpStatus.EXPECTATION_FAILED);
-        }
-    }
+//    @PutMapping(value = "/{timer_id}/{timer_is_play}")
+//    public ResponseEntity<String> timerStateUpdateBeforeTuning(@PathVariable(value = "timer_id") Long timer_id
+//            , @PathVariable(value = "timer_is_play") Integer timer_is_play
+//            , @RequestBody String timer_date
+//            , HttpSession session){
+//        log.info("TimerAjaxController timerStateUpdate........................................");
+//        log.info(timer_id+" "+ timer_is_play+" "+ timer_date);
+//        try{
+//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+//            LocalTime timer_time = LocalTime.parse(timer_date, dtf);
+//
+//            TimerVO vo = new TimerVO();
+//            vo.setTimer_id(timer_id);
+//            vo.setTimer_accumulated_day(timer_time);
+//            vo.setUser_id(String.valueOf(session.getAttribute("userID")));
+//            vo.setTimer_is_play(timer_is_play);
+//
+//            return timerService.modifyTimerAccumulatedDayTimeAndStopState(vo) == 1?
+//                    new ResponseEntity<String>("success", HttpStatus.OK)
+//                    : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//            return new ResponseEntity<String>("parsing error", HttpStatus.EXPECTATION_FAILED);
+//        }
+//    }
+//
+//
+//    @PutMapping(value = "/putstart/{timer_id}")
+//    public ResponseEntity<String> timerStartUpdate(@PathVariable(value = "timer_id") Long timer_id
+//            , HttpSession session){
+//
+//        TimerVO vo = new TimerVO();
+//
+//        vo.setTimer_id(timer_id);
+//        vo.setUser_id(String.valueOf(session.getAttribute("userID")));
+//        vo.setTimer_is_play(1);
+//
+//        return timerService.modifyTimerPlayState(vo) == 1?
+//            new ResponseEntity<String>("success", HttpStatus.OK)
+//            : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//    }
+//
+//    @PutMapping(value = "/putstop/{timer_id}")
+//    public ResponseEntity<String> timerStopUpdate(@PathVariable(value = "timer_id") Long timer_id
+//            , @RequestBody String timer_date
+//            , HttpSession session){
+//        log.info("TimerAjaxController timerStopUpdate........................................");
+//        log.info(timer_id+" "+ timer_date);
+//        try{
+//            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+//            LocalTime timer_time = LocalTime.parse(timer_date, dtf);
+//
+//            log.info(timer_id+" "+ timer_date);
+//            TimerVO vo = new TimerVO();
+//            vo.setTimer_id(timer_id);
+//            vo.setTimer_accumulated_day(timer_time);
+//            vo.setUser_id(String.valueOf(session.getAttribute("userID")));
+//            vo.setTimer_is_play(0);
+//
+//            return timerService.modifyTimerAccumulatedDayTimeAndStopState(vo) == 1?
+//                    new ResponseEntity<String>("success", HttpStatus.OK)
+//                    : new ResponseEntity<String>("db error", HttpStatus.INTERNAL_SERVER_ERROR);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity<String>("parsing error", HttpStatus.EXPECTATION_FAILED);
+//        }
+//    }
 /////////////////////여기까지 삭제
 
     @GetMapping("/gettimers/{group_id}")

@@ -1,0 +1,55 @@
+.rounded-3 {
+    border-radius: 0.9rem !important;
+    border: 1px solid #ff9000 !important;
+}
+#message-text:hover{
+    border: 1px solid #f75718;
+}
+#message-text:focus{
+    border: 1px solid #f75718;
+    box-shadow: none;
+}
+#message_submit:hover{
+    background: #ff9000;
+    border: 1px solid #ff9000;
+    color: white;
+}
+
+#modalShowButton{
+    position:absolute;
+    width:60px;
+    margin-left: 90%;
+    top: 85%;
+}
+
+.align-self-end{
+    font-size: 15px;
+}
+
+#groupMessageUserId{
+    font-size : 15px;
+}
+
+@media (max-width: 400px) {
+    .rounded-3{
+        font-size: smaller;
+    }
+    #groupMessageModal{
+        width: 80%;
+        margin-left: 10%;
+    }
+    .align-self-end{
+        font-size: 13px;
+    }
+    #groupMessageUserId{
+        font-size : 13px;
+    }
+
+    #groupMessageModal > .modal-header{
+        height: 50px;
+    }
+
+    #groupMessageModal > .modal-header > .fw-lighter{
+        font-size: larger;
+    }
+}

@@ -25,8 +25,8 @@
         where user_id = #{user_id}
     </update>
     <select id="userJoinGroup" resultType="com.ball.vo.GroupVO">
-        select u.user_nickname as user_nickname_group_header,g.group_name,g.group_category,g.group_is_secret,g.group_id,g.group_target_hour,g.group_target_minute,
-               g.group_password,g.group_person_count,g.group_content,g.group_reg_date,count(gr1.user_id) as group_join_person_number
+        select u.user_nickname as user_nickname_group_header,g.group_name,g.group_category,g.group_is_secret,g.group_id,g.group_target_hour,
+               g.group_target_minute, g.group_password,g.group_person_count,g.group_content,g.group_reg_date,count(gr1.user_id) as group_join_person_number
         from group_user_relationship gr1
                  join group_user_relationship gr2 on gr1.group_id = gr2.group_id
                  inner join group_table g on gr2.group_id = g.group_id
