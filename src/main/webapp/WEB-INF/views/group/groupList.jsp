@@ -76,7 +76,7 @@
                             </c:forEach>
                         </div>
                     </div>
-            </div>
+<%--            </div>--%>
         </table>
     </div>
 </div>
