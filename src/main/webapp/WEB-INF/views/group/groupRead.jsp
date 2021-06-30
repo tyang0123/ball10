@@ -330,23 +330,30 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-            $('#readGroupMessage').on("hide",$('.remove_message'));
-            $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
-                console.log("확인용")
+            //메세지 오른쪽, 왼쪽 스와이프
+            var mc = new Hammer();
+            $("#readGroupMessage").on("swipeleft",".flex-row-reverse",function(){
+                $(this).children('.remove_message').css("display","block")
             });
-
-        // //메세지 삭제
-        // $("#readGroupMessage").on("click","button",function () {
-        //     var group_message_id = $(this).val()
-        //     messageService.remove(group_message_id, function (deleteResult) {
-        //         if (deleteResult == "success") {
-        //             messageService.getList(group_id, limit, function (result) {
-        //                 $('#readGroupMessage').html(result);
-        //             })
-        //         }
-        //     })
-        // })
-
+            $("#readGroupMessage").on("swiperight",".flex-row-reverse",function(){
+                $(this).children('.remove_message').css("display","none")
+            });
+            //메세지 삭제
+            $("#readGroupMessage").on("click",".remove_message",function () {
+                var group_message_id = $(this)[0]
+                var group_message_id2 = $('.remove_message').val()
+                // var group_message_id = $(this).val()
+                console.log($(this))
+                console.log(group_message_id)
+                console.log(group_message_id2)
+                // messageService.remove(group_message_id, function (deleteResult) {
+                //     if (deleteResult == "success") {
+                //         messageService.getList(group_id, limit, function (result) {
+                //             $('#readGroupMessage').html(result);
+                //         })
+                //     }
+                // })
+            })
 
         //메세지 추가
         $("#message_submit").click(function () {
