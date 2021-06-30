@@ -26,7 +26,7 @@ var messageService = (function (){
             dataType: "json",
             success:function (data){
                 // console.log(data['list'])
-                console.log(data['list'][0].group_message_mod_date)
+                // console.log(data['list'][0].group_message_mod_date)
                 text = ""
                 const list = data['list'];
                 const userId = data['userID'];
