@@ -1,6 +1,8 @@
 let timerID;
 let timerIsPlay;
 let accumulatedTimeStr;
+let timerIsUseApple;
+let fnAlarmTimerResetWhen3AM
 
 let timerStartDateTime;
 
@@ -36,8 +38,10 @@ function getRemainSecondsFrom3AMPerSeconds(){
 }
 
 // 초기 타이머 세팅
-function timerNumberInit(myTimer, myTimerBtn, timerCookieStr, fnTimerResetWhen3AM) {
+function timerNumberInit(myTimer, myTimerBtn, timerCookieStr, IsUseApple, fnAlarmTimerReset) {
   [timerID, timerIsPlay, accumulatedTimeStr] = timerCookieStr.split('-');
+  timerIsUseApple = IsUseApple;
+  fnAlarmTimerResetWhen3AM = fnAlarmTimerReset;
   const timeArray = accumulatedTimeStr.split(':');
 
   cookieHour = Number(timeArray[0]);
@@ -123,7 +127,6 @@ const saveTimerToDB = function(data, resultFunc){
         resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
         timerStartDateTime = Date.now();
         [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
-
       }
       console.log("error : "+er);
     }
@@ -138,7 +141,8 @@ const timerStart = function(resultFunc) {
   const data = {
     'accumulatedTime' : accumulatedTimeStr,
     'timerIsPlay': timerIsPlay,
-    'timerIsOnSite' : 1
+    'timerIsOnSite' : 1,
+    'timerIsUseApple': timerIsUseApple
   };
   //DB에 상태를 play상태를 업데이트 하면 timer시작
   saveTimerToDB(data, resultFunc);
@@ -153,7 +157,8 @@ const timerStop = function (resultFunc) {
   const data = {
     'accumulatedTime' : accumulatedTimeStr,
     'timerIsPlay': timerIsPlay,
-    'timerIsOnSite' : 1
+    'timerIsOnSite' : 1,
+    'timerIsUseApple': timerIsUseApple
   };
   saveTimerToDB(data, resultFunc);
 };//end timerStop
@@ -163,10 +168,39 @@ const timerSaveBeforeUnloadPage= function () {
   const data = {
     'accumulatedTime' : accumulatedTimeStr,
     'timerIsPlay': timerIsPlay,
-    'timerIsOnSite' : 0
+    'timerIsOnSite' : 0,
+    'timerIsUseApple': timerIsUseApple
   };
   saveTimerToDB(data, null);
 };
+
+const timerSaveForAppleUserPeriodically = function () {
+  accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
+  const data = {
+    'accumulatedTime' : accumulatedTimeStr,
+    'timerIsPlay': timerIsPlay,
+    'timerIsOnSite' : 1,
+    'timerIsUseApple': timerIsUseApple
+  };
+  $.ajax({
+    type: "PUT",
+    url: "/ajax/timer/"+timerID,
+    data : JSON.stringify(data),
+    contentType: "application/json; charset=UTF-8;",
+    success: function(result, status, xhr){
+      console.log("success")
+    },
+    error: function(xhr, status, er){
+      console.log("error : "+er);
+    }
+  });//end ajax
+}
+
+const getDateStringToNextMorning3AM = function (){
+  let date = new Date()
+  date.setSeconds(date.getSeconds() + getRemainSecondsFrom3AMPerSeconds());
+  return date.toGMTString();
+}
 
 const getPresentTimerStatus = function (){
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환

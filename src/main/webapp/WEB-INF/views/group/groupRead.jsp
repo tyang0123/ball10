@@ -2,12 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-    response.setHeader("Expires", "일자");
-    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-    response.setHeader("Pragma", "no-cache");
 
-%>
 <%@ include file="../includes/header.jsp" %>
 
 <style>
@@ -374,7 +369,7 @@
 </script>
 
 <!---------------------------------------------------------------------------------------->
-<!-- 타이머 script -->
+<!-- 그룹 멤버 타이머 script -->
 <script>
 
     var group_id = "${group.group_id}";
@@ -390,8 +385,10 @@
     function getStringIconUserDOMObjects(list){
         var str = '';
         list.forEach((data, idx) => {
+            let timerIsOnPlay = false;
             // timer 계산
-            if(data.timer_is_play===1 && data.timer_is_on_site===1){
+            if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 0){
+                timerIsOnPlay = true;
                 // timer_accumulated_day가 배열형식으로 되어있음
                 [hour, minute, second] = data.timer_accumulated_day;
 
@@ -406,6 +403,25 @@
                 second = diffTime.getUTCSeconds();
 
                 data["show_timer"] = [hour, minute, second]
+            }else if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 1){
+                const lastModTime = new Date(...data.timer_mod_date);
+                let diffTime = new Date(Date.now() - lastModTime);
+                console.log(diffTime.getUTCMinutes(), diffTime.getUTCSeconds());
+                if(diffTime.getUTCMinutes() <= 1){
+                    timerIsOnPlay = true;
+                    [hour, minute, second] = data.timer_accumulated_day;
+                    const tempTime = new Date(Date.UTC(0,0,0, hour, minute, second, 0)).getTime();
+
+                    diffTime = new Date(diffTime.getTime() + tempTime);
+
+                    hour = diffTime.getUTCHours();
+                    minute = diffTime.getUTCMinutes();
+                    second = diffTime.getUTCSeconds();
+
+                    data["show_timer"] = [hour, minute, second]
+                }else{
+                    data["show_timer"] = [...data.timer_accumulated_day];
+                }
             }else{
                 data["show_timer"] = [...data.timer_accumulated_day];
             }
@@ -414,12 +430,12 @@
             str+='  <div class="row">'
             str+='    <div class="d-flex justify-content-center">'
             str+='      <div class="img-container">'
-            str+='          <div class="my-img '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-img-yellow':'my-img-balck')+'"></div>'
+            str+='          <div class="my-img '+ (timerIsOnPlay ?'my-img-yellow':'my-img-balck')+'"></div>'
             str+='      </div>'
             str+='    </div>'
             str+='    <div>'
             str+='      <div class="caption d-flex justify-content-center">'
-            str+='        <p class="text-center text-truncate '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-font-yellow':'')+'">'+data.user_nickname;
+            str+='        <p class="text-center text-truncate '+ (timerIsOnPlay  ?'my-font-yellow':'')+'">'+data.user_nickname;
             str+='           <br>'+returnAccumulatedTimeToStringFormat(data.show_timer)+'</p>'
             str+='      </div>'
             str+='    </div>'
@@ -455,18 +471,6 @@
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];
                     }
-                    // if(result[i].timer_is_play===1 && result[i].timer_is_on_site===1){
-                    //     // // timer_accumulated_day가 배열형식으로 되어있음
-                    //     // var now = new Date();
-                    //     // var lastModTime = new Date(...result[i].timer_mod_date);
-                    //     //
-                    //     // [hour, minute, second] = result[i].timer_accumulated_day
-                    //     // result[i].timer_accumulated_day = [
-                    //     //     now.getHours()-lastModTime.getHours()+hour,
-                    //     //     now.getMinutes()-lastModTime.getMinutes()+minute,
-                    //     //     now.getSeconds()-lastModTime.getSeconds()+second
-                    //     // ]
-                    // }
                 }
                 startIntervalViewUserTimerList(result);
             },//end ajax success
@@ -487,12 +491,6 @@
         startIntervalGetUserTimerList();
     });
 
-    $(window).bind("pageshow", function (e){
-        if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
-            // alert( window.performance.navigation.type);
-            location.reload();
-        }
-    })
 </script>
-<!-- end timer script -->
+<!-- 그룹 멤버 타이머 script -->
 

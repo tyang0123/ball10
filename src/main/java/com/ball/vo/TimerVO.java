@@ -20,6 +20,7 @@ public class TimerVO {
     private LocalTime timer_accumulated_day;
     private int timer_is_play;
     private int timer_is_on_site;
+    private int timer_is_use_apple;
     private LocalDateTime timer_reg_date;
     private LocalDateTime timer_mod_date;
 }
