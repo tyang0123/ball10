@@ -113,7 +113,7 @@ public class GroupController {
         groupService.joinGroup(join);
         System.out.println("==========" + join);
 
-        return "redirect:/group/list";
+        return "/group/groupList";
     }
 
 
