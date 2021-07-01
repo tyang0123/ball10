@@ -16,10 +16,9 @@
 }
 
 #modalShowButton{
-    position:absolute;
+    /*position:absolute;*/
+    margin-left:90%;
     width:60px;
-    margin-left: 90%;
-    top: 85%;
 }
 
 .align-self-end{

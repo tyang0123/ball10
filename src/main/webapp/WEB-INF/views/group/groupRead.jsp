@@ -266,17 +266,6 @@
         var count = ${count};
 
         //메세지 버튼 플로팅배너
-        var floatPosition = parseInt($("#modalShowButton").css('top'));
-        $(window).scroll(function() {
-        // 현재 스크롤 위치를 가져온다.
-            var scrollTop = $(window).scrollTop();
-            var newPosition = scrollTop + floatPosition + "px";
-
-            $("#modalShowButton").stop().animate({
-                "top" : newPosition
-            }, 500);
-
-        }).scroll();
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
@@ -299,10 +288,11 @@
                 limit += 15;
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
-                messageService.getList(group_id, limit, function (result,countM) {
-                    if(countM == count){
+                messageService.getList(group_id, limit, function (result) {
+                    if(limit > count){
                         console.log("다 가져왔습니다")
                         isLoading = true;
+                        $('#readGroupMessage').html(result);
                     }else {
                         $('#readGroupMessage').html(result);
                         $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
