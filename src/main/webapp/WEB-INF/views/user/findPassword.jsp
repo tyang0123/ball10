@@ -115,11 +115,20 @@
 
     <script>
         $(document).ready(function(){
-            <%--var sendID = "${sendID}";--%>
-            <%--if(sendID!=''){--%>
-            <%--    //alert(sendID);--%>
-            <%--    $("#email-result").html(sendID);--%>
-            <%--}--%>
+            var sendID = "${sendID}";
+            if(sendID!=''){
+                //alert(sendID);
+                $("#password-result").html(sendID);
+            }
+
+            var send = false;
+            $("form").submit(function (e) {
+                if(send){ // 한번이상 클릭시 중복 메일 보내기 방지
+                    e.preventDefault();
+                    console.log("click")
+                }
+                send = true;
+            });
         })//end document.ready
     </script>
 </head>
@@ -137,7 +146,7 @@
                         </div>
                         <div class="form-group m-3">
                             <input type="text" class="form-control" id="user-email" name="user_email" placeholder="이메일@example.com">
-                            <small id="email-result" class="form-text text-danger"></small>
+                            <small id="password-result" class="form-text text-danger"></small>
                         </div>
                         <div class="form-group text-center">
                             <button type="submit" class="btn-email-custom button-email">이메일로 비밀번호 찾기</button>

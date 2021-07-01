@@ -120,6 +120,15 @@
                 //alert(sendID);
                 $("#email-result").html(sendID);
             }
+
+            var send = false;
+            $("form").submit(function (e) {
+                if(send){
+                    e.preventDefault();
+                    console.log("click")
+                }
+                send = true;
+            });
         })//end document.ready
     </script>
 </head>

@@ -45,6 +45,11 @@
         from user where user_email = #{user_email}
     </select>
 
+<!--    <select id="selectUserPasswordByIdAndEmail" resultType="String">-->
+<!--        select user_password-->
+<!--        from user where user_email = #{user_email}-->
+<!--    </select>-->
+
     <select id="selectEmailAdmin" resultType="com.ball.vo.UserVO">
         select *
         from user where user_id = 'admin_email'
@@ -55,8 +60,12 @@
     <select id="selectEmailCheck" resultType="String">
         select user_email from user where user_email = #{user_email}
             <if test="user_id != null">
-                and user_id not like #{user_id}
+                and user_id like #{user_id}
             </if>
     </select>
 
+    <update id="updatePasswordByUserID" >
+        update user set user_password = #{user_password}, user_mod_date = sysdate()
+        where user_id = #{user_id}
+    </update>
 </mapper>

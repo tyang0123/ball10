@@ -51,10 +51,10 @@ public class UserServiceImpl implements UserService{
 
     public String getUserId(String userEmail) {return userMapper.selectUserIDByEmail(userEmail); }
 
-    @Override
-    public String getUserPassword(String userId, String userEmail) {
-        return userMapper.selectUserPasswordByIdAndEmail(userId,userEmail);
-    }
+//    @Override
+//    public String getUserPassword(String userId, String userEmail) {
+//        return userMapper.selectUserPasswordByIdAndEmail(userId,userEmail);
+//    }
 
     @Override
     public UserVO getAdminEmailAndPW() {return userMapper.selectEmailAdmin(); }
@@ -73,5 +73,11 @@ public class UserServiceImpl implements UserService{
         if(user_email != null)
             return false;
         return true;
+    }
+
+    @Override
+    public boolean resetPasswordToDbByUserID(String user_id, String user_password) {
+        System.out.println(user_id+" "+ user_password);
+        return userMapper.updatePasswordByUserID(user_id, user_password) == 1;
     }
 }

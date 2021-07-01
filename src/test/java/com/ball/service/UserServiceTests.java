@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.nio.charset.Charset;
+import java.util.Random;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @Log4j
 @ContextConfiguration("file:src/main/webapp/WEB-INF/spring/root-context.xml")
@@ -44,10 +47,10 @@ public class UserServiceTests {
         service.userJoinGroupList("user1").forEach(i -> System.out.println(i));
     }
 
-    @Test
-    public void testSelectUserPassword(){
-        System.out.println(service.getUserPassword("user1","a@naver.com"));
-    }
+//    @Test
+//    public void testSelectUserPassword(){
+//        System.out.println(service.getUserPassword("user1","a@naver.com"));
+//    }
 
     @Test
     public void testIdCheck(){
@@ -56,6 +59,22 @@ public class UserServiceTests {
 
     @Test
     public void testEmailCheck(){
-        System.out.println(service.emailCheck("user1","a@naver.com"));
+        System.out.println(service.emailCheck("testmapper","a@naver.com"));
+    }
+
+    @Test
+    public void testRandomString(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 12;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> i <= 57 || i >= 97)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        System.out.println(generatedString);
     }
 }
