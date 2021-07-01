@@ -31,6 +31,7 @@
 </style>
 
 <div class="row">
+
     <div class="col-lg-12">
         <div class="panel panel-default">
 <%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
@@ -43,9 +44,8 @@
                 </div>
                 <button id="modifyBtn" class="btn btn-default"> 수정</button>
                 <form id='operForm' action="/group/read">
-                    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
-                            <div class="card user-card-group"  value="${group.group_is_secret}">
-<%--                                <div class="card-body">--%>
+                        <div class="card user-card-group"  value="${group.group_is_secret}">
+                                <div class="card-body" style="background-color: #efefef;  padding-top:20px; padding-bottom: 40px;">
                                     <div class="row">
                                         <div class="col-10 group-category">${group.group_category}</div>
                                         <div class="col-2 text-end groupSecret">
@@ -66,12 +66,12 @@
                         <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                     </div>
-<%--                                </div> <!-- card-body -->--%>
+                                </div> <!-- card-body -->
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item group-content">${group.group_content}</li>
                                 </ul>
                             </div>
-                    </div>
+<%--                        </div>--%>
                     <input type="hidden" name="group_id" value="${group.group_id}" />
 <%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
 <%--                    <input type="hidden" name="amount" value="${cri.amount}" />--%>

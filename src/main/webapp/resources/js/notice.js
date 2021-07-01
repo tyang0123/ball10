@@ -5,7 +5,7 @@ var noticeService = (function (){
     function add(notice,callback){
         console.log("add notice .... ");
         $.ajax({
-            url:'/notice/add',
+            url:'/ajax/notice/add',
             type:'POST',
             data : JSON.stringify(notice),
             contentType : "application/json; charset = utf-8",
