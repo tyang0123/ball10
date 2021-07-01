@@ -134,7 +134,7 @@
                                 <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
                             <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
-                                <div id="readGroupMessage"></div>
+                                <div id="readGroupMessage" class="swiper-container"></div>
                             </div>
                             <div class="modal-footer" style="display: block; border-top:1px solid black;">
                                 <div class="row">
@@ -216,7 +216,6 @@
     }
 </style>
 <!---------------------------------------------------------------------------------------->
-
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
@@ -264,6 +263,7 @@
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
         var user_id = '${user_id}';
+        var count = ${count};
 
         //메세지 버튼 플로팅배너
         var floatPosition = parseInt($("#modalShowButton").css('top'));
@@ -280,7 +280,7 @@
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
-            var limit = 0
+            var limit = 15
             $('.modal').modal("show")
 
             //처음 메세지 가져오기
@@ -299,12 +299,12 @@
                 limit += 15;
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
-                messageService.getList(group_id, limit, function (result) {
-                    if(result == []){
+                messageService.getList(group_id, limit, function (result,countM) {
+                    if(countM == count){
                         console.log("다 가져왔습니다")
                         isLoading = true;
                     }else {
-                        $('#readGroupMessage').prepend(result);
+                        $('#readGroupMessage').html(result);
                         $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
                         // $('.modal-body').scrollTop($('.modal-body').height()-temp);
                         isLoading = false;
@@ -330,29 +330,27 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-            //메세지 오른쪽, 왼쪽 스와이프
-            var mc = new Hammer();
-            $("#readGroupMessage").on("swipeleft",".flex-row-reverse",function(){
-                $(this).children('.remove_message').css("display","block")
-            });
-            $("#readGroupMessage").on("swiperight",".flex-row-reverse",function(){
-                $(this).children('.remove_message').css("display","none")
-            });
             //메세지 삭제
-            $("#readGroupMessage").on("click",".remove_message",function () {
-                var group_message_id = $(this)[0]
-                var group_message_id2 = $('.remove_message').val()
-                // var group_message_id = $(this).val()
-                console.log($(this))
-                console.log(group_message_id)
-                console.log(group_message_id2)
-                // messageService.remove(group_message_id, function (deleteResult) {
-                //     if (deleteResult == "success") {
-                //         messageService.getList(group_id, limit, function (result) {
-                //             $('#readGroupMessage').html(result);
-                //         })
-                //     }
-                // })
+            $("#readGroupMessage").on("click",".flex-row-reverse",function () {
+                //삭제 버튼 보이게
+                $(this).children('.remove_message').css("display","block")
+
+                //삭제 버튼 클릭했을때 삭제
+                $(this).children('.remove_message').on("click",function (){
+                    //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
+                    var group_message_idH = $(this).html()
+                    var start = group_message_idH.indexOf(":");
+                    var group_message_id = group_message_idH.substr(start+1,3);
+
+                    // var group_message_id = $(this).val()
+                    messageService.remove(group_message_id, function (deleteResult) {
+                        if (deleteResult == "success") {
+                            messageService.getList(group_id, limit, function (result) {
+                                $('#readGroupMessage').html(result);
+                            })
+                        }
+                    })
+                })
             })
 
         //메세지 추가
@@ -370,6 +368,7 @@
                 }
             })
         })
+
         });
 
         $("#modal_close").click(function (){
