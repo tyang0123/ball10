@@ -36,7 +36,7 @@ public class NoticeAjaxController {
     @PostMapping("/add")
     public ResponseEntity<String> insert(Long notice_id, @RequestBody NoticeVO vo){
         System.out.println("들어오는지 확인");
-        log.info("ReplyVO: "+vo);
+        log.info("NoticeVO: "+vo);
         vo.setNotice_id(notice_id);
 
         int insertCount = noticeService.insertNotice(vo);

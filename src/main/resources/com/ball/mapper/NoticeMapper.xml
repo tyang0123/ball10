@@ -18,7 +18,7 @@
     </select>
 
     <insert id="noticeInsert" parameterType="com.ball.vo.NoticeVO">
-        insert into notice values(NULL ,#{notice_content},NOW(),NOW())
+        insert into notice values(NULL ,#{notice_content},sysdate(),sysdate())
     </insert>
 
     <select id="noticeRead" resultType="com.ball.vo.NoticeVO">
