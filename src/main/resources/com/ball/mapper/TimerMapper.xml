@@ -6,12 +6,12 @@
 <mapper namespace="com.ball.mapper.TimerMapper">
     <insert id="insertTodayTimer" parameterType="com.ball.vo.TimerVO"
             useGeneratedKeys="true" keyProperty="timer_id">
-        insert into timer (user_id, timer_date, timer_accumulated_day, timer_is_play, timer_is_on_site, timer_reg_date, timer_mod_date)
+        insert into timer (user_id, timer_date, timer_accumulated_day, timer_is_play, timer_is_on_site, timer_is_use_apple, timer_reg_date, timer_mod_date)
         values(#{user_id},
                <![CDATA[
                if(hour(now())<3, date(DATE_SUB(NOW(), INTERVAL 1 DAY))
                 ]]>
-                ,date(now())),"00:00:00", 0, 1, now(), now())
+                ,date(now())),"00:00:00", 0, 1, 0, now(), now())
     </insert>
 
     <select id="selectTodayTimerByUserID" resultType="com.ball.vo.TimerVO">
@@ -27,15 +27,16 @@
 
     <update id="updateAccumulatedTimeAndState">
         update timer set timer_accumulated_day = #{timer_accumulated_day}
-            , timer_is_play=#{timer_is_play}, timer_is_on_site=#{timer_is_on_site}, timer_mod_date=now()
+            , timer_is_play=#{timer_is_play}, timer_is_on_site=#{timer_is_on_site}
+            , timer_is_use_apple=#{timer_is_use_apple}, timer_mod_date=now()
         where timer_id = #{timer_id} and user_id =  #{user_id}
     </update>
 
     <select id="selectListTodayUserTimerbyGroupID" resultType="com.ball.vo.TimerVO">
         select IFNULL(t.timer_id, -1) as timer_id, gur.user_id, u.user_nickname
-        , ifnull(t.timer_accumulated_day, '00:00:00') as timer_accumulated_day
+        , IFNULL(t.timer_accumulated_day, '00:00:00') as timer_accumulated_day
         , IFNULL(t.timer_is_play, 0) as timer_is_play, IFNULL(t.timer_is_on_site, 0) as timer_is_on_site
-        , IFNULL(t.timer_mod_date, now()) as timer_mod_date
+        , IFNULL(t.timer_is_use_apple, 0) as timer_is_use_apple , IFNULL(t.timer_mod_date, now()) as timer_mod_date
         from group_user_relationship gur
         left join user u on gur.user_id = u.user_id
         left outer join timer t on gur.user_id = t.user_id and

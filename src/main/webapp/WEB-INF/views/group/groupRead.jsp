@@ -2,6 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%@ include file="../includes/header.jsp" %>
 
 <style>
@@ -122,29 +123,24 @@
                 </div>
                 <!---------------------------------------------------------------------------------------->
 
-
-<%--                <style>--%>
-<%--                    #modal_close:hover{--%>
-<%--                        color: #ff9000;--%>
-<%--                    }--%>
-<%--                </style>--%>
-                <button id="modalShowButton">그룹메세지</button>
+                <img id = "modalShowButton" src="/resources/img/chat-left-dots.svg">
+<%--                <button id="modalShowButton">그룹메세지</button>--%>
                 <%--모달시작--%>
                 <div class="modal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header" style="border-bottom: 2px solid #ff9000;">
+                        <div class="modal-content" id="groupMessageModal">
+                            <div class="modal-header" style="border-bottom: 1px solid black;">
                                 <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
                                 <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
                             <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
                                 <div id="readGroupMessage"></div>
                             </div>
-                            <div class="modal-footer" style="display: block; border-top:2px solid #ff9000;">
+                            <div class="modal-footer" style="display: block; border-top:1px solid black;">
                                 <div class="row">
                                     <div class = 'col-sm-10'>
                                     <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                        <textarea class='form-control' id='message-text'></textarea>
+                                        <textarea class='form-control' id='message-text' style='resize: none'></textarea>
                                     </form>
                                     </div>
                                     <div class = 'col-sm-2'>
@@ -269,6 +265,19 @@
         var group_id = '${group.group_id}'
         var user_id = '${user_id}';
 
+        //메세지 버튼 플로팅배너
+        var floatPosition = parseInt($("#modalShowButton").css('top'));
+        $(window).scroll(function() {
+        // 현재 스크롤 위치를 가져온다.
+            var scrollTop = $(window).scrollTop();
+            var newPosition = scrollTop + floatPosition + "px";
+
+            $("#modalShowButton").stop().animate({
+                "top" : newPosition
+            }, 500);
+
+        }).scroll();
+
         //modal창 보여주기
         $("#modalShowButton").click(function () {
             var limit = 0
@@ -287,7 +296,7 @@
             var isLoading = false;
 
             function loadNewPage() {
-                limit += 10;
+                limit += 15;
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
@@ -321,19 +330,23 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
+            $('#readGroupMessage').on("hide",$('.remove_message'));
+            $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
+                console.log("확인용")
+            });
 
+        // //메세지 삭제
+        // $("#readGroupMessage").on("click","button",function () {
+        //     var group_message_id = $(this).val()
+        //     messageService.remove(group_message_id, function (deleteResult) {
+        //         if (deleteResult == "success") {
+        //             messageService.getList(group_id, limit, function (result) {
+        //                 $('#readGroupMessage').html(result);
+        //             })
+        //         }
+        //     })
+        // })
 
-        //메세지 삭제
-        $("#readGroupMessage").on("click","button",function () {
-            var group_message_id = $(this).val()
-            messageService.remove(group_message_id, function (deleteResult) {
-                if (deleteResult == "success") {
-                    messageService.getList(group_id, limit, function (result) {
-                        $('#readGroupMessage').html(result);
-                    })
-                }
-            })
-        })
 
         //메세지 추가
         $("#message_submit").click(function () {
@@ -368,7 +381,7 @@
 </script>
 
 <!---------------------------------------------------------------------------------------->
-<!-- 타이머 script -->
+<!-- 그룹 멤버 타이머 script -->
 <script>
 
     var group_id = "${group.group_id}";
@@ -384,8 +397,10 @@
     function getStringIconUserDOMObjects(list){
         var str = '';
         list.forEach((data, idx) => {
+            let timerIsOnPlay = false;
             // timer 계산
-            if(data.timer_is_play===1 && data.timer_is_on_site===1){
+            if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 0){
+                timerIsOnPlay = true;
                 // timer_accumulated_day가 배열형식으로 되어있음
                 [hour, minute, second] = data.timer_accumulated_day;
 
@@ -400,6 +415,25 @@
                 second = diffTime.getUTCSeconds();
 
                 data["show_timer"] = [hour, minute, second]
+            }else if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 1){
+                const lastModTime = new Date(...data.timer_mod_date);
+                let diffTime = new Date(Date.now() - lastModTime);
+                console.log(diffTime.getUTCMinutes(), diffTime.getUTCSeconds());
+                if(diffTime.getUTCMinutes() <= 1){
+                    timerIsOnPlay = true;
+                    [hour, minute, second] = data.timer_accumulated_day;
+                    const tempTime = new Date(Date.UTC(0,0,0, hour, minute, second, 0)).getTime();
+
+                    diffTime = new Date(diffTime.getTime() + tempTime);
+
+                    hour = diffTime.getUTCHours();
+                    minute = diffTime.getUTCMinutes();
+                    second = diffTime.getUTCSeconds();
+
+                    data["show_timer"] = [hour, minute, second]
+                }else{
+                    data["show_timer"] = [...data.timer_accumulated_day];
+                }
             }else{
                 data["show_timer"] = [...data.timer_accumulated_day];
             }
@@ -408,12 +442,12 @@
             str+='  <div class="row">'
             str+='    <div class="d-flex justify-content-center">'
             str+='      <div class="img-container">'
-            str+='          <div class="my-img '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-img-yellow':'my-img-balck')+'"></div>'
+            str+='          <div class="my-img '+ (timerIsOnPlay ?'my-img-yellow':'my-img-balck')+'"></div>'
             str+='      </div>'
             str+='    </div>'
             str+='    <div>'
             str+='      <div class="caption d-flex justify-content-center">'
-            str+='        <p class="text-center text-truncate '+ (data.timer_is_play===1 && data.timer_is_on_site===1 ?'my-font-yellow':'')+'">'+data.user_nickname;
+            str+='        <p class="text-center text-truncate '+ (timerIsOnPlay  ?'my-font-yellow':'')+'">'+data.user_nickname;
             str+='           <br>'+returnAccumulatedTimeToStringFormat(data.show_timer)+'</p>'
             str+='      </div>'
             str+='    </div>'
@@ -432,7 +466,7 @@
         clearInterval(viewTimer);
         getStringIconUserDOMObjects(list)
         viewTimer = setInterval(function(){
-            //getStringIconUserDOMObjects(list)
+            getStringIconUserDOMObjects(list)
         }, 1000)
     }
 
@@ -449,18 +483,6 @@
                     if(result[i].timer_accumulated_day.length < 3){
                         result[i].timer_accumulated_day = [0,0,0];
                     }
-                    // if(result[i].timer_is_play===1 && result[i].timer_is_on_site===1){
-                    //     // // timer_accumulated_day가 배열형식으로 되어있음
-                    //     // var now = new Date();
-                    //     // var lastModTime = new Date(...result[i].timer_mod_date);
-                    //     //
-                    //     // [hour, minute, second] = result[i].timer_accumulated_day
-                    //     // result[i].timer_accumulated_day = [
-                    //     //     now.getHours()-lastModTime.getHours()+hour,
-                    //     //     now.getMinutes()-lastModTime.getMinutes()+minute,
-                    //     //     now.getSeconds()-lastModTime.getSeconds()+second
-                    //     // ]
-                    // }
                 }
                 startIntervalViewUserTimerList(result);
             },//end ajax success
@@ -480,6 +502,7 @@
     $(document).ready(function () {
         startIntervalGetUserTimerList();
     });
+
 </script>
-<!-- end timer script -->
+<!-- 그룹 멤버 타이머 script -->
 

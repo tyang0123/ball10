@@ -32,13 +32,13 @@ public class TimerServiceImpl implements TimerService{
         return timerVO;
     }
 
-    @Transactional
-    @Override
-    public int modifyTimerPlayState(TimerVO vo) {
-        TimerVO resultVO = timerMapper.selectTimerByTimerID(vo.getTimer_id());
-        resultVO.setTimer_is_play(1);
-        return timerMapper.updateAccumulatedTimeAndState(resultVO);
-    }
+//    @Transactional
+//    @Override
+//    public int modifyTimerPlayState(TimerVO vo) {
+//        TimerVO resultVO = timerMapper.selectTimerByTimerID(vo.getTimer_id());
+//        resultVO.setTimer_is_play(1);
+//        return timerMapper.updateAccumulatedTimeAndState(resultVO);
+//    }
 
     @Override
     public int modifyTimerAccumulatedDayTimeAndStopState(TimerVO vo) {

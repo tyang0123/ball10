@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Log4j
@@ -63,7 +64,7 @@ public class TimerServiceTests {
         vo.setUser_id("testmapper");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 //        System.out.println(timerService.modifyTimerPlayState(vo).getTimer_accumulated_day().format(dtf));
-        System.out.println(timerService.modifyTimerPlayState(vo));
+//        System.out.println(timerService.modifyTimerPlayState(vo));
     }
 
     @Test
@@ -71,5 +72,13 @@ public class TimerServiceTests {
         for (TimerVO timerVO : timerService.getListTodayUserTimerbyGroupID(9L)) {
             System.out.println(timerVO);
         }
+    }
+
+    @Test
+    public void testRegExr(){
+
+        String temp = "skdjfsla sleiipiPadaddkfsisl";
+//        Pattern apple = Pattern.compile(".*(Mac|iPhone|iPad).*");
+        System.out.println(temp.matches(".*(Mac|iPhone|iPad).*"));
     }
 }
