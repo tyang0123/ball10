@@ -76,7 +76,7 @@
                             </c:forEach>
                         </div>
                     </div>
-            </div>
+<%--            </div>--%>
         </table>
     </div>
 </div>
@@ -129,7 +129,7 @@
                         let passwordAjax = res['password'];
                         let passInput = $('#inputPass').val();
                         if(passwordAjax === passInput){
-                            location.replace(url);
+                            location.href=url;
                         }else{
                             console.log("bye ajax");
                         }

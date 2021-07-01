@@ -25,20 +25,19 @@ var messageService = (function (){
             },
             dataType: "json",
             success:function (data){
-                // console.log(data['list'])
-                console.log(data['list'][0].group_message_mod_date)
                 text = ""
-                const list = data['list'];
+                var list = data['list'];
+                // console.log("message.js 에서 리스트 : "+list)
                 const userId = data['userID'];
+                // console.log("message.js 에서 userId : "+userId);
                 for(var i=list.length-1; i >= 0; i--){
                     if(list[i].user_id == userId){
                         text += "<div class='d-flex flex-row-reverse' style='margin-top: 10px;padding-left: 0px;'>"
-                        // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button>"
+                        text += "<div class='p-2 remove_message' style='display: none'><img src='/resources/img/x-circle-fill.svg' value=':"+list[i].group_message_id+"'></div>"
+                        // text += "<button class='remove_message btn' value='"+list[i].group_message_id+"'>삭제</button></div>"
                         text += "<div class='border rounded-3 p-2' style='padding-bottom: 7px;padding-top: 7px;background-color: #ff9000;color: white;'>"+list[i].group_message_content+"</div>"
                         text += "<div style='font-weight: lighter; text-align: left;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
                         text += "</div>"
-                        text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
-
                     }else{
                         text += "<div style='font-weight: lighter;padding-top: 8px; margin-left:10px;' id='groupMessageUserId'>"+list[i].user_id+"</div>";
                         text += "<div class='d-flex flex-row'>"
@@ -48,7 +47,7 @@ var messageService = (function (){
                     // text += "<div>"+list[i].group_message_content;
                     // text += "<button class='remove_message btn btn-outline-danger btn-sm' value='"+list[i].group_message_id+"'>삭제</button></div>"
                 }
-                callback(text)
+                callback(text);
             },
             error: (log)=>{alert(log)}
         });

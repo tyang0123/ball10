@@ -56,7 +56,7 @@
 <%--    </div>--%>
 <%--</c:forEach>--%>
 
-<%--<!-- modal -->--%>
+<!-- modal -->
 <%--<div class="modal fade" id="createNotice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">--%>
 <%--    <div class="modal-dialog">--%>
 <%--        <div class="modal-content">--%>
@@ -65,13 +65,13 @@
 <%--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
 <%--            </div>--%>
 <%--            <div class="modal-body">--%>
-<%--                <form>--%>
+<%--                <form action="/ajax/notice/add" method="post">--%>
 <%--                    <div class="mb-3">--%>
 <%--                        <input type="text" class="form-control" id="recipient-name" placeholder="제목">--%>
 <%--                    </div>--%>
-<%--                    <div class="mb-3">--%>
-<%--                        <textarea class="form-control" id="notice-text" placeholder="내용"></textarea>--%>
-<%--                    </div>--%>
+<%--&lt;%&ndash;                    <div class="mb-3">&ndash;%&gt;--%>
+<%--&lt;%&ndash;                        <textarea class="form-control" id="notice-text" placeholder="내용"></textarea>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                    </div>&ndash;%&gt;--%>
 <%--                </form>--%>
 <%--            </div>--%>
 <%--            <div class="modal-footer">--%>
@@ -82,8 +82,32 @@
 <%--    </div>--%>
 <%--</div>--%>
 
-<%--<script type="text/javascript" src="/resources/js/notice.js"></script>--%>
+<div class="modal fade" id="createNotice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">공지작성</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/ajax/notice/add" method="post">
+<%--                    <div class="mb-3">--%>
+<%--                        <input type="text" class="form-control" id="notice-content" placeholder="제목">--%>
+<%--                    </div>--%>
+                    <div class="mb-3">
+                        <textarea class="form-control" id="notice-text" placeholder="내용"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id ="noticeSubmit" class="btn btn-primary">등록하기</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script type="text/javascript" src="/resources/js/notice.js"></script>
 <script>
     var changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
@@ -103,22 +127,23 @@
         }else console.log("admin 계정이 아님");
 
 
-        <%--//공지등록--%>
-        <%--$('#createNoticeButton').click(function (){--%>
-        <%--    $('#createNotice').modal("show")--%>
-        <%--    $('#noticeSubmit').click(function (){--%>
-        <%--        var notice = {--%>
-        <%--            "notice_content": $('#notice-text').val()--%>
-        <%--        }--%>
-        <%--        noticeService.add(notice,function (result){--%>
-        <%--            if(result == "success"){--%>
-        <%--                alert("등록되었습니다.")--%>
-        <%--                $('#notice-text').val("");--%>
-        <%--                $('#createNotice').modal("hide");--%>
-        <%--            }--%>
-        <%--        })--%>
-        <%--    })--%>
-        <%--})--%>
+        //공지등록
+        $('#createNoticeButton').click(function (){
+            $('#createNotice').modal("show")
+            $('#noticeSubmit').click(function (){
+                var notice = {
+                    "notice_content": $('#notice-text').val()
+                }
+                noticeService.add(notice,function (result){
+                    if(result == "success"){
+                        alert("등록되었습니다.")
+                        $('#notice-text').val("");
+                        $('#createNotice').modal("hide");
+
+                    }
+                })
+            })
+        })
         <%--//공지 수정하기--%>
         <%--$('#noticeModify').click(function (){--%>
         <%--    console.log("수정하기")--%>

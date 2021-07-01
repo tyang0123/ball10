@@ -17,9 +17,8 @@
 
 #modalShowButton{
     position:absolute;
+    margin-left:90%;
     width:60px;
-    margin-left: 90%;
-    top: 85%;
 }
 
 .align-self-end{
@@ -52,4 +51,17 @@
     #groupMessageModal > .modal-header > .fw-lighter{
         font-size: larger;
     }
+
+    #modalShowButton{
+        position:absolute;
+        margin-left:75%;
+        width:50px;
+    }
+
+    /*div.flex-row-reverse > .remove_message.swipeleft {*/
+    /*    display: block;*/
+    /*    border: 1px solid #ff9000;*/
+    /*    background-color: white;*/
+    /*    width: auto;*/
+    /*}*/
 }
