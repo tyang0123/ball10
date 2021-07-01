@@ -16,7 +16,7 @@
 }
 
 #modalShowButton{
-    /*position:absolute;*/
+    position:absolute;
     margin-left:90%;
     width:60px;
 }
@@ -50,6 +50,12 @@
 
     #groupMessageModal > .modal-header > .fw-lighter{
         font-size: larger;
+    }
+
+    #modalShowButton{
+        position:absolute;
+        margin-left:75%;
+        width:50px;
     }
 
     /*div.flex-row-reverse > .remove_message.swipeleft {*/

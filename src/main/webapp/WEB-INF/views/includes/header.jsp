@@ -31,10 +31,6 @@
     <link href="/resources/css/custom.css" rel="stylesheet">
     <link href="/resources/css/groupMessage.css" rel="stylesheet">
 
-    <!--태양 추가-->
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css" />
-    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
-
     <script>
         $(document).click(function (event) {
             if (!$(event.target).closest('#navbarNavDropdown').length) {

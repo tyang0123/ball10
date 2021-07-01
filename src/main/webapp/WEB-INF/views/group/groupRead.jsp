@@ -266,6 +266,13 @@
         var count = ${count};
 
         //메세지 버튼 플로팅배너
+        var currentPosition = parseInt($("#modalShowButton").css("top"));
+        console.log(currentPosition)
+        $(window).scroll(function() {
+            var position = $(window).scrollTop();
+            $("#modalShowButton").stop().animate({"top":position+currentPosition+10+"px"},1000);
+        });
+
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {

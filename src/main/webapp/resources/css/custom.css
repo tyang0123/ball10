@@ -454,6 +454,10 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
     width: 170px;
     margin-left: 4px;
   }
+
+  #modalShowButton{
+    margin-left: 86%
+  }
 }
 
 @media (min-width: 992px) {
