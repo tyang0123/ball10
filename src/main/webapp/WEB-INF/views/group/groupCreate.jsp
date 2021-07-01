@@ -58,6 +58,7 @@
                           id="group_content" placeholder=" 그룹 소개">${group.group_content}</textarea>
             </div>
             <div class="form-group">
+                <span class="targetSelect">
                 <label for="group_target_hour">목표시간</label>
                 <select name="group_target_hour" id="group_target_hour">
                     <option value="1시간">1시간</option>
@@ -84,6 +85,7 @@
                     <option value="40분">40분</option>
                     <option value="50분">50분</option>
                 </select>
+                </span>
             </div>
             <div style="margin-top: 30px;margin-bottom: 35px;">
                 <button type="submit" class="createGroup"> 그룹 생성 </button>
