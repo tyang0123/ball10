@@ -217,7 +217,6 @@
 </style>
 <!---------------------------------------------------------------------------------------->
 <script type="text/javascript" src="/resources/js/message.js"></script>
-<script src="/resources/js/swiped_up.js"></script>
 <script>
     $(document).ready(function (){
 
