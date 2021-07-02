@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -15,37 +16,28 @@ public class ScheduleServiceImpl implements ScheduleService{
     private ScheduleMapper mapper;
 
     @Override
-    public ScheduleVO readSchedule(Long schedule_id) {
-        return mapper.getSchedule(schedule_id);
+    public ScheduleVO readSchedule(Long schedule_id) { return mapper.selectScheduleByScheduleID(schedule_id);}
+
+    @Override
+    public List<ScheduleVO> readScheduleUser(String user_id) { return mapper.selectScheduleByUserID(user_id);}
+
+    @Override
+    public List<ScheduleVO> readScheduleByDateAndUserID(LocalDate date, String user_id) {
+        return mapper.selectScheduleByDateAndUserID(date,user_id);
     }
 
     @Override
-    public List<ScheduleVO> readScheduleUser(String user_id) {
-        return mapper.getScheduleUser(user_id);
+    public int addSchedule(ScheduleVO vo) {
+        return mapper.insertSchedule(vo);
     }
 
     @Override
-    public List<ScheduleVO> readScheduleDate(Date date, String user_id) {
-        return mapper.getScheduleDate(date,user_id);
+    public int modifySchedule(ScheduleVO vo) {
+        return mapper.updateSchedule(vo);
     }
 
     @Override
-    public String readScheduleDateCount(Date date, String user_id) {
-        return mapper.getScheduleDateCount(date,user_id);
-    }
-
-    @Override
-    public void insertSchedule(ScheduleVO vo) {
-        mapper.addSchedule(vo);
-    }
-
-    @Override
-    public void modifySchedule(ScheduleVO vo) {
-        mapper.updateSchedule(vo);
-    }
-
-    @Override
-    public void removeSchedule(Long schedule_id) {
-        mapper.deleteSchedule(schedule_id);
+    public int removeSchedule(Long schedule_id) {
+        return mapper.deleteSchedule(schedule_id);
     }
 }

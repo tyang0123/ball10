@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Log4j
@@ -21,11 +22,10 @@ public class ScheduleServiceTests {
     @Test
     public void testInsert(){
         ScheduleVO vo = new ScheduleVO();
-        vo.setUser_id("user1");
-        vo.setSchedule_date(new Date());
-        vo.setSchedule_time("8:00 AM");
-        vo.setSchedule_content("프로젝트 시작");
-        service.insertSchedule(vo);
+        vo.setUser_id("user2");
+        vo.setSchedule_date(LocalDate.now());
+        vo.setSchedule_time(LocalTime.now());
+        vo.setSchedule_content("프로젝트 시작2");
+        System.out.println(service.addSchedule(vo)+"  "+vo.getSchedule_id());
     }
-
 }
