@@ -107,7 +107,29 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/resources/js/notice.js"></script>
+<div class="modal fade" id="modifyNotice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyModalLabel">공지 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/ajax/notice/modify" method="post">
+                    <div class="mb-3">
+                        <textarea class="form-control" id="modify_notice_text" placeholder="내용"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modifySubmit" class="btn btn-primary">수정하기</button>
+                <button type="button" class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%--<script type="text/javascript" src="/resources/js/notice.js"></script>--%>
 <script>
     var changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
@@ -144,6 +166,9 @@
                 })
             })
         })
+        // $('#modifySubmit').click(function (){
+        //     alert('수정되었습니다.')
+        // })
         <%--//공지 수정하기--%>
         <%--$('#noticeModify').click(function (){--%>
         <%--    console.log("수정하기")--%>
@@ -164,10 +189,78 @@
 
         //공지사항 드롭다운
         var noticeShow = (".alarmTable .showContent");
-        $("#noticeSection").on("click","tr",function () {
+        // var noticeID;
+            $("#noticeSection").on("click","tr",function (e) {
+            var noticeID = $(this).find("#noticeId").val();
+            var contentOne = $(this).find(".notice-content").text();
+            console.log("디스값 ",$(this));
+            console.log("노티스 아이디1",noticeID);
+            console.log("노티스 내용 :", contentOne);
+            $(".modifyNoticeButton").click(function (){
+                console.log("수정버튼이 눌리나",noticeID);
+                $('#modifyNotice').modal('show');
+                $.ajax({
+                    type:"post",
+                    url:"/ajax/notice/read?notice_id="+noticeID,
+                    data:{
+                        noticeID:"${noticeID}",
+                    },
+                    dataType:"json",
+                    success : function (res){
+                        const content = res['notice_content'];
+                        $('#modify_notice_text').text(content.notice_content);
+                    },
+                    error : ()=>{}
+                })
+
+                $('#modifySubmit').click(function (){
+                    console.log("수정완료 버튼을 눌렀을 때 노티스아이디 : ",noticeID )
+                    console.log($('#modify_notice_text').val());
+                    var notice = {
+                        "notice_content": $('#modify_notice_text').val(),
+                        "notice_id":noticeID,
+                    }
+
+                    $.ajax({
+                        type:"post",
+                        url:"/ajax/notice/modify",
+                        data : JSON.stringify(notice),
+                        dataType:"json",
+
+                        success : function (res){
+                            const success = res['success'];
+                            alert("등록되었습니다. " + success);
+                            $('#modify_notice_text').val("");
+                            $('#modifyNotice').modal("hide");
+                        },
+                        error : ()=>{}
+
+                    })
+                })
+
+
+
+                // noticeID="";
+                // $('#modifyNotice').modal("show");
+                // $('#modifySubmit').click(function (){
+                //     var notice = {
+                //         "notice_content": $('#modify_notice_text').val()
+                //     }
+                //     noticeService.modify(notice, noticeID, function (result){
+                //         if(result == "success"){
+                //             alert("수정되었습니다..")
+                //             $('#modify_notice_text').val("");
+                //             noticeID="";
+                //             $('#modifyNotice').modal("hide");
+                //         }
+                //     })
+                // })
+
+            })
 
             var myAlarm = $(this).next("tr");
             if ($(myAlarm).hasClass('hideContent')) {
+                console.log('나타났다')
 
                 $(noticeShow).removeClass('showContent').addClass('hideContent');
                 $(myAlarm).removeClass('hideContent').addClass('showContent');
@@ -177,9 +270,14 @@
                 $($(this).find("#drop")).html("<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' class='bi bi-emoji-smile smileSize' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/><path d='M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z'/></svg>");
 
             }
+
         })
 
     })
+    // function reset(){
+    //     $('#modify_notice_text').val('');
+    //     $('#modifyNotice').modal('');
+    // }
 
     //시간 디스플레이 변환
     const displayTime = (timeValue)=>{
@@ -215,20 +313,67 @@
                 var data = "";
                 for (var i = 0; i < list.length; i++) {
                     data += "<tr class='itemTitle'>";
-                    data += "<input type='hidden' value='" + list[i].notice_id + "'></input>";
+                    data += "<input type='hidden' id='noticeId' value='" + list[i].notice_id+ "'></input>";
                     data += "<td id='noticeDate' class='align-middle'>"+ displayTime(list[i].notice_mod_date) + "</td>";
-                    data += "<td><div id='alarm-content' class='noticeContent'>"+list[i].notice_content+"</div></td>";
+                    data += "<td><div id='notice-content' class='noticeContent'>"+list[i].notice_content+"</div></td>";
                     data += "<td id='drop' style='padding-left: 15px;'><svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' class='bi bi-emoji-smile smileSize' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/><path d='M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z'/></svg></td>";
-                    data += "</tr><tr class='hideContent noticeContent' style='pointer-events: none;'><td></td><td>" + list[i].notice_content + "</p><button style='width: 60px;border: 1px solid black;border-radius: 1rem;  background-color: #ff9000;' type='button' class='modifyNoticeButton' value='"+user_id+"'>수정</button></p></td><td></td></tr>";
+                    data += "</tr><tr class='hideContent noticeContent' ><td></td><td>" + list[i].notice_content + "</p><button style='width: 60px;border: 1px solid black;border-radius: 1rem; cursor: pointer; background-color: #ffc107;' type='button' id='modifyNoticeButton' class='modifyNoticeButton' value='"+user_id+"'>수정</button>";
+                    data += " <button style='width: 60px;border: 1px solid black;border-radius: 1rem; cursor: pointer; background-color: #ff9000;' type='button' id='removeNoticeButton' class='removeNoticeButton' value='"+user_id+"'>삭제</button></p></td><td></td></tr>";
                 }
                 $('#noticeSection').append(data);
                 changeCriterionNumber = $("#noticeSection input:last").val();
+
                 //수정버튼 admin 에게만 보이게
                 $('.modifyNoticeButton').hide();
                 var userID = $('.modifyNoticeButton').val();
                 if(userID == 'admin'){
                     $('.modifyNoticeButton').show();
                 }else console.log("admin 계정이 아님");
+                //삭제 버튼 또한 admin에게 보이게
+                $('.removeNoticeButton').hide();
+                var userID = $('.removeNoticeButton').val();
+                if(userID == 'admin'){
+                    $('.removeNoticeButton').show();
+                }else console.log("admin 계정이 아님");
+
+                // $('.modifyNoticeButton').click(function (){
+                //     $('#modifyNotice').modal("show");
+                //
+                //     console.log("수정버튼이 눌리나")
+                    // var notice = {
+                    //     "notice_content": $('#modify_notice_text').val()
+                    // }
+                    // var notice = {
+                    //     "notice_content": $('#noticeContent').val()
+                    // }
+                    // var no_id = {
+                    //     "notice_id": $('#noticeId').val()
+                    // }
+                    //
+                    // console.log("노티스 내용은? ",notice)
+                    // console.log("노티스 아이디는 ? ",no_id);
+
+                    // noticeService.modify(notice, list[i].notice_id, function (result){
+                    //     if(result == "success"){
+                    //         alert("수정되었습니다..")
+                    //         $('#notice-text').val("");
+                    //         $('#modifyNotice').modal("hide");
+                    //
+                    //     }
+                    // })
+                // })
+
+                $('.removeNoticeButton').click(function (){
+                    console.log("클릭이 들어오나")
+                    noticeService.remove(8, function (result){
+                        console.log(result);
+                        if(result=="success"){
+                            alert("삭제 됐습니다.");
+                        }
+                    }, function (err){
+                        alert('ERROR...');
+                    });
+                })
 
 
                 //더보기할 내용없을시 더보기 버튼 삭제
@@ -240,8 +385,17 @@
         });
     };
 
-
 </script>
+<%--<script type="text/javascript">--%>
+<%--    $(document).ready(function (){--%>
+<%--        $('#noticeSection').click(function (){--%>
+<%--            var noticeID = $(this).find("#noticeId").val();--%>
+<%--            console.log("노티스 아이디",noticeID)--%>
+<%--            console.log("section 버튼이 눌리나")--%>
+<%--        })--%>
+<%--    })--%>
+
+<%--</script>--%>
 
 <%@ include file="../includes/footer.jsp" %>
 

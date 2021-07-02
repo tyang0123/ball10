@@ -113,19 +113,19 @@ public class GroupController {
         groupService.joinGroup(join);
         System.out.println("==========" + join);
 
-        return "/group/groupList";
+        return "redirect:/group/read?group_id="+group_id;
     }
 
 
     @PostMapping({"/modify"})
-    public String modify(GroupVO group, RedirectAttributes rttr, @ModelAttribute ("cri") Criteria cri){
+    public String modify(GroupVO group, Long group_id, @ModelAttribute ("cri") Criteria cri){
         System.out.println("컨트롤러에서 수정이 들어오나 : "+ group);
         groupService.modify(group);
 //        rttr.addAttribute("amount", cri.getAmount());
 //        rttr.addAttribute("criterionNumber", cri.getCriterionNumber());
 //        rttr.addAttribute("category", cri.getCategory());
 //        rttr.addAttribute("keyword", cri.getKeyword());
-        return "redirect:/group/list";
+        return "redirect:/group/read?group_id="+group_id;
     }
     @PostMapping("/groupRemove")
     public String groupRemove (Long group_id){

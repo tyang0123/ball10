@@ -157,7 +157,7 @@
                 if($("#group_person_count").val()===""){
                     $("#group_person_count").attr('required', true)
                 }
-
+                $("#operForm").attr("action", "/group/modify").attr("method", "post")
             }
         })
     })
