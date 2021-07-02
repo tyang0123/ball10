@@ -102,6 +102,9 @@ public class GroupController {
         model.addAttribute("user_id",userID);
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
 
+        //태양추가 그룹메세지 count 값
+        model.addAttribute("count",messageService.getGroupMessageCnt(group_id));
+
         model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(userID));
         return "group/groupRead";
     }

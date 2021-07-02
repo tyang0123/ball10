@@ -120,6 +120,15 @@
                 //alert(sendID);
                 $("#email-result").html(sendID);
             }
+
+            var send = false;
+            $("form").submit(function (e) {
+                if(send){
+                    e.preventDefault();
+                    console.log("click")
+                }
+                send = true;
+            });
         })//end document.ready
     </script>
 </head>
@@ -133,7 +142,7 @@
 
                 <form method="post" action="/user/findID">
                     <div class="form-group m-3">
-                        <input type="text" class="form-control" id="user-email" name="user_email" placeholder="이메일">
+                        <input type="text" class="form-control" id="user-email" name="user_email" placeholder="이메일@example.com">
                         <small id="email-result" class="form-text text-danger"></small>
                     </div>
 

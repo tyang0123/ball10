@@ -48,4 +48,9 @@ public class GroupMessageServiceTests {
         service.groupMessageMoreRead(20,1L);
         System.out.println(service.groupMessageMoreRead(20,1L));
     }
+
+    @Test
+    public void testGetGroupMessageCnt(){
+        System.out.println(service.getGroupMessageCnt(1L));
+    }
 }

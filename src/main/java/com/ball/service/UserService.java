@@ -28,7 +28,7 @@ public interface UserService {
     public String getUserId(String userEmail);
 
     //get userPassword by userID,email
-    public String getUserPassword(String userId,String userEmail);
+//    public String getUserPassword(String userId,String userEmail);
 
     //get Admin Email and password
     public UserVO getAdminEmailAndPW();
@@ -38,4 +38,7 @@ public interface UserService {
 
     //email check
     public boolean emailCheck(String user_id,String userEmail);
+
+    //update password
+    public boolean resetPasswordToDbByUserID(String user_id,  String user_password);
 }

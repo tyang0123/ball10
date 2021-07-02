@@ -85,16 +85,7 @@ function viewTimerStartInterval(){
     secScreen.html((second < 10 ? '0' : '') + second);
 
     if(getRemainSecondsFrom3AMPerSeconds()<1) {  //200
-      timerStop(function (){ // 이 콜백함수를 user.jsp에서 선언해서 init에서 함수 저장후 여기에 파라미터값으로 지정해야함
-        // alert("타이머가 리셋되었습니다.")
-        // location.reload();
-        $("#modifySuccess").modal("show");
-        $("#modifySuccess h4").html("공부기록 새로 시작")
-        $("#modifySuccess .modal-body").html("새벽 3시가 넘었어요. <br> 어제부터 시작한 공부시간이 저장되고 새로운 공부시간이 시작됩니다. :)");
-        $("#modifySuccess button").on("click", function (e){
-          location.reload();
-        });
-      });
+      timerStop(fnAlarmTimerResetWhen3AM);
     }
   }, 1000);
 }

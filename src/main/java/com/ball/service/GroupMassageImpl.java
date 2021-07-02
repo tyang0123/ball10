@@ -35,4 +35,9 @@ public class GroupMassageImpl implements GroupMessageService{
         return mapper.readGroupMessagePaging(limit,group_id);
     }
 
+    @Override
+    public int getGroupMessageCnt(Long group_id) {
+        return mapper.countGroupMessage(group_id);
+    }
+
 }

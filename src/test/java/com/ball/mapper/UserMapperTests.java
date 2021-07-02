@@ -83,7 +83,7 @@ public class UserMapperTests {
 
     @Test
     public void testSelectUserPassword(){
-        System.out.println(mapper.selectUserPasswordByIdAndEmail("user1","a@naver.com"));
+        System.out.println(mapper.selectEmailCheck("user1","a@naver.com"));
     }
 
     @Test
@@ -98,7 +98,10 @@ public class UserMapperTests {
 
     @Test
     public void testEmailCheck(){
-        System.out.println(mapper.selectEmailCheck("user1","a@naver.com"));
+        System.out.println(mapper.selectEmailCheck("testmapper","a@naver.com"));
     }
+
+    @Test
+    public void testUpdatePasswordByUserID(){ System.out.println(mapper.updatePasswordByUserID("testmapper", "1111"));}
 
 }

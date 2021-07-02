@@ -21,8 +21,12 @@
 
     <select id="readGroupMessagePaging" resultType="com.ball.vo.GroupMessageVO">
         <![CDATA[
-        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} order by group_message_id desc limit #{limit},15
+        select * from group_message inner join user on user.user_id = group_message.user_id where group_message.group_id = #{group_id} order by group_message_id desc limit #{limit}
         ]]>
+    </select>
+
+    <select id="countGroupMessage" resultType="int">
+        select count(*) from group_message where group_id = #{group_id}
     </select>
 
 
