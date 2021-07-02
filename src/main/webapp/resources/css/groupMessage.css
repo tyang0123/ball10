@@ -18,7 +18,7 @@
 #modalShowButton{
     position:absolute;
     margin-left:90%;
-    width:60px;
+    width:5%;
 }
 
 .align-self-end{
@@ -55,7 +55,7 @@
     #modalShowButton{
         position:absolute;
         margin-left:75%;
-        width:50px;
+        width: 15%;
     }
 
     /*div.flex-row-reverse > .remove_message.swipeleft {*/

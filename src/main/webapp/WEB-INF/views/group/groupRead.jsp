@@ -331,6 +331,8 @@
             $("#readGroupMessage").on("click",".flex-row-reverse",function () {
                 //삭제 버튼 보이게
                 $(this).children('.remove_message').css("display","block")
+                $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
+
 
                 //삭제 버튼 클릭했을때 삭제
                 $(this).children('.remove_message').on("click",function (){
