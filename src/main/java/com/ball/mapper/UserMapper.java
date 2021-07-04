@@ -29,7 +29,7 @@ public interface UserMapper {
     public String selectUserIDByEmail(@Param("user_email") String userEmail);
 
     //유저 Password 조회
-    public String selectUserPasswordByIdAndEmail(@Param("user_id") String userId,@Param("user_email") String userEmail);
+//    public String selectUserPasswordByIdAndEmail(@Param("user_id") String userId,@Param("user_email") String userEmail);
 
     //이메일 관리자 정보 조회
     public UserVO selectEmailAdmin();
@@ -39,4 +39,6 @@ public interface UserMapper {
 
     //유저 email 중복 조회
     public String selectEmailCheck(@Param("user_id") String user_id,@Param("user_email")String user_email);
+
+    public int updatePasswordByUserID(@Param("user_id") String user_id, @Param("user_password") String user_password);
 }

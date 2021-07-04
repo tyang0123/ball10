@@ -142,6 +142,13 @@
                 formObj.submit();
             }
 
+            var sendID = "${sendID}";
+            if(sendID !== '' && sendID !== undefined){
+                $("#createSuccess .modal-title").html("이메일 전송 완료")
+                $("#createSuccess .modal-body").html(sendID);
+                $("#createSuccess").modal("show");
+            }
+
             $("form div input").on('input', function(e){
                 var regex = new RegExp("^[A-Za-z0-9]+$"); // alphabet and number
                 if(!regex.test(e.target.value)){

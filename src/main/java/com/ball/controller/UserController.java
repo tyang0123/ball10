@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 @Controller
 @Slf4j
@@ -301,20 +302,36 @@ public class UserController {
         rAttr.addFlashAttribute("sendID", "이메일로 ID를 전송하였습니다.");
         return "redirect:/user/login";
     }
+
+    private String getRandomStringForPassword(){
+        // small letter and numeral
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 12;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> i <= 57 || i >= 97)
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString;
+    }
+
     @PostMapping("/findPassword")
     public String findPasswordPostSendEmailID(String user_id
             ,String user_email
             , RedirectAttributes rAttr){
-        log.info("user findIDPostSendEmailID..................................."+user_email);
+        log.info("user findIDPostSendEmailID..................................."+user_id+" "+user_email);
 
-        String userPassword = userService.getUserPassword(user_id,user_email);
 
-        if(userPassword == null){
+        if(userService.emailCheck(user_id,user_email)){ // 일치하는 정보가 있으면 false가 리턴됨
             rAttr.addFlashAttribute("sendID", "등록된 정보가 없습니다. 확인 후 다시 입력하여 주세요.");
             return "redirect:/user/findPassword";
         }
 
-        ///// 매칭되면 ID값을 이메일로 보내기
+        ///// 매칭되면 Password랜덤으로 만들어서 이메일 전송  전송 성공하면 db에 업데이트
         if(adminEmail == null){
             log.info("admin email Setting..................");
             if(!prepareSendingAdminEmail()){
@@ -323,16 +340,18 @@ public class UserController {
             }
         }
 
+        String newPassword = getRandomStringForPassword();
+
         MailVO vo = new MailVO();
         vo.setReceive(user_email);
         vo.setSubject("10-0사이트의 회원님의 비밀번호를 전달합니다.");
-        vo.setContent("회원님의 ID는 < "+userPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n https://10-0.imweb.me/");
+        vo.setContent("회원님의 ID는 < "+newPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n" +
+                "로그인 후 비밀번호를 수정해 주세요.\n https://10-0.imweb.me/");
 
-        if(!mailService.sendEmail(vo)){
+        if(!mailService.sendEmail(vo) || !userService.resetPasswordToDbByUserID(user_id, newPassword)){
             rAttr.addFlashAttribute("sendID", "오류가 발생했습니다. 관리자에게 문의해주세요. 2");
             return "redirect:/user/findPassword";
-        };
-
+        }
         rAttr.addFlashAttribute("sendID", "이메일로 비밀번호를 전송하였습니다.");
         return "redirect:/user/login";
     }

@@ -27,6 +27,7 @@
     <!--Custom CSS-->
     <link href="/resources/css/custom.css" rel="stylesheet">
     <link href="/resources/css/groupMessage.css" rel="stylesheet">
+
     <script>
         $(document).click(function (event) {
             if (!$(event.target).closest('#navbarNavDropdown').length) {

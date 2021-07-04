@@ -14,4 +14,6 @@ public interface GroupMessageMapper {
 
     //페이징처리
     public List<GroupMessageVO> readGroupMessagePaging(@Param("limit") int limit, @Param("group_id") Long group_id);
+    //작성한 댓글 카운트
+    public int countGroupMessage(Long group_id);
 }

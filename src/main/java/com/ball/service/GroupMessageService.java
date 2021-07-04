@@ -12,4 +12,5 @@ public interface GroupMessageService {
     public List<GroupMessageVO> groupMessageRead(Long group_id);
 
     public List<GroupMessageVO> groupMessageMoreRead(int limit, Long group_id);
+    public int getGroupMessageCnt(Long group_id);
 }

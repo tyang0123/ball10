@@ -30,7 +30,7 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @GetMapping("/list")
-    public String list(HttpSession session, Model model){
+    public String list(HttpSession session, Long notice_id, Model model){
         //세션에서 userID 값 가져오기
         String userID = String.valueOf(session.getAttribute("userID"));
         System.out.println("session에서 가져온 값 : "+userID);
@@ -38,6 +38,7 @@ public class NoticeController {
         Long criterionNumber = noticeService.noticeNewId();
         model.addAttribute("firstCriterionNumber", criterionNumber==null? 0: criterionNumber+1);
         model.addAttribute("userID",userID);
+        model.addAttribute("notice", noticeService.readNotice(notice_id));
         return "notice/noticelist";
     }
 

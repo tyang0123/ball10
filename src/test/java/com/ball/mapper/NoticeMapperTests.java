@@ -32,7 +32,7 @@ public class NoticeMapperTests {
     @Test
     public void testNoticeInsert(){
         NoticeVO noticeVO = new NoticeVO();
-        noticeVO.setNotice_content("tytestnotice4");
+        noticeVO.setNotice_content("날짜 수정 notice");
         mapper.noticeInsert(noticeVO);
         System.out.println(noticeVO);
     }
@@ -45,14 +45,14 @@ public class NoticeMapperTests {
 
     @Test
     public void testNoticeDelete(){
-        System.out.println("삭제됨 : "+mapper.noticeDelete(1L));
+        System.out.println("삭제됨 : "+mapper.noticeDelete(6L));
     }
 
     @Test
     public void testNoticeUpdate(){
         NoticeVO noticeVO = new NoticeVO();
-        noticeVO.setNotice_id(2L);
-        noticeVO.setNotice_content("TYnotice Update");
+        noticeVO.setNotice_id(7L);
+        noticeVO.setNotice_content("수정이 되나");
         mapper.noticeUpdate(noticeVO);
         System.out.println("업데이트 : "+noticeVO);
     }

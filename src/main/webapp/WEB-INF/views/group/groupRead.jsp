@@ -31,21 +31,22 @@
 </style>
 
 <div class="row">
+
     <div class="col-lg-12">
         <div class="panel panel-default">
 <%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
             <div class="panel-body">
+                <form id='operForm' action="/group/read">
                 <div>
-                    <button class="btn btn-warning">그룹 가입 </button>
+                    <button id="joinGroup" class="btn btn-warning">그룹 가입 </button>
                     <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
                     <button class="btn btn-info">목록 </button>
                     <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
                 </div>
                 <button id="modifyBtn" class="btn btn-default"> 수정</button>
-                <form id='operForm' action="/group/read">
-                    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40px;" class="center-block;">
-                            <div class="card user-card-group"  value="${group.group_is_secret}">
-<%--                                <div class="card-body">--%>
+<%--                <form id='operForm' action="/group/read">--%>
+                        <div class="card user-card-group"  value="${group.group_is_secret}">
+                                <div class="card-body" style="background-color: #efefef;  padding-top:20px; padding-bottom: 40px;">
                                     <div class="row">
                                         <div class="col-10 group-category">${group.group_category}</div>
                                         <div class="col-2 text-end groupSecret">
@@ -66,12 +67,12 @@
                         <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                                     </div>
-<%--                                </div> <!-- card-body -->--%>
+                                </div> <!-- card-body -->
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item group-content">${group.group_content}</li>
                                 </ul>
                             </div>
-                    </div>
+<%--                        </div>--%>
                     <input type="hidden" name="group_id" value="${group.group_id}" />
 <%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
 <%--                    <input type="hidden" name="amount" value="${cri.amount}" />--%>
@@ -84,7 +85,7 @@
 </div>
                 <!---------------------------------------------------------------------------------------->
                 <!-- 타이머  표시 -->
-                <div class="col-10 offset-1  col-md-8 offset-md-2">
+                <div class="col-10 offset-1 col-lg-8 offset-lg-2">
                     <div class="row spinner-row">
                         <button class="btn btn-warning" type="button" disabled>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -134,7 +135,7 @@
                                 <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
                             </div>
                             <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
-                                <div id="readGroupMessage"></div>
+                                <div id="readGroupMessage" class="swiper-container"></div>
                             </div>
                             <div class="modal-footer" style="display: block; border-top:1px solid black;">
                                 <div class="row">
@@ -216,7 +217,6 @@
     }
 </style>
 <!---------------------------------------------------------------------------------------->
-
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
@@ -244,7 +244,7 @@
             $('.btn-block').attr('hidden', true)
         }
 
-        $('.btn-warning').click(function (){
+        $('#joinGroup').click(function (){
             console.log('그룹가입 버튼이 눌리나')
 
             if(${group.group_join_person_number >= group.group_person_count}){
@@ -264,23 +264,20 @@
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
         var user_id = '${user_id}';
+        var count = ${count};
 
         //메세지 버튼 플로팅배너
-        var floatPosition = parseInt($("#modalShowButton").css('top'));
+        var currentPosition = parseInt($("#modalShowButton").css("top"));
+        console.log(currentPosition)
         $(window).scroll(function() {
-        // 현재 스크롤 위치를 가져온다.
-            var scrollTop = $(window).scrollTop();
-            var newPosition = scrollTop + floatPosition + "px";
+            var position = $(window).scrollTop();
+            $("#modalShowButton").stop().animate({"top":position+currentPosition+10+"px"},1000);
+        });
 
-            $("#modalShowButton").stop().animate({
-                "top" : newPosition
-            }, 500);
-
-        }).scroll();
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
-            var limit = 0
+            var limit = 15
             $('.modal').modal("show")
 
             //처음 메세지 가져오기
@@ -300,11 +297,12 @@
                 console.log("limit 값 : "+limit);
                 var temp = $('.modal-body').prop('scrollHeight');
                 messageService.getList(group_id, limit, function (result) {
-                    if(result == []){
+                    if(limit > count){
                         console.log("다 가져왔습니다")
                         isLoading = true;
+                        $('#readGroupMessage').html(result);
                     }else {
-                        $('#readGroupMessage').prepend(result);
+                        $('#readGroupMessage').html(result);
                         $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
                         // $('.modal-body').scrollTop($('.modal-body').height()-temp);
                         isLoading = false;
@@ -330,23 +328,30 @@
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
 
-            $('#readGroupMessage').on("hide",$('.remove_message'));
-            $("#readGroupMessage").on("swipeleft",$(".flex-row-reverse"),function(){
-                console.log("확인용")
-            });
+            //메세지 삭제
+            $("#readGroupMessage").on("click",".flex-row-reverse",function () {
+                //삭제 버튼 보이게
+                $(this).children('.remove_message').css("display","block")
+                $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
 
-        // //메세지 삭제
-        // $("#readGroupMessage").on("click","button",function () {
-        //     var group_message_id = $(this).val()
-        //     messageService.remove(group_message_id, function (deleteResult) {
-        //         if (deleteResult == "success") {
-        //             messageService.getList(group_id, limit, function (result) {
-        //                 $('#readGroupMessage').html(result);
-        //             })
-        //         }
-        //     })
-        // })
 
+                //삭제 버튼 클릭했을때 삭제
+                $(this).children('.remove_message').on("click",function (){
+                    //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
+                    var group_message_idH = $(this).html()
+                    var start = group_message_idH.indexOf(":");
+                    var group_message_id = group_message_idH.substr(start+1,3);
+
+                    // var group_message_id = $(this).val()
+                    messageService.remove(group_message_id, function (deleteResult) {
+                        if (deleteResult == "success") {
+                            messageService.getList(group_id, limit, function (result) {
+                                $('#readGroupMessage').html(result);
+                            })
+                        }
+                    })
+                })
+            })
 
         //메세지 추가
         $("#message_submit").click(function () {
@@ -363,6 +368,7 @@
                 }
             })
         })
+
         });
 
         $("#modal_close").click(function (){

@@ -102,6 +102,9 @@ public class GroupController {
         model.addAttribute("user_id",userID);
         model.addAttribute("join", groupService.joinAllRead(group_id,userID));
 
+        //태양추가 그룹메세지 count 값
+        model.addAttribute("count",messageService.getGroupMessageCnt(group_id));
+
         model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(userID));
         return "group/groupRead";
     }
@@ -113,19 +116,19 @@ public class GroupController {
         groupService.joinGroup(join);
         System.out.println("==========" + join);
 
-        return "redirect:/group/list";
+        return "redirect:/group/read?group_id="+group_id;
     }
 
 
     @PostMapping({"/modify"})
-    public String modify(GroupVO group, RedirectAttributes rttr, @ModelAttribute ("cri") Criteria cri){
+    public String modify(GroupVO group, Long group_id, @ModelAttribute ("cri") Criteria cri){
         System.out.println("컨트롤러에서 수정이 들어오나 : "+ group);
         groupService.modify(group);
 //        rttr.addAttribute("amount", cri.getAmount());
 //        rttr.addAttribute("criterionNumber", cri.getCriterionNumber());
 //        rttr.addAttribute("category", cri.getCategory());
 //        rttr.addAttribute("keyword", cri.getKeyword());
-        return "redirect:/group/list";
+        return "redirect:/group/read?group_id="+group_id;
     }
     @PostMapping("/groupRemove")
     public String groupRemove (Long group_id){
