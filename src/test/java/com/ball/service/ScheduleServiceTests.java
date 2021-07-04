@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,11 +24,14 @@ public class ScheduleServiceTests {
     @Test
     public void testInsert(){
         ScheduleVO vo = new ScheduleVO();
-        vo.setUser_id("user1");
-        vo.setSchedule_date(new Date());
-        vo.setSchedule_time("8:00 AM");
-        vo.setSchedule_content("프로젝트 시작");
-        service.insertSchedule(vo);
+        vo.setUser_id("user11");
+        LocalDate scheduleDate = LocalDate.parse("2021-07-06", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        vo.setSchedule_date(scheduleDate);
+        LocalTime scheduleTime = LocalTime.parse(("03" + ":" + "10" + ":00"), DateTimeFormatter.ofPattern("kk:mm:ss"));
+        vo.setSchedule_time(scheduleTime);
+        vo.setSchedule_content("방청소");
+        System.out.println(service.insertSchedule(vo));
     }
+
 
 }

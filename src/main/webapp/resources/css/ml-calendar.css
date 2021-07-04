@@ -77,12 +77,12 @@
 .ml-calendar section.calendar-left .sidebar {
     padding: 20px 20px;
 }
-.ml-calendar section.calendar-left .sidebar ul.calendar-events {
+.ml-calendar section.calendar-left .sidebar ul#calendar-events {
     list-style: none;
     padding: 0;
     margin-bottom: 30px;
 }
-.ml-calendar section.calendar-left .sidebar ul.calendar-events li {
+.ml-calendar section.calendar-left .sidebar ul#calendar-events li {
     margin-left: 0;
 }
 .ml-calendar section.calendar-right {
@@ -183,8 +183,8 @@ section.calendar-right
     font-size: 0.7rem;
     font-weight: 400;
     border-radius: 10px;
-    background-color: #ececec;
-    color: #999;
+    background-color: #ffc107;
+    color: #000;
     display: inline-block;
     margin-top: 3px;
 }

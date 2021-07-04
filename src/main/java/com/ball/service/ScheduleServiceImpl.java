@@ -6,8 +6,9 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService{
@@ -16,27 +17,27 @@ public class ScheduleServiceImpl implements ScheduleService{
 
     @Override
     public ScheduleVO readSchedule(Long schedule_id) {
-        return mapper.getSchedule(schedule_id);
+        return mapper.selectScheduleByScheduleID(schedule_id);
     }
 
     @Override
-    public List<ScheduleVO> readScheduleUser(String user_id) {
-        return mapper.getScheduleUser(user_id);
+    public List<ScheduleVO> readScheduleDate(LocalDate date, String user_id) {
+        return mapper.selectScheduleByDateAndUserID(date,user_id);
     }
 
     @Override
-    public List<ScheduleVO> readScheduleDate(Date date, String user_id) {
-        return mapper.getScheduleDate(date,user_id);
+    public List<Map<Integer, Long>> scheduleCountByYearAndMonthAndUserID(LocalDate date, String user_id) {
+        return mapper.selectScheduleCountByYearAndMonthAndUserID(date,user_id);
     }
 
-    @Override
-    public String readScheduleDateCount(Date date, String user_id) {
-        return mapper.getScheduleDateCount(date,user_id);
-    }
+//    @Override
+//    public int readScheduleDateCount(String date, String user_id) {
+//        return mapper.getScheduleDateCount(date,user_id);
+//    }
 
     @Override
-    public void insertSchedule(ScheduleVO vo) {
-        mapper.addSchedule(vo);
+    public Long insertSchedule(ScheduleVO vo) {
+        return mapper.addSchedule(vo);
     }
 
     @Override

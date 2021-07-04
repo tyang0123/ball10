@@ -4,27 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ball.mapper.ScheduleMapper">
-    <select id ="getSchedule" resultType="com.ball.vo.ScheduleVO" parameterType="Long">
-        select * from schedule where schedule_id = #{schedule_id}
+    <select id ="selectScheduleByScheduleID" resultType="com.ball.vo.ScheduleVO" parameterType="Long">
+        select * from schedule_table where schedule_id = #{schedule_id}
     </select>
-    <select id ="getScheduleUser" resultType="com.ball.vo.ScheduleVO" parameterType="String">
-        select * from schedule where user_id = #{user_id}
+    <select id ="selectScheduleByDateAndUserID" resultType="com.ball.vo.ScheduleVO">
+        select * from schedule_table where schedule_date = #{schedule_date} and user_id = #{user_id}
+        order by schedule_time
     </select>
-    <select id ="getScheduleDate" resultType="com.ball.vo.ScheduleVO">
-        select * from schedule where DATE(schedule_date) = #{schedule_date} and user_id = #{user_id}
+<!--    <select id ="getScheduleDateCount" resultType="Integer">-->
+<!--        select count(*) as count_schedule from schedule where schedule_date = #{schedule_date} and user_id = #{user_id}-->
+<!--    </select>-->
+    <select id ="selectScheduleCountByYearAndMonthAndUserID" resultType="java.util.LinkedHashMap">
+        select DAYOFMONTH(schedule_date) as schedule_day, count(*) as schedule_count
+        from schedule_table
+        where (schedule_date between #{schedule_date} and LAST_DAY(#{schedule_date})) and user_id = #{user_id}
+        group by schedule_day
+        order by schedule_day
     </select>
-    <select id ="getScheduleDateCount" resultType="String">
-        select count(*) as count_schedule from schedule where DATE(schedule_date) = #{schedule_date} and user_id = #{user_id}
-    </select>
-    <insert id="addSchedule" parameterType="com.ball.vo.ScheduleVO">
-        insert into schedule(user_id,schedule_date,schedule_time,schedule_content) values(#{user_id},#{schedule_date},#{schedule_time},#{schedule_content})
+    <insert id="addSchedule" parameterType="com.ball.vo.ScheduleVO"
+            useGeneratedKeys="true" keyProperty="schedule_id">
+        insert into schedule_table(user_id,schedule_date,schedule_time,schedule_content, schedule_checked,
+                                   schedule_reg_date, schedule_mod_date)
+        values(#{user_id},#{schedule_date},#{schedule_time},#{schedule_content}, 0, now(), now())
     </insert>
     <update id="updateSchedule" parameterType="com.ball.vo.ScheduleVO">
-        update schedule set user_id = #{user_id}, schedule_date = #{schedule_date}
-                          , schedule_time = #{schedule_time}, schedule_content = #{schedule_content}
+        update schedule_table set schedule_time = #{schedule_time}
+                                , schedule_content = #{schedule_content}, schedule_mod_date = now()
         where schedule_id = #{schedule_id}
     </update>
     <delete id="deleteSchedule">
-        delete from schedule where schedule_id = #{schedule_id}
+        delete from schedule_table where schedule_id = #{schedule_id}
     </delete>
 </mapper>

@@ -24,9 +24,6 @@
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-    <script src="/resources/js/bootstrap.min.js"></script>
-
     <!--Custom CSS-->
     <link href="/resources/css/custom.css" rel="stylesheet">
     <link href="/resources/css/groupMessage.css" rel="stylesheet">
@@ -58,7 +55,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/group/list">스터디 그룹 찾기</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/calendar">스케쥴 & 통계</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
