@@ -307,7 +307,7 @@
             messageService.getList(group_id, limit, function (result) {
                 if(limit > count){
                     console.log("다 가져왔습니다")
-                    // isLoading = true;
+                    isLoading = true;
                     $('#readGroupMessage').html(result);
                 }else {
                     $('#readGroupMessage').html(result);
@@ -336,6 +336,9 @@
         upNdown();
         //상위로 스크롤 했을때 메세지 더보기 끝
 
+        $('#modalGroupMessage').on('hidden.bs.modal', function () {
+            isLoading = false;
+        });
 
         //메세지 삭제
             $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
@@ -390,7 +393,6 @@
 
         $("#modal_close").click(function (){
             $('#modalGroupMessage').modal("hide")
-            // location.reload();
         })
 
         //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
