@@ -135,10 +135,11 @@ const timerStart = function(resultFunc) {
     'timerIsOnSite' : 1,
     'timerIsUseApple': timerIsUseApple
   };
+  timerStartDateTime = Date.now();
+
   //DB에 상태를 play상태를 업데이트 하면 timer시작
   saveTimerToDB(data, resultFunc);
 
-  timerStartDateTime = Date.now();
 }
 
 
@@ -196,4 +197,8 @@ const getDateStringToNextMorning3AM = function (){
 const getPresentTimerStatus = function (){
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();//타이머시간->string변환
   return timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr;
+}
+
+const executeTimerIntervalClear= function (){
+  clearInterval(timerIntervalID)
 }

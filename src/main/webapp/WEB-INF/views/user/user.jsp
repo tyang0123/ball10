@@ -258,15 +258,17 @@
     var timerCookieStr = '';
 
     if(timerCookie === undefined){
-        location.href="/user/user";
+        setTimeout(function(){ location.href="/user/user"; }, 2000);
     }else{
         timerCookieStr = timerCookie.split('=')[1];
     }
 
+    console.log("user page load", document.cookie);
+
     function alarmTimerResetWhen3AM(){
         $("#modifySuccess .modal-title").html("공부기록 새로 시작")
         $("#modifySuccess .modal-body").html("새벽 3시가 넘었어요. <br> 어제부터 시작한 공부시간이 저장되고 새로운 공부시간이 시작됩니다. :)");
-        $("#modifySuccess .button-add-custom").on("click", function (e){
+        $("#modifySuccess button").on("click", function (e){
             location.href="/user/user";
         });
         $("#modifySuccess").modal("show");
@@ -312,14 +314,29 @@
         //ios, mac os에서는 1분마다 한번씩 타이머 시간을 저장
         var isIOS = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
+            console.log("ios")
             $(window).bind("pagehide", function (e){
+                // 내용 저장하는 interval멈추기
+                clearIntervalToSaveTimerStatuesForAppleUser();
+                // 타이머 멈추기
+                $("#time-toggle").html('공부시작하기');
                 timerPlayFlag = false;
+                executeTimerIntervalClear();
+                // 쿠키 상태저장하기
                 document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/; expires="+getDateStringToNextMorning3AM()+";";
+                console.log("user page hide", document.cookie, getPresentTimerStatus());
             })
 
             $(window).bind("pageshow", function (e){
                 if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
-                    location.reload();
+                    // 쿠키내용읽어오기
+                    timerCookieStr =  document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('timerCookie'))
+                        .split('=')[1];
+                    console.log(document.cookie, timerCookieStr)
+                    // 타이머 리셋하기
+                    timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr, 1, alarmTimerResetWhen3AM);
                 }
             })
             let intervalIdToSaveStatusforAppleUser;
@@ -332,9 +349,9 @@
                 clearInterval(intervalIdToSaveStatusforAppleUser);
             }
 
-            timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr, 1, alarmTimerResetWhen3AM) //새벽3시 알림 함수
+            timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr, 1, alarmTimerResetWhen3AM); //새벽3시 알림 함수
         }else{
-            console.log(timerCookieStr);
+            // console.log(timerCookieStr);
             //타이머 셋팅
             timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr, 0, alarmTimerResetWhen3AM);
         }

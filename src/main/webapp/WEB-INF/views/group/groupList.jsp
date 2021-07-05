@@ -146,8 +146,6 @@
 </script>
 
 <!-- 부속 타이머 -->
-<!-- 부속 타이머 -->
-<!-- 부속 타이머 -->
 <div class="toast-container p-1" style="z-index: 11; ">
     <div class="toast" data-bs-autohide="false" >
         <div class="t-header text-center py-2">
@@ -174,6 +172,25 @@
         </div>
     </div>
 </div>
+
+<!-- 타이머 리셋 Modal -->
+<div class="modal fade" id="reset-timer-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">공부기록 새로 시작</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                새벽 3시가 넘었어요. <br> 어제부터 시작한 공부시간이 저장되고 새로운 공부시간이 시작됩니다. :)
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">확 인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
     .toast{
         box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.07);
@@ -242,13 +259,13 @@
         timerCookieStr = timerCookie.split('=')[1];
     }
 
+    console.log("group list page load", document.cookie);
+
     function alarmTimerResetWhen3AM(){
-        // $("#modifySuccess .modal-title").html("공부기록 새로 시작")
-        // $("#modifySuccess .modal-body").html("새벽 3시가 넘었어요. <br> 어제부터 시작한 공부시간이 저장되고 새로운 공부시간이 시작됩니다. :)");
-        // $("#modifySuccess .button-add-custom").on("click", function (e){
-        //     location.reload();
-        // });
-        // $("#modifySuccess").modal("show");
+        $("#reset-timer-modal button").on("click", function (e){
+            location.href="/user/user";
+        });
+        $("#reset-timer-modal").modal("show");
     }
     $(document).ready(function () {
         $('.toast').toast('show');
@@ -326,14 +343,30 @@
         //ios, mac os에서는 1분마다 한번씩 타이머 시간을 저장
         var isIOS = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
+            var domain = 'localhost'
             $(window).bind("pagehide", function (e){
+                // 내용 저장하는 interval멈추기
+                clearIntervalToSaveTimerStatuesForAppleUser();
+                // 타이머 멈추기
+                $("#time-pause").hide();
+                $('#time-play').show();
                 timerPlayFlag = false;
+                executeTimerIntervalClear();
+                // 쿠키 상태저장하기
                 document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/; expires="+getDateStringToNextMorning3AM()+";";
+                console.log("user page hide", document.cookie, getPresentTimerStatus());
             })
 
             $(window).bind("pageshow", function (e){
                 if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
-                    location.reload();
+                    a1.clickOpen();
+                    // 쿠키내용읽어오기
+                    timerCookieStr =  document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('timerCookie'))
+                        .split('=')[1];
+                    // 타이머 리셋하기
+                    timerNumberInit($(".userTimer"), $("#time-play"), timerCookieStr, 1, alarmTimerResetWhen3AM);
                 }
             })
             let intervalIdToSaveStatusforAppleUser;
