@@ -64,11 +64,12 @@ public class NoticeAjaxController {
         return ResponseEntity.ok(result);
 //                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @PostMapping("/remove")
-    public ResponseEntity<String> delete(Long notice_id){
-        System.out.println("삭제에 들어오나");
+    @DeleteMapping("/remove")
+    public ResponseEntity<String> delete(@RequestParam("notice_id") Long notice_id) throws Exception{
+        System.out.println("삭제에 들어오나 "+notice_id);
         noticeService.deleteNotice(notice_id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+
 
 }
