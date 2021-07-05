@@ -276,6 +276,10 @@
         });
 
         var limit = 15
+        messageService.getList(group_id, limit, function (result) {
+            $('#readGroupMessage').html(result);
+        })
+
         //modal창 보여주기
         $("#modalShowButton").click(function () {
             limit = 15
@@ -287,9 +291,9 @@
             })
 
             //열었을때 입력창 보여주기
-            // var offset = $('.modal-body').prop('scrollHeight');
-            // $('.modal-body').animate({scrollTop : offset}, 40);
-            // console.log(offset);
+            var offset = $('.modal-footer').offset();
+            $('.modal-body').animate({scrollTop : offset.top}, 40);
+            console.log(offset);
         })
 
             //상위로 스크롤 했을때 메세지 더보기
@@ -327,6 +331,7 @@
                     };
                 });
             };
+
             upNdown();
             //상위로 스크롤 했을때 메세지 더보기 끝
         // });
@@ -360,26 +365,6 @@
                 }
                 // $(this).children('.remove_message').css("display","block")
                 $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
-
-
-                // //삭제 버튼 클릭했을때 삭제
-                // $(this).children('.remove_message').on("click",function (){
-                //     //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
-                //     var group_message_idH = $(this).html()
-                //     var start = group_message_idH.indexOf(':');
-                //     var end = group_message_idH.lastIndexOf('"');
-                //
-                //     var group_message_id = group_message_idH.substring(start+1,end);
-                //
-                //     // var group_message_id = $(this).val()
-                //     messageService.remove(group_message_id, function (deleteResult) {
-                //         if (deleteResult == "success") {
-                //             messageService.getList(group_id, limit, function (result) {
-                //                 $('#readGroupMessage').html(result);
-                //             })
-                //         }
-                //     })
-                // })
             })
 
         //메세지 추가
