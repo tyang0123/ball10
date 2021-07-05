@@ -274,20 +274,25 @@
             $("#modalShowButton").stop().animate({"top":position+currentPosition+10+"px"},1000);
         });
 
+        //처음 메세지 가져오기
+        var limit = 15
+        messageService.getList(group_id, limit, function (result) {
+            $('#readGroupMessage').html(result);
+        })
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
-            var limit = 15
+            // var limit = 15
             $('.modal').modal("show")
 
-            //처음 메세지 가져오기
-            messageService.getList(group_id, limit, function (result) {
-                $('#readGroupMessage').html(result);
-            })
-
             //열었을때 입력창 보여주기
-            var offset = $('#sendGroupMessage').offset();
-            $('.modal-body').animate({scrollTop : offset.top}, 40);
+            var offset = $('.modal-body').prop('scrollHeight');
+            $('.modal-body').animate({scrollTop : offset}, 40);
+
+            // //처음 메세지 가져오기
+            // messageService.getList(group_id, limit, function (result) {
+            //     $('#readGroupMessage').html(result);
+            // })
 
             //상위로 스크롤 했을때 메세지 더보기
             var isLoading = false;
@@ -366,6 +371,8 @@
                     $('#message-text').val("");
                     messageService.getList(group_id, limit, function (result) {
                         $('#readGroupMessage').html(result);
+                        var offset = $('.modal-body').prop('scrollHeight');
+                        $('.modal-body').animate({scrollTop : offset}, 40);
                     })
                 }
             })
