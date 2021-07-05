@@ -127,7 +127,8 @@
                 <img id = "modalShowButton" src="/resources/img/chat-left-dots.svg">
 <%--                <button id="modalShowButton">그룹메세지</button>--%>
                 <%--모달시작--%>
-                <div class="modal" tabindex="-1">
+                <div class="modal" tabindex="-1" id="modalGroupMessage">
+<%--                <div class="modal fade" id="modalGroupMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--%>
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" id="groupMessageModal">
                             <div class="modal-header" style="border-bottom: 1px solid black;">
@@ -274,25 +275,33 @@
             $("#modalShowButton").stop().animate({"top":position+currentPosition+10+"px"},1000);
         });
 
-        //처음 메세지 가져오기
+        // //처음 메세지 가져오기
+        // var limit = 15
+        // messageService.getList(group_id, limit, function (result) {
+        //     $('#readGroupMessage').html(result);
+        // })
+
         var limit = 15
-        messageService.getList(group_id, limit, function (result) {
-            $('#readGroupMessage').html(result);
-        })
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
-            // var limit = 15
-            $('.modal').modal("show")
+            limit = 15
+            $('#modalGroupMessage').modal("show")
+            //처음 메세지 가져오기
+            messageService.getList(group_id, limit, function (result) {
+                $('#readGroupMessage').html(result);
+            })
 
             //열었을때 입력창 보여주기
             var offset = $('.modal-body').prop('scrollHeight');
             $('.modal-body').animate({scrollTop : offset}, 40);
+            console.log(offset);
+        })
 
-            // //처음 메세지 가져오기
-            // messageService.getList(group_id, limit, function (result) {
-            //     $('#readGroupMessage').html(result);
-            // })
+            // //열었을때 입력창 보여주기
+            // var offset = $('.modal-body').prop('scrollHeight');
+            // $('.modal-body').animate({scrollTop : offset}, 40);
+            // console.log(offset);
 
             //상위로 스크롤 했을때 메세지 더보기
             var isLoading = false;
@@ -336,7 +345,12 @@
             //메세지 삭제
             $("#readGroupMessage").on("click",".flex-row-reverse",function () {
                 //삭제 버튼 보이게
-                $(this).children('.remove_message').css("display","block")
+                if($(this).children('.remove_message').css("display") == "none"){
+                    $(this).children('.remove_message').css("display","block")
+                }else {
+                    $(this).children('.remove_message').css("display","none")
+                }
+                // $(this).children('.remove_message').css("display","block")
                 $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
 
 
@@ -378,10 +392,11 @@
             })
         })
 
-        });
+        // });
 
         $("#modal_close").click(function (){
-            $('.modal').modal("hide")
+            $('#modalGroupMessage').modal("hide")
+            // location.reload();
         })
 
         //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
