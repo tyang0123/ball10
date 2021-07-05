@@ -231,10 +231,16 @@
 <script src="/resources/js/swiped_up.js"></script>
 <script src="/resources/js/timer.js"></script>
 <script>
-    var timerCookieStr = document.cookie
+    var timerCookie = document.cookie
         .split('; ')
-        .find(row => row.startsWith('timerCookie'))
-        .split('=')[1];
+        .find(row => row.startsWith('timerCookie'));
+    var timerCookieStr = '';
+
+    if(timerCookie === undefined){
+        location.href="/user/user";
+    }else{
+        timerCookieStr = timerCookie.split('=')[1];
+    }
 
     function alarmTimerResetWhen3AM(){
         // $("#modifySuccess .modal-title").html("공부기록 새로 시작")

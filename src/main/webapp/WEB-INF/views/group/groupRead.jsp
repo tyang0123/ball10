@@ -445,7 +445,7 @@
             }
 
             str+='<div class="col mt-2">'
-            str+='  <div class="row">'
+            str+='  <div class="row" data-timer-id="'+data.timer_id+'">'
             str+='    <div class="d-flex justify-content-center">'
             str+='      <div class="img-container">'
             str+='          <div class="my-img '+ (timerIsOnPlay ?'my-img-yellow':'my-img-balck')+'"></div>'

@@ -252,16 +252,22 @@
 <!-- 타이머 관련 Script-->
 <script src="/resources/js/timer.js"></script>
 <script>
-    var timerCookieStr = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('timerCookie'))
-        .split('=')[1];
+    var timerCookie = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('timerCookie'));
+    var timerCookieStr = '';
+
+    if(timerCookie === undefined){
+        location.href="/user/user";
+    }else{
+        timerCookieStr = timerCookie.split('=')[1];
+    }
 
     function alarmTimerResetWhen3AM(){
         $("#modifySuccess .modal-title").html("공부기록 새로 시작")
         $("#modifySuccess .modal-body").html("새벽 3시가 넘었어요. <br> 어제부터 시작한 공부시간이 저장되고 새로운 공부시간이 시작됩니다. :)");
         $("#modifySuccess .button-add-custom").on("click", function (e){
-            location.reload();
+            location.href="/user/user";
         });
         $("#modifySuccess").modal("show");
     }
