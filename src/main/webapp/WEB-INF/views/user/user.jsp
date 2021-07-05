@@ -317,11 +317,8 @@
             console.log("ios")
             $(window).bind("pagehide", function (e){
                 // 내용 저장하는 interval멈추기
+                clearInterval(timerIntervalID);
                 clearIntervalToSaveTimerStatuesForAppleUser();
-                // 타이머 멈추기
-                $("#time-toggle").html('공부시작하기');
-                timerPlayFlag = false;
-                executeTimerIntervalClear();
                 // 쿠키 상태저장하기
                 document.cookie = "timerCookie="+getPresentTimerStatus()+";path=/; expires="+getDateStringToNextMorning3AM()+";";
                 console.log("user page hide", document.cookie, getPresentTimerStatus());
@@ -329,6 +326,10 @@
 
             $(window).bind("pageshow", function (e){
                 if ( e.persisted || (window.performance && window.performance.navigation.type == 2) ){
+                    // 타이머 멈추기
+                    $("#time-toggle").html('공부시작하기');
+                    timerPlayFlag = false;
+                    clearInterval(timerIntervalID);
                     // 쿠키내용읽어오기
                     timerCookieStr =  document.cookie
                         .split('; ')
@@ -337,6 +338,8 @@
                     console.log(document.cookie, timerCookieStr)
                     // 타이머 리셋하기
                     timerNumberInit($(".userTimer"), $("#time-toggle"), timerCookieStr, 1, alarmTimerResetWhen3AM);
+
+                    location.reload();
                 }
             })
             let intervalIdToSaveStatusforAppleUser;

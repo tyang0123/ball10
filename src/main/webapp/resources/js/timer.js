@@ -21,6 +21,7 @@ let secScreen;
 let timerIntervalID;
 
 function setAccumulatedTimeStrFromHHMMSS(){
+  console.log(timerIntervalID);
   return (hour < 10 ? '0' : '') + hour + ":"
       + (minute < 10 ? '0' : '') + minute +":"+(second < 10 ? '0' : '')+ second;
 }
@@ -68,6 +69,7 @@ function timerNumberInit(myTimer, myTimerBtn, timerCookieStr, IsUseApple, fnAlar
 
 
 function viewTimerStartInterval(){
+  timerStartDateTime = Date.now();
   timerIntervalID = setInterval(function () {
 
     const tempTime = new Date(Date.UTC(0,0,0, cookieHour, cookieMinute, cookieSecond, 0)).getTime();
@@ -97,26 +99,21 @@ const saveTimerToDB = function(data, resultFunc){
     data : JSON.stringify(data),
     contentType: "application/json; charset=UTF-8;",
     success: function(result, status, xhr){
-      console.log("success")
-      clearInterval(timerIntervalID);
-      if(timerIsPlay == 1){
+      if(timerIsPlay == "1"){
         viewTimerStartInterval();
       }
       if(resultFunc != null){
         resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
-        timerStartDateTime = Date.now();
         [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
         // console.log(cookieHour, cookieMinute, cookieSecond);
       }
     },
     error: function(xhr, status, er){
-      clearInterval(timerIntervalID);
-      if(timerIsPlay == 1){
+      if(timerIsPlay == "1"){
         viewTimerStartInterval();
       }
       if(resultFunc != null){
         resultFunc(timerID+"-"+timerIsPlay+"-"+accumulatedTimeStr);
-        timerStartDateTime = Date.now();
         [ cookieHour, cookieMinute, cookieSecond ]= accumulatedTimeStr.split(':').map(i=>Number(i));
       }
       console.log("error : "+er);
@@ -126,17 +123,15 @@ const saveTimerToDB = function(data, resultFunc){
 
 
 const timerStart = function(resultFunc) {
-
   accumulatedTimeStr = setAccumulatedTimeStrFromHHMMSS();
-  timerIsPlay = 1;
+  timerIsPlay = "1";
   const data = {
     'accumulatedTime' : accumulatedTimeStr,
     'timerIsPlay': timerIsPlay,
     'timerIsOnSite' : 1,
     'timerIsUseApple': timerIsUseApple
   };
-  timerStartDateTime = Date.now();
-
+  clearInterval(timerIntervalID);
   //DB에 상태를 play상태를 업데이트 하면 timer시작
   saveTimerToDB(data, resultFunc);
 
@@ -152,6 +147,7 @@ const timerStop = function (resultFunc) {
     'timerIsOnSite' : 1,
     'timerIsUseApple': timerIsUseApple
   };
+  clearInterval(timerIntervalID);
   saveTimerToDB(data, resultFunc);
 };//end timerStop
 
@@ -163,6 +159,7 @@ const timerSaveBeforeUnloadPage= function () {
     'timerIsOnSite' : 0,
     'timerIsUseApple': timerIsUseApple
   };
+  clearInterval(timerIntervalID);
   saveTimerToDB(data, null);
 };
 
@@ -200,5 +197,5 @@ const getPresentTimerStatus = function (){
 }
 
 const executeTimerIntervalClear= function (){
-  clearInterval(timerIntervalID)
+  clearInterval(timerIntervalID);
 }
