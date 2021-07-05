@@ -49,7 +49,7 @@ public class ScheduleMapperTests {
             vo.setSchedule_date(LocalDate.parse("2021-07-"+(i%20+10), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             vo.setSchedule_time(LocalTime.parse(( (i%10+12)+":00:00"), DateTimeFormatter.ofPattern("kk:mm:ss")));
             vo.setSchedule_content("테스트2차"+i);
-            System.out.println(mapper.insertSchedule(vo)+"  "+vo.getSchedule_id());
+            System.out.println(mapper.addSchedule(vo)+"  "+vo.getSchedule_id());
         });
     }
 
@@ -62,13 +62,8 @@ public class ScheduleMapperTests {
             vo.setSchedule_date(LocalDate.parse("2021-07-1"+(i%9), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             vo.setSchedule_time(LocalTime.parse(( (i%6+12)+":20:00"), DateTimeFormatter.ofPattern("kk:mm:ss")));
             vo.setSchedule_content("테스트3차"+i);
-            System.out.println(mapper.insertSchedule(vo)+"  "+vo.getSchedule_id());
+            System.out.println(mapper.addSchedule(vo)+"  "+vo.getSchedule_id());
         });
-    }
-
-    @Test
-    public void testSelectByUserID(){
-        mapper.selectScheduleByUserID("user11").forEach(data-> System.out.println(data));
     }
 
     @Test
@@ -100,7 +95,9 @@ public class ScheduleMapperTests {
 
     @Test
     public void testDeleteSchedule(){
-        System.out.println(mapper.deleteSchedule(198L));
+        mapper.deleteSchedule(19L);
     }
+
+
 
 }

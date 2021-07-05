@@ -12,21 +12,21 @@ public interface ScheduleMapper {
     //스케쥴 하나 조회
     public ScheduleVO selectScheduleByScheduleID(Long schedule_id);
 
-    //유저별 전체 스케쥴 리스트
-    public List<ScheduleVO> selectScheduleByUserID(String user_id);
-
     //날짜별 스케쥴 리스트
     public List<ScheduleVO> selectScheduleByDateAndUserID(@Param("schedule_date") LocalDate date, @Param("user_id") String user_id);
 
-    //날짜별 스케쥴 갯수 확인
+//    //날짜별 스케쥴 갯수 확인
+//    public int getScheduleDateCount(@Param("schedule_date") String date, @Param("user_id") String user_id);
+
+    //매달 스케쥴 갯수 확인
     public List<Map<Integer, Long>> selectScheduleCountByYearAndMonthAndUserID(@Param("schedule_date") LocalDate date, @Param("user_id") String user_id);
 
     //스케쥴 추가하기
-    public int insertSchedule(ScheduleVO vo);
+    public Long addSchedule(ScheduleVO vo);
 
     //스케쥴 수정하기
-    public int updateSchedule(ScheduleVO vo);
+    public void updateSchedule(ScheduleVO vo);
 
     //스케쥴 삭제
-    public int deleteSchedule(Long schedule_id);
+    public void deleteSchedule(Long schedule_id);
 }

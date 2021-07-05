@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Log4j
@@ -22,10 +24,14 @@ public class ScheduleServiceTests {
     @Test
     public void testInsert(){
         ScheduleVO vo = new ScheduleVO();
-        vo.setUser_id("user2");
-        vo.setSchedule_date(LocalDate.now());
-        vo.setSchedule_time(LocalTime.now());
-        vo.setSchedule_content("프로젝트 시작2");
-        System.out.println(service.addSchedule(vo)+"  "+vo.getSchedule_id());
+        vo.setUser_id("user11");
+        LocalDate scheduleDate = LocalDate.parse("2021-07-06", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        vo.setSchedule_date(scheduleDate);
+        LocalTime scheduleTime = LocalTime.parse(("03" + ":" + "10" + ":00"), DateTimeFormatter.ofPattern("kk:mm:ss"));
+        vo.setSchedule_time(scheduleTime);
+        vo.setSchedule_content("방청소");
+        System.out.println(service.insertSchedule(vo));
     }
+
+
 }
