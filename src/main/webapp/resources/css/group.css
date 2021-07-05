@@ -54,31 +54,72 @@ body {
     overflow-y: auto;
     position: relative;
 }
-#searchBtn{
-    background-color: #ff9000;
-}
+
 #removeOne {
     color : #ff9000;
 }
 .col-lg-12{
-    width: 500px;
-    border: black 2px solid;
-    border-radius: 1rem;
-    background-color: #ffffff;
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-right: auto;
     margin-left: auto;
     text-align: center;
 }
-
-
-.listSearch{
-    width: 400px;
+.searchForm{
+    width: 300px;
+    /*display: flex;*/
     border: black 2px solid;
     border-radius: 1rem;
     background-color: #ffffff;
+    margin-right: 3px;
+    /*margin-left: 3px;*/
+    /*text-align: center;*/
+}
+
+.category{
+
+    border: black 2px solid;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    text-align-last: center;
+    /*margin-right: 5px;*/
+    /*margin-left: auto;*/
+    text-align : justify;
+    width:80px;
+    height:30px;
+}
+#searchBtn{
+    background-color: #ffffff;
+    text-align : right;
+    padding-right: 1px;
+    border: 0;
+    outline: 0;
+}
+#listSearch{
+    width: 245px;
+    border: none;
+}
+.listHeader{
+    width: 450px;
+    display: flex;
+    text-align: center;
+    padding: 10px 15px;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
     margin-right: auto;
     margin-left: auto;
-    text-align: center;
+}
+
+#createBtn{
+    text-align: right;
+    position: absolute;
+    margin-left: auto;
+    right: -200px;
+    /*margin-left: 10px;*/
+    /*margin-right: 5px;*/
 }
 
 .createGroup{

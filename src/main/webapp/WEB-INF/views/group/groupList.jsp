@@ -2,6 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ include file="../includes/header.jsp" %>
 
@@ -9,23 +10,23 @@
 <head>
     <i class="bi bi-lock-fill"></i>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>그룹</title>
 </head>
 <body>
 <link href="/resources/css/group.css" rel="stylesheet">
 <div class="row">
     <div class="col-sm-12">
-        <div style="text-align: center">
-            <h2>스터디 그룹
-                <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
-            </h2>
+        <div class="listHeader">
+            <h2 style="text-align: center;align-items: center;margin-left: auto;margin-right: auto;"> 스터디 그룹 </h2>
+            <button id="createBtn" type="submit" class="btn pull-right btn-warning">그룹 생성</button>
         </div>
         <table width="100%" class="table table-striped table-bordered table-hover"
                id="dataTables-example">
             <div class="row">
                 <div class="col-lg-12">
                     <form id="listForm" action="/group/list" method="get">
-                        <select name="category">
+                        <select class="category" name="category">
                             <option value="" <c:out value="${cri.category ==null?'selected':''}"/>>---</option>
                             <option value="토익"
                                     <c:out value="${cri.category eq '토익'?'selected':''}"/>>토익</option>
@@ -36,8 +37,11 @@
                             <option value="이직"
                                     <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                         </select>
+                        <div class="searchForm">
                         <input type="text" id="listSearch" name="keyword"/>
-                        <button id="searchBtn" class='btn btn-default'>검색</button>
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        </div>
+<%--                        class='btn btn-default'--%>
                     </form>
                 </div>  <!-- col-lg-12 -->
                     <div class="row">
@@ -80,7 +84,7 @@
         </table>
     </div>
 </div>
-<div class="modal" tabindex="-1">
+<div class="modal" id="modalPass" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,7 +107,7 @@
 <script>
     function reset(){
         $('#inputPass').val("");
-        $('.modal').modal('');
+        $('#modalPass').modal('');
     }
     $("#createBtn").click(function(){
         console.log("버튼 눌리나")
@@ -117,7 +121,7 @@
 
         if($(this).attr('value')==1){
             console.log("move 그룹 아이디 가져오기"+ groupID);
-            $('.modal').modal('show');
+            $('#modalPass').modal('show');
             $(".btn-primary").click(function (){
 
                 console.log("모달창의 입력 값은? : "+ $('#inputPass').val());

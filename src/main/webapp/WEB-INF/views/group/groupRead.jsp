@@ -37,14 +37,15 @@
 <%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
             <div class="panel-body">
                 <form id='operForm' action="/group/read">
-                <div>
+                <div style="padding: 10px 12px">
                     <button id="joinGroup" class="btn btn-warning">그룹 가입 </button>
                     <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
                     <button class="btn btn-info">목록 </button>
                     <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
                 </div>
+                <div style="padding-left: 12px">
                 <button id="modifyBtn" class="btn btn-default"> 수정</button>
-<%--                <form id='operForm' action="/group/read">--%>
+                </div>
                         <div class="card user-card-group"  value="${group.group_is_secret}">
                                 <div class="card-body" style="background-color: #efefef;  padding-top:20px; padding-bottom: 40px;">
                                     <div class="row">
