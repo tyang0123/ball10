@@ -275,6 +275,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 .button-create-customY:focus,
 .button-create-customO:focus,
+.form-select-custom:focus,
 .form-custom:focus{
   box-shadow: unset;
   border-color: #ff9000;

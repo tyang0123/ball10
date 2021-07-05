@@ -377,4 +377,7 @@ public class UserController {
         userService.userModify(vo);
         return "redirect:/user/user";
     }
+
+    @GetMapping("/calendar")
+    public void userCalendar(){}
 }

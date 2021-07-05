@@ -7,13 +7,13 @@
     <select id ="selectScheduleByScheduleID" resultType="com.ball.vo.ScheduleVO" parameterType="Long">
         select * from schedule_table where schedule_id = #{schedule_id}
     </select>
-    <select id ="selectScheduleByUserID" resultType="com.ball.vo.ScheduleVO" parameterType="String">
-        select * from schedule_table where user_id = #{user_id} order by schedule_date, schedule_time
-    </select>
     <select id ="selectScheduleByDateAndUserID" resultType="com.ball.vo.ScheduleVO">
         select * from schedule_table where schedule_date = #{schedule_date} and user_id = #{user_id}
         order by schedule_time
     </select>
+<!--    <select id ="getScheduleDateCount" resultType="Integer">-->
+<!--        select count(*) as count_schedule from schedule where schedule_date = #{schedule_date} and user_id = #{user_id}-->
+<!--    </select>-->
     <select id ="selectScheduleCountByYearAndMonthAndUserID" resultType="java.util.LinkedHashMap">
         select DAYOFMONTH(schedule_date) as schedule_day, count(*) as schedule_count
         from schedule_table
@@ -21,16 +21,16 @@
         group by schedule_day
         order by schedule_day
     </select>
-    <insert id="insertSchedule" parameterType="com.ball.vo.ScheduleVO"
+    <insert id="addSchedule" parameterType="com.ball.vo.ScheduleVO"
             useGeneratedKeys="true" keyProperty="schedule_id">
         insert into schedule_table(user_id,schedule_date,schedule_time,schedule_content, schedule_checked,
                                    schedule_reg_date, schedule_mod_date)
         values(#{user_id},#{schedule_date},#{schedule_time},#{schedule_content}, 0, now(), now())
     </insert>
     <update id="updateSchedule" parameterType="com.ball.vo.ScheduleVO">
-        update schedule_table set schedule_date = #{schedule_date}, schedule_time = #{schedule_time}
-                , schedule_content = #{schedule_content}, schedule_mod_date = now()
-        where schedule_id = #{schedule_id} and user_id = #{user_id}
+        update schedule_table set schedule_time = #{schedule_time}
+                                , schedule_content = #{schedule_content}, schedule_mod_date = now()
+        where schedule_id = #{schedule_id}
     </update>
     <delete id="deleteSchedule">
         delete from schedule_table where schedule_id = #{schedule_id}
