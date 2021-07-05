@@ -294,7 +294,6 @@
             var offset = $('.modal-footer').offset();
             $('.modal-body').animate({scrollTop : offset.top}, 40);
             console.log(offset);
-        })
 
             //상위로 스크롤 했을때 메세지 더보기
             var isLoading = false;
@@ -324,7 +323,7 @@
                     if (st > lastScroll) {
                     } else {
                         if ($('.modal-body').scrollTop() < 5 && !isLoading) {
-                            isLoading = true;
+                            // isLoading = true;
                             setTimeout(loadNewPage, 1200);
                         }
                         lastScroll = st;
@@ -334,7 +333,8 @@
 
             upNdown();
             //상위로 스크롤 했을때 메세지 더보기 끝
-        // });
+
+        })
 
             //메세지 삭제
             $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
