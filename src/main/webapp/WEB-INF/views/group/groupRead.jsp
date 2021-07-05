@@ -294,50 +294,50 @@
             //열었을때 입력창 보여주기
             var offset = $('.modal-footer').offset();
             $('.modal-body').animate({scrollTop : offset.top}, 40);
-            console.log(offset);
-
-            //상위로 스크롤 했을때 메세지 더보기
-            var isLoading = false;
-
-            function loadNewPage() {
-                limit += 15;
-                console.log("limit 값 : "+limit);
-                var temp = $('.modal-body').prop('scrollHeight');
-                messageService.getList(group_id, limit, function (result) {
-                    if(limit > count){
-                        console.log("다 가져왔습니다")
-                        isLoading = true;
-                        $('#readGroupMessage').html(result);
-                    }else {
-                        $('#readGroupMessage').html(result);
-                        $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
-                        // $('.modal-body').scrollTop($('.modal-body').height()-temp);
-                        isLoading = false;
-                    }
-                })
-            }
-
-            function upNdown() {
-                var lastScroll = 0;
-                $('.modal-body').scroll(function (event) {
-                    var st = $(this).scrollTop();
-                    if (st > lastScroll) {
-                    } else {
-                        if ($('.modal-body').scrollTop() < 5 && !isLoading) {
-                            // isLoading = true;
-                            setTimeout(loadNewPage, 1200);
-                        }
-                        lastScroll = st;
-                    };
-                });
-            };
-
-            upNdown();
-            //상위로 스크롤 했을때 메세지 더보기 끝
-
+            // console.log(offset);
         })
 
-            //메세지 삭제
+        //상위로 스크롤 했을때 메세지 더보기
+        var isLoading = false;
+
+        function loadNewPage() {
+            limit += 15;
+            console.log("limit 값 : "+limit);
+            var temp = $('.modal-body').prop('scrollHeight');
+            messageService.getList(group_id, limit, function (result) {
+                if(limit > count){
+                    console.log("다 가져왔습니다")
+                    // isLoading = true;
+                    $('#readGroupMessage').html(result);
+                }else {
+                    $('#readGroupMessage').html(result);
+                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                    isLoading = false;
+                }
+            })
+        }
+
+        function upNdown() {
+            var lastScroll = 0;
+            $('.modal-body').scroll(function (event) {
+                var st = $(this).scrollTop();
+                if (st > lastScroll) {
+                } else {
+                    if ($('.modal-body').scrollTop() < 5 && !isLoading) {
+                        // isLoading = true;
+                        setTimeout(loadNewPage, 1200);
+                    }
+                    lastScroll = st;
+                };
+            });
+        };
+
+        upNdown();
+        //상위로 스크롤 했을때 메세지 더보기 끝
+
+
+        //메세지 삭제
             $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
                 //삭제 버튼 보이게
                 if($(this).children('.remove_message').css("display") == "none"){
