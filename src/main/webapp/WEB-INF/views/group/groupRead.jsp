@@ -289,6 +289,7 @@
             messageService.getList(group_id, limit, function (result) {
                 $('#readGroupMessage').html(result);
             })
+            console.log("리밋 값 : "+limit)
 
             //열었을때 입력창 보여주기
             var offset = $('.modal-footer').offset();
