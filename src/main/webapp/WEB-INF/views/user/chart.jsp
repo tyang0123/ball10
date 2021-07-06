@@ -2,50 +2,46 @@
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link rel="stylesheet" href="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.css">
-<script type='text/javascript' src='https://uicdn.toast.com/tui.code-snippet/v1.5.0/tui-code-snippet.min.js'></script>
-<script type='text/javascript' src='https://uicdn.toast.com/tui.chart/latest/raphael.js'></script>
-<script src="https://uicdn.toast.com/tui.chart/latest/tui-chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
-
-<link
-        rel="stylesheet"
-        href="https://uicdn.toast.com/chart/latest/toastui-chart.min.css"
-/>
-<script src="https://uicdn.toast.com/chart/latest/toastui-chart.min.js"></script>
-
-
-<div class="row">
-    <div class="col-12">
-        <div id='chart-area'></div>
-        <div id='chart-temp'></div>
-    </div>
+<div class="chart-container" style="height:800px; width:800px">
+    <canvas id="myChart"></canvas>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        var container = document.getElementById('chart-area');
+        var myChart;
+        var ctx = document.getElementById('myChart').getContext('2d');
         var options = {
-            chart: {
-                width: 1160,
-                height: 540,
+            parsing: {
+                xAxisKey: 'tip',
+                yAxisKey: 'value'
             },
-            yAxis: {
-                title: 'Weekend',
-                scale: {
-                    min: 0,
-                    max: 15
-                },
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: 8
+                }
             },
-            xAxis: {
-                title: 'Month'
-            },
-            series: {
-                stackType: 'normal',
-            },
-            legend: {
-                visible: false
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const secondsNumber = context.dataset.data[context.parsed.x].tip;
+                            var hours   = Math.floor(secondsNumber / 3600);
+                            var minutes = Math.floor((secondsNumber - (hours * 3600)) / 60);
+                            var seconds = secondsNumber - (hours * 3600) - (minutes * 60);
+
+                            if (hours   < 10) {hours   = "0"+hours;}
+                            if (minutes < 10) {minutes = "0"+minutes;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+
+                            return hours+':'+minutes+':'+seconds;
+                            // console.log(context.dataset.data[context.parsed.x].tip)
+                            // return context.dataset.data[0];
+                        },
+                    }
+                }
             }
         };
 
@@ -62,32 +58,33 @@
                     weekArr.forEach((value, index) => {
                         const timeData = result.find(data => Number(data.week) === (index+1));
                         if (timeData == null) {
-                            dataList.push(0);
+                            dataList.push({"value": 0, "tip": 0});
                         } else {
-                            dataList.push(Math.floor(timeData.time / 12) / 100);
-                            // dataList.push(timeData)
+                            dataList.push({"value": Math.floor(timeData.time / 36) / 100, "tip":timeData.time}) ;
+                            console.log(timeData.time)
                         }
+                        //카테고리 날짜 + 요일
                         const pushDate = new Date(Number(baseMonday.substring(0,4)), Number(baseMonday.substring(5,7)) - 1, Number(baseMonday.substring(8,10)))
                         pushDate.setDate(pushDate.getDate() + index)
                         const pushMonth = pushDate.getMonth() + 1;
                         const pushDay = pushDate.getDate();
                         categories.push((pushMonth < 10 ? '0' : '') + pushMonth + "-" + (pushDay < 10 ? '0' : '') + pushDay + " " + value)
                     })
-                    console.log(categories, dataList);
+                    // console.log(categories, dataList);
 
-                    var chartData = {
-                        categories: categories,
-                        series: [
-                            {
-                                name: '공부시간',
-                                data: dataList,
-                            }
-                        ]
-                    };
-
-                    $("#chart-area").empty();
-                    tui.chart.columnChart(container, chartData, options);
-                    $(".tui-chart-chartExportMenu-button").hide();
+                    if(myChart != null){ myChart.destroy()}
+                    myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            datasets: [{
+                                label: '하루 공부시간',
+                                data: dataList, // [{value: seconds/1200, tip: seconds}]
+                                backgroundColor: ['rgba(255, 255, 102, 0.7)']
+                            }],
+                            labels: categories
+                        },
+                        options: options
+                    });
                 },
                 error: function (xhr, status, er) {
                     console.log("error : " + er);
