@@ -5,9 +5,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link href="/resources/css/group.css" rel="stylesheet">
 
-<%--<div class="wrapper">--%>
+<div class="wrapper">
     <div class="row" style="background-color: #efefef;">
-        <div class="col-lg-12" style="margin-top: 40px;margin-bottom: 40px;">
+<%--        col-lg-12--%>
+        <div class="createForm" style="margin-top: 40px;margin-bottom: 40px;">
             <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 생성</h1>
             <form id="formBtn" role="form" action="/group/create" method="post">
             <div class="form-group">
@@ -20,7 +21,7 @@
                     <input class="form-control" name="user_id_group_header" id="user_id_group_header" value="${user_id}" readonly="readonly">
                 </label>
             </div>
-            <div class="form-group select-group">
+            <div class="form-group"> <!-- select-group -->
                 <select name="group_category" id="group_category" required>
                     <option value="" selected>ㅤ그룹 카테고리</option>
                     <option value="취업">ㅤ취업</option>
@@ -39,7 +40,7 @@
                     <input class="form-control form-custom" name="group_password" id="group_password" placeholder=" 비밀번호" value="${group.group_password}" readonly="readonly"/>
                 </label>
             </div>
-            <div class="form-group select-group">
+            <div class="form-group ">
                 <label for="group_person_count"/>
                 <select name="group_person_count" id="group_person_count" required>
                     <option value="" selected>ㅤ그룹 인원</option>

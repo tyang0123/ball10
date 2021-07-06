@@ -37,14 +37,15 @@
 <%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
             <div class="panel-body">
                 <form id='operForm' action="/group/read">
-                <div>
+                <div style="padding: 10px 12px">
                     <button id="joinGroup" class="btn btn-warning">그룹 가입 </button>
                     <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
                     <button class="btn btn-info">목록 </button>
                     <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
                 </div>
+                <div style="padding-left: 12px">
                 <button id="modifyBtn" class="btn btn-default"> 수정</button>
-<%--                <form id='operForm' action="/group/read">--%>
+                </div>
                         <div class="card user-card-group"  value="${group.group_is_secret}">
                                 <div class="card-body" style="background-color: #efefef;  padding-top:20px; padding-bottom: 40px;">
                                     <div class="row">
@@ -127,7 +128,8 @@
                 <img id = "modalShowButton" src="/resources/img/chat-left-dots.svg">
 <%--                <button id="modalShowButton">그룹메세지</button>--%>
                 <%--모달시작--%>
-                <div class="modal" tabindex="-1">
+                <div class="modal" tabindex="-1" id="modalGroupMessage">
+<%--                <div class="modal fade" id="modalGroupMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--%>
                     <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content" id="groupMessageModal">
                             <div class="modal-header" style="border-bottom: 1px solid black;">
@@ -274,85 +276,100 @@
             $("#modalShowButton").stop().animate({"top":position+currentPosition+10+"px"},1000);
         });
 
+        var limit = 15
+        messageService.getList(group_id, limit, function (result) {
+            $('#readGroupMessage').html(result);
+        })
 
         //modal창 보여주기
         $("#modalShowButton").click(function () {
-            var limit = 15
-            $('.modal').modal("show")
+            limit = 15
+            $('#modalGroupMessage').modal("show")
 
             //처음 메세지 가져오기
             messageService.getList(group_id, limit, function (result) {
                 $('#readGroupMessage').html(result);
             })
+            console.log("리밋 값 : "+limit)
 
             //열었을때 입력창 보여주기
-            var offset = $('#sendGroupMessage').offset();
+            var offset = $('.modal-footer').offset();
             $('.modal-body').animate({scrollTop : offset.top}, 40);
+            // console.log(offset);
+        })
 
-            //상위로 스크롤 했을때 메세지 더보기
-            var isLoading = false;
+        //상위로 스크롤 했을때 메세지 더보기
+        var isLoading = false;
 
-            function loadNewPage() {
-                limit += 15;
-                console.log("limit 값 : "+limit);
-                var temp = $('.modal-body').prop('scrollHeight');
-                messageService.getList(group_id, limit, function (result) {
-                    if(limit > count){
-                        console.log("다 가져왔습니다")
-                        isLoading = true;
-                        $('#readGroupMessage').html(result);
-                    }else {
-                        $('#readGroupMessage').html(result);
-                        $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
-                        // $('.modal-body').scrollTop($('.modal-body').height()-temp);
-                        isLoading = false;
+        function loadNewPage() {
+            limit += 15;
+            console.log("limit 값 : "+limit);
+            var temp = $('.modal-body').prop('scrollHeight');
+            messageService.getList(group_id, limit, function (result) {
+                if(limit > count){
+                    console.log("다 가져왔습니다")
+                    isLoading = true;
+                    $('#readGroupMessage').html(result);
+                }else {
+                    $('#readGroupMessage').html(result);
+                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    // $('.modal-body').scrollTop($('.modal-body').height()-temp);
+                    isLoading = false;
+                }
+            })
+        }
+
+        function upNdown() {
+            var lastScroll = 0;
+            $('.modal-body').scroll(function (event) {
+                var st = $(this).scrollTop();
+                if (st > lastScroll) {
+                } else {
+                    if ($('.modal-body').scrollTop() < 5 && !isLoading) {
+                        // isLoading = true;
+                        setTimeout(loadNewPage, 1200);
                     }
-                })
-            }
+                    lastScroll = st;
+                };
+            });
+        }
 
-            function upNdown() {
-                var lastScroll = 0;
-                $('.modal-body').scroll(function (event) {
-                    var st = $(this).scrollTop();
-                    if (st > lastScroll) {
-                    } else {
-                        if ($('.modal-body').scrollTop() < 5 && !isLoading) {
-                            isLoading = true;
-                            setTimeout(loadNewPage, 1200);
-                        }
-                        lastScroll = st;
-                    };
-                });
-            };
-            upNdown();
-            //상위로 스크롤 했을때 메세지 더보기 끝
-        // });
+        upNdown();
+        //상위로 스크롤 했을때 메세지 더보기 끝
 
-            //메세지 삭제
-            $("#readGroupMessage").on("click",".flex-row-reverse",function () {
+        $('#modalGroupMessage').on('hidden.bs.modal', function () {
+            isLoading = false;
+        });
+
+        //메세지 삭제
+            $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
                 //삭제 버튼 보이게
-                $(this).children('.remove_message').css("display","block")
-                $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
+                if($(this).children('.remove_message').css("display") == "none"){
+                    $(this).children('.remove_message').css("display","block")
 
+                    //삭제 버튼 클릭했을때 삭제
+                    $(this).children('.remove_message').off("click").on("click",function (){
+                        //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
+                        var group_message_idH = $(this).html()
+                        var start = group_message_idH.indexOf(':');
+                        var end = group_message_idH.lastIndexOf('"');
 
-                //삭제 버튼 클릭했을때 삭제
-                $(this).children('.remove_message').on("click",function (){
-                    //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
-                    var group_message_idH = $(this).html()
-                    var start = group_message_idH.indexOf(':');
-                    var end = group_message_idH.lastIndexOf('"');
+                        var group_message_id = group_message_idH.substring(start+1,end);
 
-                    var group_message_id = group_message_idH.substring(start+1,end);
-
-                    // var group_message_id = $(this).val()
-                    messageService.remove(group_message_id, function (deleteResult) {
-                        if (deleteResult == "success") {
-                            messageService.getList(group_id, limit, function (result) {
-                                $('#readGroupMessage').html(result);
-                            })
-                        }
+                        // var group_message_id = $(this).val()
+                        messageService.remove(group_message_id, function (deleteResult) {
+                            if (deleteResult == "success") {
+                                messageService.getList(group_id, limit, function (result) {
+                                    $('#readGroupMessage').html(result);
+                                })
+                            }
+                        })
                     })
-                })
+                }else {
+                    $(this).children('.remove_message').css("display","none")
+                }
+                // $(this).children('.remove_message').css("display","block")
+                $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
             })
 
         //메세지 추가
@@ -366,15 +383,17 @@
                     $('#message-text').val("");
                     messageService.getList(group_id, limit, function (result) {
                         $('#readGroupMessage').html(result);
+                        var offset = $('.modal-body').prop('scrollHeight');
+                        $('.modal-body').animate({scrollTop : offset}, 40);
                     })
                 }
             })
         })
 
-        });
+        // });
 
         $("#modal_close").click(function (){
-            $('.modal').modal("hide")
+            $('#modalGroupMessage').modal("hide")
         })
 
         //해당 그룹 멤버한테만 메세지 보이기(보이지 않는게 디폴트)
