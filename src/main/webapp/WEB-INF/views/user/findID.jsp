@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     <title>10.0</title>
+    <!-- 파비콘 -->
+    <link rel=" shortcut icon" href="/resources/logo/icon.png">
+    <link rel="icon" href="/resources/logo/icon.png">
 
     <!-- 부트스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -49,6 +52,7 @@
             background-color: #ffffff;
             margin-right: auto;
             margin-left: auto;
+            width: 82vw;
         }
         /* end  content 수직 정렬 과련 css */
 
@@ -61,6 +65,10 @@
             border-color: #ff9000;
             box-shadow: unset;
         }
+        .h1-custom{
+            margin-top: 6vw;
+            margin-bottom: 6vw;
+        }
 
         @media (min-width: 520px) {
             .content{
@@ -70,6 +78,13 @@
             form{
                 margin: 0 auto;
                 width: 80%;
+            }
+            .h1-custom{
+                margin-top: 40px;
+                margin-bottom: 30px;
+            }
+            .btn-email-custom {
+                margin-top:1rem;
             }
         }
 
@@ -81,7 +96,6 @@
 
         .btn-email-custom {
             display: inline-block;
-            font-weight: bold;
             line-height: 1.5;
             color: #000000;
             text-align: center;
@@ -95,8 +109,8 @@
             padding: 0.375rem 0.75rem;
             font-size: 1rem;
             border-radius: 0.2rem;
-            margin-top:1rem;
-            margin-bottom:1rem;
+            margin-top:2vw;
+            margin-bottom:2rem;
             width:50%;
         }
         .button-email{
@@ -107,6 +121,8 @@
             border-color: black;
             color: black;
         }
+
+
 
         /* a tag reset */
         a {color: #fff; text-decoration: none; outline: none}
@@ -138,7 +154,7 @@
     <div class="container">
         <div class="content">
             <div>
-                <figure class="text-center"><h1 style="margin-top: 30px;margin-bottom: 30px; font-weight: bold;" class="">아이디 찾기</h1></figure>
+                <figure class="text-center"><h1 class="h1-custom">아이디&nbsp;&nbsp;찾기</h1></figure>
 
                 <form method="post" action="/user/findID">
                     <div class="form-group m-3">

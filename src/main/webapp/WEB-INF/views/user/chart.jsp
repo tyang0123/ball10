@@ -19,35 +19,40 @@
 </div>
 
 <script type="text/javascript">
-    var container = document.getElementById('chart-area');
-    var data = {
-        categories: ["월", "화", "수", "목", "금", "토", "일"],
-        series: [
-            {
-                name: '일주일간의 공부량',
-                data: [380595, 472893, 724408, 829149, 853032, 812687, 548381],
+    $(document).ready(function () {
+
+        var container = document.getElementById('chart-area');
+        var data = {
+            categories: ["월", "화", "수", "목", "금", "토", "일"],
+            series: [
+                {
+                    name: '일주일간의 공부량',
+                    data: [380595, 472893, 724408, 829149, 853032, 812687, 548381],
+                }
+            ]
+        };
+        var options = {
+            chart: {
+                width: 1160,
+                height: 540,
+            },
+            yAxis: {
+                title: 'Weekend'
+            },
+            xAxis: {
+                title: 'Month'
+            },
+            series: {
+                stackType: 'normal',
+            },
+            legend: {
+                visible: false
             }
-        ]
-    };
-    var options = {
-        chart: {
-            width: 1160,
-            height: 540,
-            title: 'Monthly Revenue',
-        },
-        yAxis: {
-            title: 'Weekend'
-        },
-        xAxis: {
-            title: 'Month'
-        },
-        series: {
-            stackType: 'normal'
-        }
-    };
+        };
+        tui.chart.columnChart(container, data, options);
+        $(".tui-chart-chartExportMenu-button").hide();
+    });
 
-
-    tui.chart.columnChart(container, data, options);
 </script>
 
 
