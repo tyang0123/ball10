@@ -11,9 +11,6 @@
         select * from schedule_table where schedule_date = #{schedule_date} and user_id = #{user_id}
         order by schedule_time
     </select>
-<!--    <select id ="getScheduleDateCount" resultType="Integer">-->
-<!--        select count(*) as count_schedule from schedule where schedule_date = #{schedule_date} and user_id = #{user_id}-->
-<!--    </select>-->
     <select id ="selectScheduleCountByYearAndMonthAndUserID" resultType="java.util.LinkedHashMap">
         select DAYOFMONTH(schedule_date) as schedule_day, count(*) as schedule_count
         from schedule_table
@@ -35,4 +32,7 @@
     <delete id="deleteSchedule">
         delete from schedule_table where schedule_id = #{schedule_id}
     </delete>
+    <update id="updateScheduleChecked" parameterType="Long">
+        update schedule_table set schedule_checked = if(schedule_checked=1,0,1) where schedule_id = #{schedule_id}
+    </update>
 </mapper>

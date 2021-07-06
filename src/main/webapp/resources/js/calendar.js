@@ -36,17 +36,17 @@ const $calBody = document.querySelector('.dateSection');
 
 
 const displayTime = (timeValue)=>{
-    var dateObj = new Date(timeValue);
-    var yy= dateObj.getFullYear();
-    var mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
-    var dd = dateObj.getDate();
+    let dateObj = new Date(timeValue);
+    let yy= dateObj.getFullYear();
+    let mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
+    let dd = dateObj.getDate();
     return [ yy,'-',(mm>9?'':'0')+mm,'-',(dd>9?'':'0')+dd].join('');
 };
 
 
-var scheduleMonthListCount = new Map();
+let scheduleMonthListCount = new Map();
 const scheduleCount = (date)=>{
-    var getMonth = new Date(date.getFullYear(),date.getMonth());
+    let getMonth = new Date(date.getFullYear(),date.getMonth());
     $.ajax({
         type:"post",
         url:"/ajax/schedule/count",
@@ -55,7 +55,7 @@ const scheduleCount = (date)=>{
             date:displayTime(getMonth).toString(),
         },
         success : function (res){
-            var changeMonth = res['list'];
+            let changeMonth = res['list'];
             $.each(changeMonth , function(idx, val) {
                 scheduleMonthListCount.set(val.schedule_day,val.schedule_count);
             });
@@ -66,7 +66,7 @@ const scheduleCount = (date)=>{
 
 
 function loadDate (day, month, week,date) {
-    var weekarray = ['1st','2nd','3rd','4th','5th','6th'];
+    let weekarray = ['1st','2nd','3rd','4th','5th','6th'];
     document.querySelector('.subheading').textContent = date;
     document.querySelector('.cal-day').textContent = init.dayList[day]+",";
     document.querySelector('.cal-month').textContent = init.monList[month]+" "+weekarray[(week-1)];
@@ -79,29 +79,29 @@ function loadYYMM (fullDate) {
     let mm = fullDate.getMonth();
     let firstDay = init.getFirstDay(yy, mm,1);
     let lastDay = init.getLastDay(yy, mm,0);
-    let markToday;  // for marking today date
 
 
     //전월,익월 데이터
-    // const prevDate = new Date(firstDay);
-    // const nextDate = new Date(lastDay);
-    // const PLDay = prevDate.getDay();
-    // const NLDay = nextDate.getDay();
-    //
-    // const prevDates = [];
-    // const nextDates = [];
-    //
-    // if (PLDay !== 6) {
-    //     for (let i = 0; i < PLDay; i++) {
-    //         var yesterday = new Date(prevDate.setDate(prevDate.getDate() - 1));
-    //         prevDates.unshift(yesterday);
-    //     }
-    // }
-    // for (let i = 1; i < 7 - NLDay; i++) {
-    //     var tomorrow = new Date(nextDate.setDate(nextDate.getDate() + 1));	// 내일
-    //     nextDates.push(tomorrow);
-    // }
-    // const notThis = prevDates.concat(nextDates);
+    const prevDate = new Date(firstDay);
+    const nextDate = new Date(lastDay);
+    const PLDay = prevDate.getDay();
+    const NLDay = nextDate.getDay();
+
+    const prevDates = [];
+    const nextDates = [];
+
+    if (PLDay !== 5) {
+        for (let i = 0; i < PLDay; i++) {
+            let yesterday = new Date(prevDate.setDate(prevDate.getDate() - 1));
+            prevDates.unshift(yesterday);
+        }
+    }
+    console.log("이전달력 데이터"+prevDates);
+    for (let i = 1; i < 7 - NLDay; i++) {
+        let tomorrow = new Date(nextDate.setDate(nextDate.getDate() + 1));	// 내일
+        nextDates.push(tomorrow);
+    }
+    const notThis = prevDates.concat(nextDates);
 
 
 
@@ -130,8 +130,7 @@ function loadYYMM (fullDate) {
             let fullDate = yy + '-' + init.addZero(mm + 1) + '-' + init.addZero(countDay + 1);
 
             if (!startCount) {
-                calendarData += `<div class="calendar-day ${weekend}"><span class="calendar-date">`;
-                //calendarData += `<div class="calendar-day ${weekend} inactive" data-fdate="${displayTime(notThis[countIn])}"><input type="hidden" name="count" value="${displayTime(notThis[countIn])}"><span class="calendar-date">${notThis[countIn].getDate()}`;
+                calendarData += `<div class="calendar-day ${weekend} inactive" data-fdate="${displayTime(notThis[countIn])}"><input type="hidden" name="count" value="${displayTime(notThis[countIn])}"><span class="calendar-date">${notThis[countIn].getDate()}`;
                 countIn++;
             } else {
                 calendarData += `<div class="calendar-day ${weekend}`;
@@ -160,7 +159,7 @@ loadDate(init.today.getDay(), init.today.getMonth(),getWeekNo(init.today.toDateS
 scheduleList(init.today);
 
 function getWeekNo(v_date_str) {
-    var date = new Date();
+    let date = new Date();
     if(v_date_str){
         date = new Date(v_date_str);
     }
@@ -196,15 +195,23 @@ function scheduleList(date){
             date:displayTime(date).toString(),
         },
         success : function (res){
-            var list = res['list'];
-            var count = list.length;
-            var data = "";
+            let list = res['list'];
+            let count = list.length;
+            let data = "";
 
-            for (var i = 0; i < list.length; i++) {
-                data += `<li><input type="hidden" value=${list[i].schedule_id}>`;
+            for (let i = 0; i < list.length; i++) {
+                const checkValue = (list[i].schedule_checked==1)
+                    ? "checked='checked'"
+                    : '';
+                const checkLine = (list[i].schedule_checked==1)
+                    ? "style='text-decoration:line-through;'"
+                    : '';
+                data += `<li ${checkLine}><input type="hidden" value=${list[i].schedule_id}>`;
                 data += `<p style='cursor: pointer;'><span class="timeStrong">${timeChange(String(list[i].schedule_time))}</span><br/>`;
-                data += `${list[i].schedule_content}</p>`;
-                data += `</li>`;
+                data += `${list[i].schedule_content}</p></li>`;
+                data += `<div class="form-check" style="font-size: 13px; margin-top: -13px;margin-bottom: 15px;">`;
+                data += `<label><input class="form-check-input" ${checkValue} type="checkbox" name="todo" value=${list[i].schedule_checked}>&nbsp;check</label></div>`;
+
             }
             document.querySelector('#calendar-events').innerHTML = data;
             document.querySelector('.primary-color span').textContent = count;
@@ -214,13 +221,28 @@ function scheduleList(date){
 }
 
 const timeChange = (time)=>{
-    var arrayTime = time.split(',');
-    var hour = Number(arrayTime[0]);
-    var minute = arrayTime[1];
+    let arrayTime = time.split(',');
+    let hour = Number(arrayTime[0]);
+    let minute = arrayTime[1];
     if(hour<12) return hour+':'+minute+" AM";
     else {
         if (hour==12) return hour+':'+minute+" PM";
         return (hour-12)+':'+minute+" PM";
     }
 }
+
+function todoCheck(scheduleID){
+    $.ajax({
+        type:"post",
+        url:"/ajax/schedule/todo",
+        data:{
+            scheduleID:scheduleID,
+        },
+        success : function (res){
+        },
+        error : ()=>{}
+    })
+}
+
+
 

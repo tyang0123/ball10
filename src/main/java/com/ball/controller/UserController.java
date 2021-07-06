@@ -5,13 +5,11 @@ import com.ball.mail.vo.MailVO;
 import com.ball.service.AlarmService;
 import com.ball.service.TimerService;
 import com.ball.service.UserService;
-import com.ball.vo.Criteria;
 import com.ball.vo.TimerVO;
 import com.ball.vo.UserVO;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Random;
 
 @Controller
