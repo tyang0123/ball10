@@ -98,6 +98,9 @@ public class ScheduleMapperTests {
         mapper.deleteSchedule(19L);
     }
 
-
+    @Test
+    public void testUpdateChecked(){
+        mapper.updateScheduleChecked(163L);
+    }
 
 }

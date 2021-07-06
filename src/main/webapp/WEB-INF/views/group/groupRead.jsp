@@ -340,7 +340,9 @@
                     //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
                     var group_message_idH = $(this).html()
                     var start = group_message_idH.indexOf(":");
-                    var group_message_id = group_message_idH.substr(start+1,3);
+                    var end = group_message_idH.lastIndexOf('"');
+
+                    var group_message_id = group_message_idH.substring(start+1,end);
 
                     // var group_message_id = $(this).val()
                     messageService.remove(group_message_id, function (deleteResult) {

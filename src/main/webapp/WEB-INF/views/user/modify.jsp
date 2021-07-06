@@ -50,7 +50,7 @@
         $('#user_email').popover({content:"실제 사용중인 이메일 입력 📧",placement:'right',trigger:'focus'});
 
         //비밀번호 체크할 정규식 표현
-        var re = /^[a-zA-z0-9]{4,20}$/;
+        let re = /^[a-zA-z0-9]{4,20}$/;
 
         $('#inputPassword1').keyup(function (){
             $('#inputPassword1').val($('#inputPassword1').val().replace(/\s/gi, ""));
@@ -91,7 +91,7 @@
         });
 
         //중복 이메일 오류 문구
-        var emailCheck = "${emailFail}";
+        let emailCheck = "${emailFail}";
         if(emailCheck === "fail"){
             $('#emailHelpInline').text("이미 사용중인 이메일입니다.");
         }

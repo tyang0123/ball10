@@ -115,13 +115,13 @@
 
     <script>
         $(document).ready(function(){
-            var sendID = "${sendID}";
+            let sendID = "${sendID}";
             if(sendID!=''){
                 //alert(sendID);
                 $("#password-result").html(sendID);
             }
 
-            var send = false;
+            let send = false;
             $("form").submit(function (e) {
                 if(send){ // 한번이상 클릭시 중복 메일 보내기 방지
                     e.preventDefault();
