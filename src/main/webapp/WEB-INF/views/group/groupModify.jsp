@@ -5,7 +5,7 @@
 <link href="/resources/css/group.css" rel="stylesheet">
 
 <div class="row">
-    <div class="col-lg-12" style="margin-top: 40px;margin-bottom: 40px;">
+    <div class="createForm" style="margin-top: 40px;margin-bottom: 40px;">
         <div class="panel panel-default">
             <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 수정</h1>
             <div class="panel-body">
@@ -28,7 +28,7 @@
                     <div class="form-group secret">
                         <label for="group_is_secret">비밀방
                             <input type="checkbox"  name="group_is_secret" id="group_is_secret" value="${group.group_is_secret}" onclick="checkClick()" readonly="readonly"/>
-                            </label>
+                        </label>
                     </div>
                     <div class="form-group">
                         <input class="form-control form-custom" name="group_password" id="group_password" placeholder=" 비밀번호" value="${group.group_password}"/>

@@ -10,7 +10,6 @@
     <div class="col-8"><h1>공지사항</h1></div>
     <div class="col-2"><button style="width: 60px; position:absolute; right: 9vw;" type="button" class="button-timer-custom" id="createNoticeButton" value="${userID}">등록</button></div>
 </div>
-
 <div class="row">
     <div id="noticeTable">
         <table class="alarmTable table table-hover">
