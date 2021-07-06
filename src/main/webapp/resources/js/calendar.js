@@ -71,6 +71,11 @@ function loadDate (day, month, week,date) {
     document.querySelector('.cal-day').textContent = init.dayList[day]+",";
     document.querySelector('.cal-month').textContent = init.monList[month]+" "+weekarray[(week-1)];
 }
+////////chartFunction
+let fnCallChart;
+const setFnCallChart = function (fn){
+    fnCallChart = fn;
+}
 
 function loadYYMM (fullDate) {
     scheduleCount(fullDate);
@@ -96,6 +101,7 @@ function loadYYMM (fullDate) {
             prevDates.unshift(yesterday);
         }
     }
+
     console.log("이전달력 데이터"+prevDates);
     for (let i = 1; i < 7 - NLDay; i++) {
         let tomorrow = new Date(nextDate.setDate(nextDate.getDate() + 1));	// 내일
@@ -152,6 +158,13 @@ function loadYYMM (fullDate) {
     }
     $calBody.innerHTML = calendarData;
     scheduleMonthListCount.clear();
+
+    //chart
+    try {
+        fnCallChart(firstDay.getDay()===0? firstDay: prevDates[0]);
+    } catch(e) {
+        console.log(e)
+    }
 }
 
 loadYYMM(init.today);
