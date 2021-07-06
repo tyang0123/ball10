@@ -123,13 +123,13 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="modifySubmit" class="btn btn-primary">수정하기</button>
-                <button type="button" class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
             </div>
         </div>
     </div>
 </div>
 
-<%--<script type="text/javascript" src="/resources/js/notice.js"></script>--%>
+<script type="text/javascript" src="/resources/js/notice.js"></script>
 <script>
     var changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
@@ -159,6 +159,7 @@
                 noticeService.add(notice,function (result){
                     if(result == "success"){
                         alert("등록되었습니다.")
+                        location.reload();
                         $('#notice-text').val("");
                         $('#createNotice').modal("hide");
 
@@ -226,36 +227,34 @@
                         url:"/ajax/notice/modify",
                         data : JSON.stringify(notice),
                         dataType:"json",
+                        contentType: "application/json; charset=UTF-8;",
 
                         success : function (res){
                             const success = res['success'];
                             alert("등록되었습니다. " + success);
+                            location.reload();
                             $('#modify_notice_text').val("");
                             $('#modifyNotice').modal("hide");
                         },
                         error : ()=>{}
-
                     })
                 })
-
-
-
-                // noticeID="";
-                // $('#modifyNotice').modal("show");
-                // $('#modifySubmit').click(function (){
-                //     var notice = {
-                //         "notice_content": $('#modify_notice_text').val()
-                //     }
-                //     noticeService.modify(notice, noticeID, function (result){
-                //         if(result == "success"){
-                //             alert("수정되었습니다..")
-                //             $('#modify_notice_text').val("");
-                //             noticeID="";
-                //             $('#modifyNotice').modal("hide");
-                //         }
-                //     })
-                // })
-
+            })
+            $('.removeNoticeButton').click(function (){
+                console.log("클릭이 들어오나")
+                console.log("삭제 노티스 아이디가 들어오나",noticeID)
+                $.ajax({
+                    type:"delete",
+                    url:"/ajax/notice/remove?notice_id="+noticeID,
+                    data : {
+                        "notice_id":noticeID
+                    },
+                    success: function (res){
+                        alert("삭제 되었습니다 "+ res);
+                        location.reload();
+                    },
+                    error : ()=>{}
+                })
             })
 
             var myAlarm = $(this).next("tr");
@@ -268,16 +267,9 @@
             } else {
                 $(myAlarm).addClass('hideContent').removeClass('showContent');
                 $($(this).find("#drop")).html("<svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' class='bi bi-emoji-smile smileSize' viewBox='0 0 16 16'><path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/><path d='M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z'/></svg>");
-
             }
-
         })
-
     })
-    // function reset(){
-    //     $('#modify_notice_text').val('');
-    //     $('#modifyNotice').modal('');
-    // }
 
     //시간 디스플레이 변환
     const displayTime = (timeValue)=>{
@@ -336,46 +328,6 @@
                     $('.removeNoticeButton').show();
                 }else console.log("admin 계정이 아님");
 
-                // $('.modifyNoticeButton').click(function (){
-                //     $('#modifyNotice').modal("show");
-                //
-                //     console.log("수정버튼이 눌리나")
-                    // var notice = {
-                    //     "notice_content": $('#modify_notice_text').val()
-                    // }
-                    // var notice = {
-                    //     "notice_content": $('#noticeContent').val()
-                    // }
-                    // var no_id = {
-                    //     "notice_id": $('#noticeId').val()
-                    // }
-                    //
-                    // console.log("노티스 내용은? ",notice)
-                    // console.log("노티스 아이디는 ? ",no_id);
-
-                    // noticeService.modify(notice, list[i].notice_id, function (result){
-                    //     if(result == "success"){
-                    //         alert("수정되었습니다..")
-                    //         $('#notice-text').val("");
-                    //         $('#modifyNotice').modal("hide");
-                    //
-                    //     }
-                    // })
-                // })
-
-                $('.removeNoticeButton').click(function (){
-                    console.log("클릭이 들어오나")
-                    noticeService.remove(8, function (result){
-                        console.log(result);
-                        if(result=="success"){
-                            alert("삭제 됐습니다.");
-                        }
-                    }, function (err){
-                        alert('ERROR...');
-                    });
-                })
-
-
                 //더보기할 내용없을시 더보기 버튼 삭제
                 if(list.length<10){
                     $("#addBtn").remove();
@@ -397,6 +349,10 @@
 
 <%--</script>--%>
 
+
+
+
+<%@ include file="../includes/smallTimer.jsp" %>
 <%@ include file="../includes/footer.jsp" %>
 
 

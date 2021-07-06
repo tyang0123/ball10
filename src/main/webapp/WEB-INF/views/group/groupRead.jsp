@@ -156,7 +156,7 @@
         </div> <!-- end panel -->
     </div> <!-- col-lg-12 -->
 </div> <!-- row -->
-<%@ include file="../includes/footer.jsp" %>
+
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 스타일 -->
 <style>
@@ -339,7 +339,7 @@
                 $(this).children('.remove_message').on("click",function (){
                     //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
                     var group_message_idH = $(this).html()
-                    var start = group_message_idH.indexOf(":");
+                    var start = group_message_idH.indexOf(':');
                     var end = group_message_idH.lastIndexOf('"');
 
                     var group_message_id = group_message_idH.substring(start+1,end);
@@ -426,7 +426,7 @@
             }else if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 1){
                 const lastModTime = new Date(...data.timer_mod_date);
                 let diffTime = new Date(Date.now() - lastModTime);
-                console.log(diffTime.getUTCMinutes(), diffTime.getUTCSeconds());
+                //console.log(diffTime.getUTCMinutes(), diffTime.getUTCSeconds());
                 if(diffTime.getUTCMinutes() <= 1){
                     timerIsOnPlay = true;
                     [hour, minute, second] = data.timer_accumulated_day;
@@ -447,7 +447,7 @@
             }
 
             str+='<div class="col mt-2">'
-            str+='  <div class="row">'
+            str+='  <div class="row" data-timer-id="'+data.timer_id+'">'
             str+='    <div class="d-flex justify-content-center">'
             str+='      <div class="img-container">'
             str+='          <div class="my-img '+ (timerIsOnPlay ?'my-img-yellow':'my-img-balck')+'"></div>'
@@ -495,14 +495,17 @@
                 startIntervalViewUserTimerList(result);
             },//end ajax success
             error: function(xhr, status, er){
-                alert("error : "+er)
+                // alert("error : "+er)
             }
         });//end ajax
     }
 
+    var groupTimerIntervalID;
+
     function startIntervalGetUserTimerList(){
         getGroupUserTimerList();
-        timerIntervalID = setInterval(function () {
+        clearInterval(groupTimerIntervalID);
+        groupTimerIntervalID = setInterval(function () {
             getGroupUserTimerList();
         }, 60000); //1 min
     }//end startIntervalGetUserTimerList
@@ -514,3 +517,7 @@
 </script>
 <!-- 그룹 멤버 타이머 script -->
 
+
+<%@ include file="../includes/smallTimer.jsp" %>
+
+<%@ include file="../includes/footer.jsp" %>

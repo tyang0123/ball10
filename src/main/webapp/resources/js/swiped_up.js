@@ -58,7 +58,7 @@
                 return false;
             });
 
-        });
+        }, {passive: false});
     }
 
     function extend() {
@@ -209,7 +209,7 @@
             this.move();
 
             //prevent scroll
-            // e.preventDefault();
+            e.preventDefault();
         }
     };
 
@@ -227,12 +227,15 @@
 
         e.stopPropagation();
         e.preventDefault();
+        console.log("touchEnd")
     };
 
     /**
      * Animation of the opening
      */
     Swiped.prototype.open = function(isForce) {
+
+
         this.animation(this.dir * this.width);
         this.swiped = true;
 
@@ -247,6 +250,7 @@
      * Animation of the closing
      */
     Swiped.prototype.close = function(isForce) {
+        console.log("close")
         this.animation(0);
         this.swiped = false;
 
@@ -257,21 +261,18 @@
         this.resetValue();
     };
 
-    ////////////////////////////////////////////////////////////////////////
-    //// 내용추가
-    /////////////////////////////////////////////////////////////////////////
-   /**
+
+    /**
      * Animation of the opening
      */
     Swiped.prototype.clickOpen = function(isForce) {
-        
         if (this.list) {
             Swiped._closeAll(this.group);
         } else {
             this.close(true);
         }
 
-        this.animation(-1 * this.width);
+        this.animation(-1 * (this.left || this.right));
         this.swiped = true;
 
         if (!isForce) {
@@ -285,6 +286,7 @@
      * Animation of the closing
      */
     Swiped.prototype.clickClose = function(isForce) {
+
         this.animation(0);
         this.swiped = false;
 
@@ -294,8 +296,6 @@
 
         this.resetValue();
     };
-
-    ////////////////////////////////////////////////////////////////////////
 
     Swiped.prototype.toggle = function() {
         if (this.swiped) {
