@@ -20,7 +20,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 300px;
+  width: 55vw;
 }
 
 .group-content {
@@ -282,7 +282,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 }
 
 .createForm{
-  width: 400px;
+  width: 82vw;
   border: black 2px solid;
   border-radius: 1rem;
   background-color: #ffffff;

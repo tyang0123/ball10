@@ -6,6 +6,15 @@
 <%@ include file="../includes/header.jsp" %>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <link href="/resources/css/ml-calendar.css" rel="stylesheet">
+<style>
+    .form-check-input:checked {
+        border-color: #ff9000;
+        background-color: #ff9000;
+    }
+    .form-check-input:focus {
+        box-shadow: unset;
+    }
+</style>
 
 <div class="row">
 
@@ -66,39 +75,39 @@
                     <p style="margin-left: 10px;font-size: 20px;">스케쥴 등록 📝</p>
                     <select class="form-select form-select-custom" style="border: black 1px solid;margin-bottom: 15px;" name="hour">
                         <option value="" disabled selected hidden>몇시⏰</option>
-                        <option value="00">0</option>
-                        <option value="01">1</option>
-                        <option value="02">2</option>
-                        <option value="03">3</option>
-                        <option value="04">4</option>
-                        <option value="05">5</option>
-                        <option value="06">6</option>
-                        <option value="07">7</option>
-                        <option value="08">8</option>
-                        <option value="09">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
+                        <option value="00">0 시</option>
+                        <option value="01">1 시</option>
+                        <option value="02">2 시</option>
+                        <option value="03">3 시</option>
+                        <option value="04">4 시</option>
+                        <option value="05">5 시</option>
+                        <option value="06">6 시</option>
+                        <option value="07">7 시</option>
+                        <option value="08">8 시</option>
+                        <option value="09">9 시</option>
+                        <option value="10">10 시</option>
+                        <option value="11">11 시</option>
+                        <option value="12">12 시</option>
+                        <option value="13">13 시</option>
+                        <option value="14">14 시</option>
+                        <option value="15">15 시</option>
+                        <option value="16">16 시</option>
+                        <option value="17">17 시</option>
+                        <option value="18">18 시</option>
+                        <option value="19">19 시</option>
+                        <option value="20">20 시</option>
+                        <option value="21">21 시</option>
+                        <option value="22">22 시</option>
+                        <option value="23">23 시</option>
                     </select>
                     <select class="form-select form-select-custom" style="border: black 1px solid;margin-bottom: 15px;" name="minute">
                         <option value="" disabled selected hidden>몇분</option>
-                        <option value="00">00</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
+                        <option value="00">00 분</option>
+                        <option value="10">10 분</option>
+                        <option value="20">20 분</option>
+                        <option value="30">30 분</option>
+                        <option value="40">40 분</option>
+                        <option value="50">50 분</option>
                     </select>
                     <textarea class="form-control form-select-custom" rows="1" name="schedule_content" maxlength="20" placeholder="스케쥴 내용" style="resize: none;border: black 1px solid;margin-bottom: 15px;"></textarea>
                 </div>
@@ -122,42 +131,43 @@
             <form name="scheduleModify" action="/ajax/schedule/modify" method="post">
                 <div class="modal-body">
                     <input type="hidden" id="schedule_id" name="schedule_id"/>
+                    <input type="hidden" id="schedule_date" name="schedule_date"/>
                     <p style="margin-left: 10px;font-size: 20px;">스케쥴 수정 📝</p>
                     <select class="form-select form-select-custom" id="hourSelect" style="border: black 1px solid;margin-bottom: 15px;" name="hour">
                         <option value="" disabled selected hidden>몇시⏰</option>
-                        <option value="00">0</option>
-                        <option value="01">1</option>
-                        <option value="02">2</option>
-                        <option value="03">3</option>
-                        <option value="04">4</option>
-                        <option value="05">5</option>
-                        <option value="06">6</option>
-                        <option value="07">7</option>
-                        <option value="08">8</option>
-                        <option value="09">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
+                        <option value="00">0 시</option>
+                        <option value="01">1 시</option>
+                        <option value="02">2 시</option>
+                        <option value="03">3 시</option>
+                        <option value="04">4 시</option>
+                        <option value="05">5 시</option>
+                        <option value="06">6 시</option>
+                        <option value="07">7 시</option>
+                        <option value="08">8 시</option>
+                        <option value="09">9 시</option>
+                        <option value="10">10 시</option>
+                        <option value="11">11 시</option>
+                        <option value="12">12 시</option>
+                        <option value="13">13 시</option>
+                        <option value="14">14 시</option>
+                        <option value="15">15 시</option>
+                        <option value="16">16 시</option>
+                        <option value="17">17 시</option>
+                        <option value="18">18 시</option>
+                        <option value="19">19 시</option>
+                        <option value="20">20 시</option>
+                        <option value="21">21 시</option>
+                        <option value="22">22 시</option>
+                        <option value="23">23 시</option>
                     </select>
                     <select class="form-select form-select-custom" id="minuteSelect" style="border: black 1px solid;margin-bottom: 15px;" name="minute">
                         <option value="" disabled selected hidden>몇분</option>
-                        <option value="00">00</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
+                        <option value="00">00 분</option>
+                        <option value="10">10 분</option>
+                        <option value="20">20 분</option>
+                        <option value="30">30 분</option>
+                        <option value="40">40 분</option>
+                        <option value="50">50 분</option>
                     </select>
                     <textarea class="form-control form-select-custom" id="scheduleContent" rows="1" name="schedule_content" maxlength="20" placeholder="스케쥴 내용" style="resize: none;border: black 1px solid;margin-bottom: 15px;"></textarea>
                 </div>
@@ -175,12 +185,31 @@
 <script>
 
     $(document).ready(function (){
+        //todoList처리
+        $("#calendar-events").on("click","div input",function () {
+            let checkToggle = $(this).val();
+            let selectTodo = $(this).closest("div").prev();
+            let scheduleID = selectTodo.find("input").val();
+            if(checkToggle==0){
+                $(this).val(1);
+                selectTodo.css('text-decoration','line-through');
+                todoCheck(scheduleID);
+            }
+            else {
+                $(this).val(0);
+                selectTodo.css('text-decoration','');
+                todoCheck(scheduleID);
+            }
+        })
+
+
         //스케쥴 등록 모달
         $('.calendar-btn').click(function (){
-            var date = new Date($(".subheading").text());
+            let date = new Date($(".subheading").text());
             $(".modal-title").text(date.getFullYear()+"년 \xa0"+(date.getMonth()+1)+"월 \xa0"+date.getDate()+"일");
             $("#scheduleDate").val(displayTime(date).toString());
         })
+
         //모달 초기화
         $('#insertSchedule').on('hidden.bs.modal', function (e) {
             $(this).find('form')[0].reset();
@@ -191,30 +220,30 @@
 
         //스케쥴 추가
         $('#schedule_submit').click(function (){
-            var queryString = $("form[name=scheduleAdd]").serialize() ;
+            let queryString = $("form[name=scheduleAdd]").serialize() ;
             $.ajax({
                 type:"post",
                 url:"/ajax/schedule/add",
                 data:queryString,
                 success : function (res){
-                    var schedule_time = res['schedule_time'];
-                    var schedule_content = res['schedule_content'];
-                    var schedule_id = res['id'];
-                    var data = "";
+                    let schedule_time = res['schedule_time'];
+                    let schedule_content = res['schedule_content'];
+                    let schedule_id = res['id'];
+                    let schedule_date = res['date'];
+                    let data = "";
                     data += "<li><input type='hidden' value="+schedule_id+">";
                     data += "<p style='cursor: pointer;'><span class='timeStrong'>"+timeChange(schedule_time)+"</span>";
                     data += "<br/>"+schedule_content+"</p></li>";
+                    data += `<div class="form-check" style="font-size: 13px; margin-top: -13px;margin-bottom: 15px;">`;
+                    data += `<label><input class="form-check-input" type="checkbox" name="todo" value="0">&nbsp;check</label></div>`;
 
                     $('#calendar-events').append(data);
-                    var countSection = document.querySelector('.primary-color span');
-                    var count = countSection.textContent;
-                    count++;
-                    countSection.textContent = count;
+                    let day = new Date(schedule_date);
+                    scheduleList(day);
+                    loadYYMM(day);
 
                     $('#insertSchedule').find('form')[0].reset();
-                    $('#insertSchedule').modal("hide"); //닫기
-                    // $(".calendar-event").load(window.location.href + ".calendar-event");
-                    // $("#calendar-events").load(window.location.href + "#calendar-events");
+                    $('#insertSchedule').modal("hide");
                 },
                 error : ()=>{}
             })
@@ -222,9 +251,8 @@
 
         //스케쥴 하나 선택
         $("#calendar-events").on("click","li",function () {
-            var sheduleID = $(this).find("input").val();
+            let sheduleID = $(this).find("input").val();
             $('#modifySchedule').modal("show");
-            console.log("클릭되니???!!" + sheduleID);
             $.ajax({
                 type:"post",
                 url:"/ajax/schedule/read",
@@ -232,60 +260,65 @@
                     sheduleID:sheduleID
                 },
                 success : function (res){
-                    var scheduleVO = res['vo'];
-                    console.log("타임 어케 들어오지 "+scheduleVO.schedule_time);
-                    console.log("날짜 어케 들어오지 "+scheduleVO.schedule_date);
-                    var scheduleDate = String(scheduleVO.schedule_date).split(',');
+                    let scheduleVO = res['vo'];
+                    let scheduleDate = String(scheduleVO.schedule_date).split(',');//날짜 형식 변환
                     $(".modal-title-modify").text(scheduleDate[0]+"년 \xa0"+scheduleDate[1]+"월 \xa0"+scheduleDate[2]+"일");
 
-                    var scheduleTime = String(scheduleVO.schedule_time).split(',');
-                    console.log("글자수"+scheduleTime[0].length);
+                    let scheduleTime = String(scheduleVO.schedule_time).split(','); //시간 형식 변환
                     if(scheduleTime[0].length==1){
                         $("#hourSelect").val("0"+scheduleTime[0]).attr("selected", true);
                     }
                     else $("#hourSelect").val(scheduleTime[0]).attr("selected", true);
                     $("#minuteSelect").val(scheduleTime[1]).attr("selected", true);
+
                     $('#scheduleContent').text(scheduleVO.schedule_content);
                     $('#schedule_id').val(scheduleVO.schedule_id);
+                    $('#schedule_date').val(scheduleVO.schedule_date);
                 },
                 error : ()=>{}
             });
         });
+
         //스케쥴 수정
         $('#modify_submit').click(function () {
-            var queryString = $("form[name=scheduleModify]").serialize();
+            let queryString = $("form[name=scheduleModify]").serialize();
             $.ajax({
                 type: "post",
                 url: "/ajax/schedule/modify",
                 data: queryString,
                 success: function (res) {
-                    var success = res['success'];
-                    console.log("수정됐나?"+success);
+                    let date = res['date'];
+                    let day = new Date(date);
+                    scheduleList(day);
+                    loadYYMM(day);
                     $('#modifySchedule').find('form')[0].reset();
-                    $('#modifySchedule').modal("hide"); //닫기
-                },
-                error: () => {
-                }
-            });
-        });
-        //스케쥴 삭제
-        $('#delete_submit').click(function () {
-            var queryString = $("form[name=scheduleModify]").serialize();
-            $.ajax({
-                type: "post",
-                url: "/ajax/schedule/delete",
-                data: queryString,
-                success: function (res) {
-                    var success = res['success'];
-                    console.log("삭제됐나?"+success);
-                    $('#modifySchedule').find('form')[0].reset();
-                    $('#modifySchedule').modal("hide"); //닫기
+                    $('#modifySchedule').modal("hide");
+
                 },
                 error: () => {
                 }
             });
         });
 
+        //스케쥴 삭제
+        $('#delete_submit').click(function () {
+            let queryString = $("form[name=scheduleModify]").serialize();
+            $.ajax({
+                type: "post",
+                url: "/ajax/schedule/delete",
+                data: queryString,
+                success: function (res) {
+                    let date = res['date'];
+                    let day = new Date(date);
+                    scheduleList(day);
+                    loadYYMM(day);
+                    $('#modifySchedule').find('form')[0].reset();
+                    $('#modifySchedule').modal("hide");
+                },
+                error: () => {
+                }
+            });
+        });
     });
 
 </script>

@@ -16,6 +16,7 @@ public class ScheduleVO {
     private LocalDate schedule_date;
     private LocalTime schedule_time;
     private String schedule_content;
+    private Byte schedule_checked;
     private LocalDateTime schedule_reg_date;
     private LocalDateTime schedule_mod_date;
 }

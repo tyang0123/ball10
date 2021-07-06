@@ -49,11 +49,6 @@ public class ScheduleAjaxController {
     @PostMapping("/add")
     public ResponseEntity<HashMap<String, Object>> scheduleAdd(String hour,String minute,String schedule_content,String date, HttpSession session) throws Exception {
         String userID = String.valueOf(session.getAttribute("userID"));
-        System.out.println("여기들어오나?? 세션아이디 "+userID);
-        System.out.println("여기들어오나??hour "+hour);
-        System.out.println("여기들어오나??minute "+minute);
-        System.out.println("여기들어오나??schedule_content "+schedule_content);
-        System.out.println("여기들어오나??date "+date);
 
         HashMap<String, Object> result = new HashMap<>();
 
@@ -66,12 +61,10 @@ public class ScheduleAjaxController {
         vo.setSchedule_content(schedule_content);
 
         scheduleService.insertSchedule(vo);
+        result.put("date",date);
         result.put("id",vo.getSchedule_id());
-        System.out.println("vo.getSchedule_id() 체크 "+vo.getSchedule_id());
         result.put("schedule_content",schedule_content);
-        System.out.println("schedule_content 체크 "+schedule_content);
         result.put("schedule_time",(hour + "," + minute));
-        System.out.println("(hour + \",\" + minute) 체크 "+(hour + "," + minute));
         return ResponseEntity.ok(result);
     }
 
@@ -84,7 +77,7 @@ public class ScheduleAjaxController {
     }
 
     @PostMapping("/modify")
-    public ResponseEntity<HashMap<String, Object>> scheduleModify(String hour,String minute,String schedule_content,Long schedule_id) throws Exception {
+    public ResponseEntity<HashMap<String, Object>> scheduleModify(String hour,String minute,String schedule_content,String schedule_date,Long schedule_id) throws Exception {
         HashMap<String, Object> result = new HashMap<>();
 
         ScheduleVO vo = scheduleService.readSchedule(schedule_id);
@@ -92,15 +85,24 @@ public class ScheduleAjaxController {
         vo.setSchedule_time(scheduleTime);
         vo.setSchedule_content(schedule_content);
         scheduleService.modifySchedule(vo);
-        result.put("success","success");
+        result.put("date",schedule_date);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<HashMap<String, Object>> scheduleDelete(Long schedule_id) throws Exception {
+    public ResponseEntity<HashMap<String, Object>> scheduleDelete(Long schedule_id,String schedule_date) throws Exception {
         HashMap<String, Object> result = new HashMap<>();
 
         scheduleService.removeSchedule(schedule_id);
+        result.put("date",schedule_date);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/todo")
+    public ResponseEntity<HashMap<String, Object>> scheduleDelete(Long scheduleID)throws Exception {
+        HashMap<String, Object> result = new HashMap<>();
+
+        scheduleService.todoScheduleChecked(scheduleID);
         result.put("success","success");
         return ResponseEntity.ok(result);
     }

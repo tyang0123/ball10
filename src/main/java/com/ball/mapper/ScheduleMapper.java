@@ -15,9 +15,6 @@ public interface ScheduleMapper {
     //날짜별 스케쥴 리스트
     public List<ScheduleVO> selectScheduleByDateAndUserID(@Param("schedule_date") LocalDate date, @Param("user_id") String user_id);
 
-//    //날짜별 스케쥴 갯수 확인
-//    public int getScheduleDateCount(@Param("schedule_date") String date, @Param("user_id") String user_id);
-
     //매달 스케쥴 갯수 확인
     public List<Map<Integer, Long>> selectScheduleCountByYearAndMonthAndUserID(@Param("schedule_date") LocalDate date, @Param("user_id") String user_id);
 
@@ -29,4 +26,7 @@ public interface ScheduleMapper {
 
     //스케쥴 삭제
     public void deleteSchedule(Long schedule_id);
+
+    //스케쥴 todoList 처리
+    public void updateScheduleChecked(Long schedule_id);
 }

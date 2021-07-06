@@ -30,11 +30,6 @@ public class ScheduleServiceImpl implements ScheduleService{
         return mapper.selectScheduleCountByYearAndMonthAndUserID(date,user_id);
     }
 
-//    @Override
-//    public int readScheduleDateCount(String date, String user_id) {
-//        return mapper.getScheduleDateCount(date,user_id);
-//    }
-
     @Override
     public Long insertSchedule(ScheduleVO vo) {
         return mapper.addSchedule(vo);
@@ -48,5 +43,10 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     public void removeSchedule(Long schedule_id) {
         mapper.deleteSchedule(schedule_id);
+    }
+
+    @Override
+    public void todoScheduleChecked(Long schedule_id) {
+        mapper.updateScheduleChecked(schedule_id);
     }
 }
