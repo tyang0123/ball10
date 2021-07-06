@@ -5,7 +5,9 @@ import com.ball.vo.GroupVO;
 import com.ball.vo.TimerVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface TimerMapper {
     public Long insertTodayTimer(TimerVO vo);//login+cookie 생성시 새로운 타이머 data생성
@@ -13,4 +15,5 @@ public interface TimerMapper {
     public TimerVO selectTimerByTimerID(Long timer_id);
     public int updateAccumulatedTimeAndState(TimerVO vo);
     public List<TimerVO> selectListTodayUserTimerbyGroupID(Long group_id);
+    public List<Map<String, Object>> selectTimerSecondsByDateWeekAndUser(@Param("timer_date") LocalDate date, @Param("user_id") String user_id);
 }

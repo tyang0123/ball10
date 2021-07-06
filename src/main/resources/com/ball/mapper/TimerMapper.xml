@@ -45,4 +45,11 @@
             ]]>
         where gur.group_id = #{group_id}
     </select>
+    <select id="selectTimerSecondsByDateWeekAndUser" resultType="java.util.HashMap">
+        select timer_date, weekday(timer_date) as week, TIME_TO_SEC(timer_accumulated_day) as time
+        from timer
+        where user_id = #{user_id} and timer_date between date(#{timer_date}) and DATE_ADD(#{timer_date}, INTERVAL 6 DAY)
+        order by weekday(timer_date)
+    </select>
+
 </mapper>

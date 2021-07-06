@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -48,5 +50,10 @@ public class TimerServiceImpl implements TimerService{
     @Override
     public List<TimerVO> getListTodayUserTimerbyGroupID(Long group_id) {
         return timerMapper.selectListTodayUserTimerbyGroupID(group_id);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTimerSecondsListByDateWeekAndUser(LocalDate date, String user_id) {
+        return timerMapper.selectTimerSecondsByDateWeekAndUser(date, user_id);
     }
 }
