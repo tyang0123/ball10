@@ -121,7 +121,7 @@
 
 <script type="text/javascript">
 
-    var changeCriterionNumber=${firstCriterionNumber};
+    let changeCriterionNumber=${firstCriterionNumber};
     $(document).ready(function (){
 
         //알람메세지 모달
@@ -137,7 +137,7 @@
         });
 
         //수정 후 모달 show
-        var successModify = "${successModify}"
+        let successModify = "${successModify}"
 
         checkModal(successModify);
         history.replaceState({},null,null);
@@ -153,18 +153,18 @@
     });
     //시간 디스플레이 변환
     const displayTime = (timeValue)=>{
-        var today = new Date();
-        var gap = today.getTime() - timeValue;
-        var dateObj = new Date(timeValue);
+        let today = new Date();
+        let gap = today.getTime() - timeValue;
+        let dateObj = new Date(timeValue);
         if(gap<(1000*60*60*24)){ //시분초  1milli second
-            var hh =dateObj.getHours();
-            var mi =dateObj.getMinutes();
-            var ss =dateObj.getSeconds();
+            let hh =dateObj.getHours();
+            let mi =dateObj.getMinutes();
+            let ss =dateObj.getSeconds();
             return [ (hh>9?'':'0') +hh, ':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
         }  else {//년월일
-            var yy= dateObj.getFullYear();
-            var mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
-            var dd = dateObj.getDate();
+            let yy= dateObj.getFullYear();
+            let mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
+            let dd = dateObj.getDate();
             return [ yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
         }
     };
@@ -188,9 +188,9 @@
             dataType:"json",
             success : function (res){
                 const list = res['list'];
-                var data = "";
+                let data = "";
 
-                for (var i = 0; i < list.length; i++) {
+                for (let i = 0; i < list.length; i++) {
                     data += "<tr class='itemTitle'>";
                     data += "<input type='hidden' value='" + list[i].alarm_message_id + "'></input>";
                     data += "<td style='font-size: 12px;' class='align-middle'>" + displayTime(list[i].alarm_message_reg_date) + "</td>";
@@ -215,11 +215,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // 알람클릭시 내용이 보이며, 읽음처리 구동
-        var alarmShow = (".alarmTable .showContent");
+        let alarmShow = (".alarmTable .showContent");
 
         $("#dataSection").on("click","tr",function () {
             $($(this).find("#new")).html("<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-envelope-open' viewBox='0 0 16 16'><path d='M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.818l5.724 3.465L8 8.917l1.276.766L15 6.218V5.4a1 1 0 0 0-.53-.882l-6-3.2zM15 7.388l-4.754 2.877L15 13.117v-5.73zm-.035 6.874L8 10.083l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738zM1 13.117l4.754-2.852L1 7.387v5.73zM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765l6-3.2z'/></svg>");
-            var alarmID = $(this).find("input").val();
+            let alarmID = $(this).find("input").val();
             $.ajax({
                 type:"post",
                 url:"/ajax/user/alarmCount",
@@ -236,7 +236,7 @@
             })
 
             //add,remove 클래스로 누를때 테이블내용이 보인다
-            var myAlarm = $(this).next("tr");
+            let myAlarm = $(this).next("tr");
             if ($(myAlarm).hasClass('hideContent')) {
 
                 $(alarmShow).removeClass('showContent').addClass('hideContent');
@@ -252,10 +252,10 @@
 <!-- 타이머 관련 Script-->
 <script src="/resources/js/timer.js"></script>
 <script>
-    var timerCookie = document.cookie
+    let timerCookie = document.cookie
             .split('; ')
             .find(row => row.startsWith('timerCookie'));
-    var timerCookieStr = '';
+    let timerCookieStr = '';
 
     if(timerCookie === undefined){
         setTimeout(function(){ location.href="/user/user"; }, 2000);
@@ -274,9 +274,9 @@
         $("#modifySuccess").modal("show");
     }
     $(document).ready(function () {
-        var startIntervalToSaveTimerStatuesForAppleUserPerOneMinute;
-        var clearIntervalToSaveTimerStatuesForAppleUser;
-        var timerPlayFlag = false;
+        let startIntervalToSaveTimerStatuesForAppleUserPerOneMinute;
+        let clearIntervalToSaveTimerStatuesForAppleUser;
+        let timerPlayFlag = false;
         $("#time-toggle").click(function(e){
             if(timerPlayFlag){
                 $(this).html('공부시작하기');
@@ -312,7 +312,7 @@
         });
 
         //ios, mac os에서는 1분마다 한번씩 타이머 시간을 저장
-        var isIOS = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent);
+        let isIOS = /Mac|iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
             console.log("ios")
             $(window).bind("pagehide", function (e){
