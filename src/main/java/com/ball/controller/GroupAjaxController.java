@@ -35,5 +35,6 @@ public class GroupAjaxController {
 
         return ResponseEntity.ok(result);
     }
+//    @PostMapping(value = "/")
 
 }

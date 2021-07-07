@@ -22,7 +22,7 @@
     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
         <div class="col-lg-12">
             <form id="listForm" action="/group/list" method="get">
-                <select class="category" name="category">
+                <select class="category" name="category" >
                     <option value="" <c:out value="${cri.category ==null?'selected':''}"/>>---</option>
                     <option value="토익"
                             <c:out value="${cri.category eq '토익'?'selected':''}"/>>토익</option>
@@ -34,14 +34,14 @@
                             <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                 </select>
                 <div class="searchForm">
-                <input type="text" id="listSearch" name="keyword"/>
+                <input type="text" id="listSearch" name="keyword" value="${cri.keyword}"/>
                 <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>  <!-- col-lg-12 -->
     </table>
 </div>
-<div class="row">  <!-- groupList -->
+<div class="row" id="groupRow">  <!-- groupList -->
     <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block">
         <c:forEach var="list" items="${list}" >
             <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
@@ -75,8 +75,11 @@
                     </ul>
             </div>
         </c:forEach>
-        <button type="button" id="addGroup"><span>더보기</span></button>
+        <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
+            <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
         </div>
+        </div>
+<%--        <button type="button" id="addGroup" name="addGroup"><span>더보기</span></button>--%>
     </div>
 </div>
 <%--<div class="row">--%>
@@ -109,7 +112,13 @@
         $('#inputPass').val("");
         $('#modalPass').modal('');
     }
-    $("#addGroup").click(function (){
+    $(".category").val("${category}").attr("selected", true);
+    $("#listSearch").val("${type}");
+    if($("#listSearch").val(changeCriterionNumber)){
+        alert("검색 결과가 없습니다.")
+    }
+
+    $("#addBtn").click(function (){
         var keyword = $('#listSearch').val();
         var type = $("select[class='category'] option:selected").val();
 
@@ -132,6 +141,7 @@
             return [ yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
         }
     };
+
     const moreList = (criterionNumber, keyword, type) => {
         var startNum = $(".user-card-group input:last").val();
         console.log("카드 마지막 번호는 ? "+startNum);
@@ -146,47 +156,54 @@
                 category:type
             },
             success(data){
-                console.log(data)
+                console.log("데이터", data);
                 const criNum = data['criNumber'];
+
+                if(criNum.length < 20){
+                    $("#addBtn").remove();
+                }
                 var groupText ="";
                 for(let i = 0; i < criNum.length; i++) {
                     // var idx = Number(startNum)+Number(i)+1;
                     // 글번호 : startNum 이  10단위로 증가되기 때문에 startNum +i (+1은 i는 0부터 시작하므로 )
 
-                    groupText += "<div class='card user-card-group' style='cursor: pointer;' value='" + criNum[i].group_is_secret + "'>";
-                    groupText += "  <input type='hidden' name='group_id' value='" + criNum[i].group_id + "'/>";
+                    groupText += "<div class='card user-card-group' style='cursor: pointer;' value='" +criNum[i].group_is_secret+ "'>";
+                    groupText += "  <input type='hidden' name='group_id' value='" +criNum[i].group_id+ "'/>";
                     groupText += "  <div class='card-body'>";
                     groupText += "      <div class='row'>";
-                    groupText += "          <div class='col-10 group-category'>criNum[i].group_category</div>";
+                    groupText += "          <div class='col-10 group-category'>" +criNum[i].group_category+ "</div>";
                     groupText += "          <div class='col-2 text-end groupSecret'>";
-                    groupText += "              <div style='text-align: center; margin-top: 7px;'>";
-                    groupText += "                  <img src='/resources/img/lock.png' id='lockImg'/>";
-                    groupText += "              </div>";
+                    if(criNum[i].group_is_secret == 1){
+                        groupText += "              <div style='text-align: center; margin-top: 7px;'>";
+                        groupText += "                  <img src='/resources/img/lock.png' id='lockImg'/>";
+                        groupText += "              </div>";
+                    }
                     groupText += "          </div>";
                     groupText += "      </div>";
                     groupText += "      <div class='group-list-margin'>";
-                    groupText += "          <span class='group-title'>criNum[i].group_name</span>";
+                    groupText += "          <span class='group-title'>" +criNum[i].group_name+ "</span>";
                     groupText += "      </div>";
                     groupText += "      <div>";
-                    groupText += "          <span class='group-list-title'>목표시간 : </span><span class='group-list-content'>criNum[i].group_target_hour criNum[i].group_target_minute</span><span class='group-list-title'> 그룹인원 : </span><span class='group-list-content'>criNum[i].group_join_person_number/criNum[i].group_person_count}명</span><span class='group-list-title'>  그룹장 : </span><span class='group-list-content'>criNum[i].user_nickname_group_header}</span>";
+                    groupText += "          <span class='group-list-title'>목표시간 : </span><span class='group-list-content'>" +criNum[i].group_target_hour+ criNum[i].group_target_minute +"</span><span class='group-list-title'> 그룹인원 : </span><span class='group-list-content'>" +criNum[i].group_join_person_number + "/" +criNum[i].group_person_count+ "명"+  "</span><span class='group-list-title'>  그룹장 : </span><span class='group-list-content'>" +criNum[i].user_nickname_group_header+ "</span>";
                     groupText += "      </div>";
                     groupText += "      <div>";
                     groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>6시간 50분</span>";
-                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>displayTime(criNum[i].group_reg_date)</span>";
+                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayTime(criNum[i].group_reg_date) + "</span>";
                     groupText += "      </div>";
                     groupText += "   </div>";
                     groupText += "   <ul class='list-group list-group-flush'>";
-                    groupText += "          <li class='list-group-item group-content'>criNum[i].group_content</li>";
+                    groupText += "          <li class='list-group-item group-content'>" +criNum[i].group_content+ "</li>";
                     groupText += "   </ul>";
                     groupText += "</div>";
                     <%--                        <fmt:formatDate value='"${date}"' type='DATE' pattern='yyyy-MM-dd'/>--%>
-                    <%--                        <c:if test="${list.group_is_secret==1}"></c:if>&ndash;%&gt;--%>
-
                 }
                 console.log($(".center-block"))
                 $(".center-block").append(groupText);
+
                 changeCriterionNumber = $(".user-card-group input:last").val();
                 console.log("마지막 그룹 아이디의 값은 ? : ",changeCriterionNumber);
+
+
             }
         })
     }
@@ -195,39 +212,80 @@
         $("#listForm").attr("action", "/group/create").submit();
     })
 
-    $(".user-card-group").on('click',function (){
-        var groupID = $(this).find('input[name=group_id]').attr('value');
-        console.log("move눌리나 값"+ $(this).attr('value'));
-        let url = "/group/read?group_id="+groupID;
+    $(document).ready(function (){
+        $(".center-block").on('click','.user-card-group' ,function (){
 
-        if($(this).attr('value')==1){
-            console.log("move 그룹 아이디 가져오기"+ groupID);
-            $('#modalPass').modal('show');
-            $(".btn-primary").click(function (){
+            var groupID = $(this).find('input[name=group_id]').attr('value');
+            console.log(" 새로 생긴 card의 group_id는 ? : ",groupID)
+            console.log("move눌리나 값"+ $(this).attr('value'));
+            let url = "/group/read?group_id="+groupID;
 
-                console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
-                $.ajax({
-                    type:"POST",
-                    url:"/ajax/list/"+groupID,
-                    dataType:"json",
-                    success: function (res){
-                        let passwordAjax = res['password'];
-                        let passInput = $('#inputPass').val();
-                        if(passwordAjax === passInput){
-                            location.href=url;
-                        }else{
-                            console.log("bye ajax");
-                        }
+            if($(this).attr('value')==1){
+                console.log("move 그룹 아이디 가져오기"+ groupID);
+                $('#modalPass').modal('show');
+                $(".btn-primary").click(function (){
 
-                        console.log("아작스 안에 들어온 패스워드",passwordAjax);
-                        console.log("아작스 안에 들어온 인풋 패스워드",passInput);
-                    },error : ()=>{}
+                    console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
+                    $.ajax({
+                        type:"POST",
+                        url:"/ajax/list/"+groupID,
+                        dataType:"json",
+                        success: function (res){
+                            let passwordAjax = res['password'];
+                            let passInput = $('#inputPass').val();
+                            if(passwordAjax === passInput){
+                                location.href=url;
+                            }else{
+                                console.log("bye ajax");
+                            }
+
+                            console.log("아작스 안에 들어온 패스워드",passwordAjax);
+                            console.log("아작스 안에 들어온 인풋 패스워드",passInput);
+                        },error : ()=>{}
+                    })
                 })
-            })
-        }else{
-            location.href=url;
-        }
+            }else{
+                location.href=url;
+            }
+        })
     })
+
+    // $(".user-card-group").on('click',function (){
+    //     var groupID = $(this).find('input[name=group_id]').attr('value');
+    //     console.log("move눌리나 값"+ $(this).attr('value'));
+    //     let url = "/group/read?group_id="+groupID;
+    //
+    //     if($(this).attr('value')==1){
+    //         console.log("move 그룹 아이디 가져오기"+ groupID);
+    //         $('#modalPass').modal('show');
+    //         $(".btn-primary").click(function (){
+    //
+    //             console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
+    //             $.ajax({
+    //                 type:"POST",
+    //                 url:"/ajax/list/"+groupID,
+    //                 dataType:"json",
+    //                 success: function (res){
+    //                     let passwordAjax = res['password'];
+    //                     let passInput = $('#inputPass').val();
+    //                     if(passwordAjax === passInput){
+    //                         location.href=url;
+    //                     }else{
+    //                         console.log("bye ajax");
+    //                     }
+    //
+    //                     console.log("아작스 안에 들어온 패스워드",passwordAjax);
+    //                     console.log("아작스 안에 들어온 인풋 패스워드",passInput);
+    //                 },error : ()=>{}
+    //             })
+    //         })
+    //     }else{
+    //         location.href=url;
+    //     }
+    // })
+
+
+
 </script>
 
 
