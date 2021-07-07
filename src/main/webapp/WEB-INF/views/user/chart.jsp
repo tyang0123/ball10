@@ -5,7 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="row">
-    <div class="chart-container col-10 offset-1">
+    <div class="chart-container col-12 col-sm-10 offset-sm-1">
         <canvas id="myChart"></canvas>
     </div>
 </div>
