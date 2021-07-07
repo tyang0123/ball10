@@ -5,6 +5,7 @@ import com.ball.mail.vo.MailVO;
 import com.ball.service.AlarmService;
 import com.ball.service.TimerService;
 import com.ball.service.UserService;
+import com.ball.vo.AlarmVO;
 import com.ball.vo.TimerVO;
 import com.ball.vo.UserVO;
 import lombok.Setter;
@@ -180,7 +181,13 @@ public class UserController {
         }
 
         rAttr.addFlashAttribute("successCreate", "success");
-        userService.userCreate(vo);
+
+        AlarmVO alarmMessageVO = new AlarmVO();
+        alarmMessageVO.setUser_id(vo.getUser_id());
+        alarmMessageVO.setAlarm_message_is_new((byte)1);
+        alarmMessageVO.setAlarm_message_content("10-0에 합류한 것에 감사드립니다. 저희와 함께 <열공>하여 꿈을 이루시길 바랍니다. 😘");
+        //////////////////////.//////
+        userService.userCreate(vo, alarmMessageVO);
         return "redirect:/user/login";
     }
 

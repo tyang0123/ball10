@@ -1,10 +1,10 @@
 package com.ball.service;
 
+import com.ball.mapper.AlarmMapper;
 import com.ball.mapper.GroupMapper;
 import com.ball.mapper.GroupMessageMapper;
-import com.ball.vo.Criteria;
-import com.ball.vo.GroupJoinVO;
-import com.ball.vo.GroupVO;
+import com.ball.mapper.UserMapper;
+import com.ball.vo.*;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,12 @@ public class GroupServiceImpl implements GroupService{
 
     @Setter(onMethod_=@Autowired)
     private GroupMessageMapper messageMapper;
+
+    @Setter(onMethod_ = @Autowired)
+    private UserMapper userMapper;
+
+    @Setter(onMethod_ = @Autowired)
+    private AlarmMapper alarmMapper;
 
     @Transactional
     @Override
@@ -48,20 +54,43 @@ public class GroupServiceImpl implements GroupService{
 
     @Transactional
     @Override
-    public int groupRemove(Long group_id) {
+    public int groupRemove(Long group_id, String groupDestroyMessage) {
+        alarmMapper.insertMessagesGroupDestroyToUsers(group_id, groupDestroyMessage);
         messageMapper.deleteGroupMessageByGroupID(group_id);
         mapper.joinDelete(group_id);
         return mapper.groupDelete(group_id);
     }
 
     @Override
-    public int userRemove(Long group_id, String user_id) {
+    @Transactional
+    public int userRemove(Long group_id, String user_id, AlarmVO alarmVO) {
+
+        GroupVO groupVO = mapper.groupRead(group_id);
+        UserVO leaveUserVO = userMapper.getUser(user_id);
+
+        alarmVO.setUser_id(groupVO.getUser_id_group_header());
+        alarmVO.setAlarm_message_is_new((byte)1);
+        alarmVO.setAlarm_message_content(leaveUserVO.getUser_nickname()+"님께서 "+groupVO.getGroup_name()
+                +" 그룹에 탈퇴하셨습니다.😥 그래도 계속 Keep Going 하실꺼죠??😁 ");
+
+        alarmMapper.insert(alarmVO);
         return mapper.joinOneDelete(group_id, user_id);
     }
 
     @Override
-    public void joinGroup(GroupJoinVO join) {
+    @Transactional
+    public void joinGroup(GroupJoinVO join, AlarmVO alarmVO) {
+
+        GroupVO groupVO = mapper.groupRead(join.getGroup_id());
+        UserVO newUserVO = userMapper.getUser(join.getUser_id());
+
+        alarmVO.setUser_id(groupVO.getUser_id_group_header());
+        alarmVO.setAlarm_message_is_new((byte)1);
+        alarmVO.setAlarm_message_content(newUserVO.getUser_nickname()+"님께서 "+groupVO.getGroup_name()
+                +" 그룹에 가입하셨습니다.🎊 환영의 메세지를 남겨보세요! 🤗");
+
         mapper.joinGroup(join);
+        alarmMapper.insert(alarmVO);
     }
 
 //    @Override

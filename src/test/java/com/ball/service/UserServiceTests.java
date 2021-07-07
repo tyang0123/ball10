@@ -25,7 +25,7 @@ public class UserServiceTests {
         vo.setUser_password("1234");
         vo.setUser_email("abc@naver.com");
         vo.setUser_nickname("유정가입테스트😘");
-        service.userCreate(vo);
+        service.userCreate(vo, null);
     }
 
     @Test

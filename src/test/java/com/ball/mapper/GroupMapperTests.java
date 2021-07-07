@@ -161,4 +161,5 @@ public class GroupMapperTests {
         String user_id = "user1";
         mapper.userJoinedGroupId(user_id);
     }
+
 }
