@@ -48,7 +48,14 @@ public class GroupController {
 //        hashMap.put("criterionNumber",cri);
 //        hashMap.put("group_id",group_id);
 //        model.addAttribute("list",messageService.groupMessageRead(hashMap));
+
+        List<GroupVO> criList = groupService.allRead(cri);
+
+//        System.out.println("@@@@@@@@크리테리아 리스트의 아이디 값 :" + criList.get(19).getGroup_id());
+        int lastIndex = criList.size()-1;
+        System.out.println("#######lastIndex : "+ criList.get(lastIndex).getGroup_id());
         model.addAttribute("list", groupService.allRead(cri));
+        model.addAttribute("groupLast", criList.get(lastIndex).getGroup_id());
 
         System.out.println("컨트롤러에 cri가 들어오나 " +cri);
         System.out.println("검색어가 들어오나 "+ cri.getKeyword());

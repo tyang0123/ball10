@@ -75,9 +75,13 @@
                     </ul>
                 </div>
             </c:forEach>
+        <button type="button" id="addGroup"><span>더보기</span></button>
         </div>
     </div>
 </div>
+<%--<div class="row">--%>
+<%--    <button id="addBtn" onclick="moreList();"><span>더보기</span></button>--%>
+<%--</div>--%>
 
 <div class="modal" id="modalPass" tabindex="-1">
     <div class="modal-dialog">
@@ -99,9 +103,86 @@
 
 
 <script>
+    // 전역변수로 크리테이션넘버 설정
+    let changeCriterionNumber = ${groupLast};
     function reset(){
         $('#inputPass').val("");
         $('#modalPass').modal('');
+    }
+    $("#addGroup").click(function (){
+        console.log("버튼이 눌리나")
+        moreList(changeCriterionNumber);
+    })
+    const displayTime = (timeValue)=>{
+        let today = new Date();
+        let gap = today.getTime() - timeValue;
+        let dateObj = new Date(timeValue);
+        if(gap<(1000*60*60*24)){ //시분초  1milli second
+            let hh =dateObj.getHours();
+            let mi =dateObj.getMinutes();
+            let ss =dateObj.getSeconds();
+            return [ (hh>9?'':'0') +hh, ':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
+        }  else {//년월일
+            let yy= dateObj.getFullYear();
+            let mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
+            let dd = dateObj.getDate();
+            return [ yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
+        }
+    };
+    const moreList = (criterionNumber) => {
+        var startNum = $(".user-card-group input:last").val();
+        console.log("카드 마지막 번호는 ? "+startNum);
+
+        $.ajax({
+            type: "POST",
+            url: "/ajax/addList",
+            dataType: "json",
+            data:{
+                criterionNumber : criterionNumber,
+
+            },
+            success(data){
+                const criNum = data['criNumber'];
+                    var groupText ="";
+                    for(let i = 0; i < criNum.length; i++) {
+                        // var idx = Number(startNum)+Number(i)+1;
+                        // 글번호 : startNum 이  10단위로 증가되기 때문에 startNum +i (+1은 i는 0부터 시작하므로 )
+
+                        groupText += "<div class='row'>";
+                        groupText += "<div style='background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;' class='center-block;'>";
+                        groupText += "<div class='card user-card-group' style='cursor: pointer;' value='" + criNum[i].group_is_secret + "'>";
+                        groupText += "<input type='hidden' name='group_id' value='" + criNum[i].group_id + "'/>";
+                        groupText += "<div class='card-body'>";
+                        groupText += "<div class='row'>";
+                        groupText += "<div class='col-10 group-category'>criNum[i].group_category</div>";
+                        groupText += "<div class='col-2 text-end groupSecret'>";
+                        groupText += "<div style='text-align: center; margin-top: 7px;'>";
+                        groupText += "<img src='/resources/img/lock.png' id='lockImg'/>";
+                        groupText += "</div></div></div>";
+                        groupText += "<div class='group-list-margin'>";
+                        groupText += "<span class='group-title'>criNum[i].group_name</span>";
+                        groupText += "</div><div>";
+                        groupText += "<span class='group-list-title'>목표시간 : </span><span class='group-list-content'>criNum[i].group_target_hour criNum[i].group_target_minute</span><span class='group-list-title'> 그룹인원 : </span><span class='group-list-content'>criNum[i].group_join_person_number/criNum[i].group_person_count}명</span><span class='group-list-title'>  그룹장 : </span><span class='group-list-content'>criNum[i].user_nickname_group_header}</span>";
+                        groupText += "</div><div>";
+                        groupText += "<span class='group-list-title'>공부량 : </span><span class='group-list-content'>6시간 50분</span>";
+                        groupText += "<span class='group-list-title'>  시작일 : </span><span class='group-list-content'>displayTime(criNum[i].group_reg_date)</span>";
+                        groupText += "</div></div>";
+                        groupText += "<ul class='list-group list-group-flush'>";
+                        groupText += "<li class='list-group-item group-content'>criNum[i].group_content</li>";
+                        groupText += "</ul></div>";
+                        <%--                        <fmt:formatDate value='"${date}"' type='DATE' pattern='yyyy-MM-dd'/>--%>
+                        <%--                        <c:if test="${list.group_is_secret==1}"></c:if>&ndash;%&gt;--%>
+
+                    }
+                    if(data.length > 0){
+
+                        $(".user-card-group").append(groupText);
+                        changeCriterionNumber = $(".user-card-group input:last").val();
+                        console.log("마지막 그룹 아이디의 값은 ? : ",changeCriterionNumber);
+
+                    }
+                }
+        })
     }
     $("#createBtn").click(function(){
         console.log("버튼 눌리나")

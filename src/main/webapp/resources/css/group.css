@@ -135,6 +135,9 @@ body {
 /*    !*margin-left: 10px;*!*/
 /*    !*margin-right: 5px;*!*/
 /*}*/
+/*#addGroup{*/
+/*    align-content: center;*/
+/*}*/
 
 .createGroup{
     display: inline-block;
@@ -170,6 +173,7 @@ body {
 
 /*.createGroup:focus,*/
 /*.createCancel:focus,*/
+
 
 #group_person_count,
 #group_category{
