@@ -1,6 +1,7 @@
 package com.ball.service;
 
 import com.ball.mapper.GroupMapper;
+import com.ball.mapper.GroupMessageMapper;
 import com.ball.vo.Criteria;
 import com.ball.vo.GroupJoinVO;
 import com.ball.vo.GroupVO;
@@ -15,6 +16,9 @@ import java.util.List;
 public class GroupServiceImpl implements GroupService{
     @Setter(onMethod_=@Autowired)
     private GroupMapper mapper;
+
+    @Setter(onMethod_=@Autowired)
+    private GroupMessageMapper messageMapper;
 
     @Transactional
     @Override
@@ -45,6 +49,7 @@ public class GroupServiceImpl implements GroupService{
     @Transactional
     @Override
     public int groupRemove(Long group_id) {
+        messageMapper.deleteGroupMessageByGroupID(group_id);
         mapper.joinDelete(group_id);
         return mapper.groupDelete(group_id);
     }
