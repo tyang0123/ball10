@@ -522,8 +522,8 @@
     var groupTimerIntervalID;
 
     function startIntervalGetUserTimerList(){
-        getGroupUserTimerList();
         clearInterval(groupTimerIntervalID);
+        getGroupUserTimerList();
         groupTimerIntervalID = setInterval(function () {
             getGroupUserTimerList();
         }, 60000); //1 min

@@ -46,7 +46,7 @@ public class GroupMapperTests {
     }
     @Test
     public void testRead(){
-        GroupVO vo = mapper.groupRead(24L);
+        GroupVO vo = mapper.groupRead(2L);
         System.out.println("===================");
         System.out.println(vo);
     }
@@ -161,4 +161,5 @@ public class GroupMapperTests {
         String user_id = "user1";
         mapper.userJoinedGroupId(user_id);
     }
+
 }

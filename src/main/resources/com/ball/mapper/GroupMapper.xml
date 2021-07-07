@@ -14,10 +14,11 @@
     <select id="selectGroupList" resultType="com.ball.vo.GroupVO">
         select g.group_id, g.user_id_group_header, u.user_nickname as user_nickname_group_header,
         g.group_name, g.group_category, g.group_content, g.group_is_secret, g.group_target_hour, g.group_target_minute, count(gr.user_id) as group_join_person_number,
-        g.group_person_count, g.group_reg_date
+        g.group_person_count, g.group_reg_date, atpg.group_accumulated_avg_time
         from group_table g
         left outer join user u on g.user_id_group_header = u.user_id
         left outer join group_user_relationship gr on gr.group_id = g.group_id
+        left outer join accumulated_time_per_group atpg on g.group_id = atpg.group_id
         <where>
             <if test="category != null">
                 g.group_category like CONCAT('%',#{category},'%')
@@ -45,10 +46,11 @@
     <select id="groupRead" resultType="com.ball.vo.GroupVO">
         select g.group_id, g.user_id_group_header, u.user_nickname as user_nickname_group_header, g.group_content,
                g.group_name, g.group_category, g.group_password, g.group_target_hour, g.group_target_minute, g.group_is_secret, count(gr.user_id) as group_join_person_number,
-               g.group_person_count, g.group_reg_date
+               g.group_person_count, g.group_reg_date, atpg.group_accumulated_avg_time
         from group_table g
                  left outer join user u on g.user_id_group_header = u.user_id
                  left outer join group_user_relationship gr on gr.group_id = g.group_id
+                 left outer join accumulated_time_per_group atpg on g.group_id = atpg.group_id
         where g.group_id = #{group_id}
         group by g.group_id
     </select>

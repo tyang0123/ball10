@@ -16,4 +16,5 @@ public interface GroupMessageMapper {
     public List<GroupMessageVO> readGroupMessagePaging(@Param("limit") int limit, @Param("group_id") Long group_id);
     //작성한 댓글 카운트
     public int countGroupMessage(Long group_id);
+    public int deleteGroupMessageByGroupID(Long group_id); //해당 그룹 메세지만 삭제 할 수 있도록
 }

@@ -108,10 +108,14 @@ public class GroupController {
     }
     @PostMapping("/read")
     public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
+
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         join.setGroup_id(group_id);
         join.setUser_id(userID);
-        groupService.joinGroup(join);
+
+        /////유저가입 메세지 내용 set은 service에서 처리함
+        AlarmVO alarmVO = new AlarmVO();
+        groupService.joinGroup(join, alarmVO);
         System.out.println("==========" + join);
 
         return "redirect:/group/read?group_id="+group_id;
@@ -130,14 +134,20 @@ public class GroupController {
     }
     @PostMapping("/groupRemove")
     public String groupRemove (Long group_id){
-        groupService.groupRemove(group_id);
+        
+        ///////////////////////////////////////////////////////////////그룹 삭제 메세지 추가
+        String groupDestroyMessage = " 그룹이 파괴되었습니다. 다른 그룹에 가입하셔서 열공해주세요!!";
+        groupService.groupRemove(group_id,groupDestroyMessage);
         return "redirect:/group/list";
     }
     @PostMapping("/userRemove")
     public String userRemove (Long group_id, HttpServletRequest request){
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         System.out.println("유저 아이디랑, 그룹 아이다가 들어오나 "+ group_id + userID);
-        groupService.userRemove(group_id, userID);
+
+        ////////////// 유저 탈퇴 메세지
+        AlarmVO alarmVO = new AlarmVO();
+        groupService.userRemove(group_id, userID, alarmVO);
         return "redirect:/group/list";
     }
 }

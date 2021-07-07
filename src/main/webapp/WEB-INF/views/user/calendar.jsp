@@ -323,4 +323,7 @@
 
 </script>
 
+
+<%@ include file="chart.jsp" %>
+
 <%@ include file="../includes/footer.jsp" %>

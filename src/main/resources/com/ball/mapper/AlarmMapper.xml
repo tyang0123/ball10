@@ -5,7 +5,8 @@
 
 <mapper namespace="com.ball.mapper.AlarmMapper">
     <insert id="insert" parameterType="com.ball.vo.AlarmVO">
-        insert into alarm_message(user_id,alarm_message_content,alarm_message_is_new,alarm_message_reg_date,alarm_message_mod_date) values(#{user_id},#{alarm_message_content},#{alarm_message_is_new},now(),now())
+        insert into alarm_message(user_id,alarm_message_content,alarm_message_is_new,alarm_message_reg_date,alarm_message_mod_date)
+        values(#{user_id},#{alarm_message_content},#{alarm_message_is_new},now(),now())
     </insert>
     <select id ="read" resultType="com.ball.vo.AlarmVO" parameterType="Long">
         select * from alarm_message where alarm_message_id = #{alarm_message_id}
@@ -31,4 +32,13 @@
         </where>
         order by alarm_message_id desc limit #{cri.amount}
     </select>
+
+    <insert id="insertMessagesGroupDestroyToUsers">
+        insert into alarm_message (user_id, alarm_message_content, alarm_message_is_new, alarm_message_reg_date, alarm_message_mod_date)
+        select gur.user_id, concat(g.group_name, #{message_content}), 1, now(), now()
+        from group_user_relationship gur
+                 join group_table g
+                      on gur.group_id = g.group_id and gur.user_id not like g.user_id_group_header
+        where gur.group_id = #{group_id}
+    </insert>
 </mapper>
