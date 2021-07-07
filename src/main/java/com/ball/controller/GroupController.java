@@ -33,7 +33,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupController {
 
-//    private GroupMessageService messageService;
     @Setter(onMethod_=@Autowired)
     private GroupService groupService;
 
@@ -43,24 +42,23 @@ public class GroupController {
     @GetMapping("/list")
     public String groupList(Long group_id , Criteria cri,  Model model) {
         System.out.println("컨트롤러 그룹 전체 목록 조회");
-//        model.addAttribute("list",messageService.groupMessageRead(1L));
-//        HashMap<String,Object> hashMap = new HashMap<>();
-//        hashMap.put("criterionNumber",cri);
-//        hashMap.put("group_id",group_id);
-//        model.addAttribute("list",messageService.groupMessageRead(hashMap));
+        List<GroupVO> criList = groupService.allRead(cri);
+        int lastIndex = criList.size()-1;
+        System.out.println("#######lastIndex : "+ criList.get(lastIndex).getGroup_id());
         model.addAttribute("list", groupService.allRead(cri));
+        model.addAttribute("groupLast", criList.get(lastIndex).getGroup_id());
+        model.addAttribute("category", cri.getCategory());
+        model.addAttribute("type", cri.getKeyword());
 
         System.out.println("컨트롤러에 cri가 들어오나 " +cri);
         System.out.println("검색어가 들어오나 "+ cri.getKeyword());
         System.out.println("카테고리가 들어오나 "+ cri.getCategory());
-
-
         return "group/groupList";
     }
     @PostMapping("/list")
     public String groupList(Criteria cri,Model model) {
         System.out.println("Post List에 들어오나");
-        model.addAttribute("list", groupService.allRead(cri));
+//        model.addAttribute("list", groupService.allRead(cri));
 
         return "group/groupList";
     }
