@@ -4,10 +4,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="chart-container" style="height:800px; width:800px">
-    <canvas id="myChart"></canvas>
+<div class="row">
+    <div class="chart-container col-10 offset-1">
+        <canvas id="myChart"></canvas>
+    </div>
 </div>
+<style>
 
+</style>
 <script type="text/javascript">
     $(document).ready(function () {
         var myChart;
