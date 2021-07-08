@@ -155,7 +155,7 @@ public class UserController {
             res.addCookie(timerCookie);
         }
         session.setMaxInactiveInterval(1);
-        return "redirect:/";
+        return "redirect:/user/login";
     }
     @GetMapping("/create")
     public String tempCreate(){
@@ -330,7 +330,7 @@ public class UserController {
         log.info("user findIDPostSendEmailID..................................."+user_id+" "+user_email);
 
 
-        if(userService.emailCheck(user_id,user_email)){ // 일치하는 정보가 있으면 false가 리턴됨
+        if(!userService.emailAndUserIDCheckForFindPassword(user_id, user_email)){ // 일치하는 정보가 있으면 true 리턴됨
             rAttr.addFlashAttribute("sendID", "등록된 정보가 없습니다. 확인 후 다시 입력하여 주세요.");
             return "redirect:/user/findPassword";
         }

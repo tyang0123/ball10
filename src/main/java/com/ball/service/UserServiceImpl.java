@@ -88,4 +88,12 @@ public class UserServiceImpl implements UserService{
         System.out.println(user_id+" "+ user_password);
         return userMapper.updatePasswordByUserID(user_id, user_password) == 1;
     }
+
+    @Override
+    public boolean emailAndUserIDCheckForFindPassword(String user_id, String userEmail) {
+        String user_email = userMapper.selectEmailCheckForFindPassword(user_id,userEmail);
+        if(user_email == null)
+            return false;
+        return true;
+    }
 }

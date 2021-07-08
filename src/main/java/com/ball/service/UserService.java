@@ -42,4 +42,7 @@ public interface UserService {
 
     //update password
     public boolean resetPasswordToDbByUserID(String user_id,  String user_password);
+
+    //email check
+    public boolean emailAndUserIDCheckForFindPassword(String user_id,String userEmail);
 }
