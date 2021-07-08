@@ -264,42 +264,46 @@
     //     let url = "/group/read?group_id="+groupID;
 
     $(document).ready(function (){
-        $(".center-block").on('click','.user-card-group' ,function (){
+        var groupID;
+        let url;
 
-            var groupID = $(this).find('input[name=group_id]').attr('value');
+        $(".center-block").on('click','.user-card-group' ,function (){
+            groupID = $(this).find('input[name=group_id]').attr('value');
             console.log(" 새로 생긴 card의 group_id는 ? : ",groupID)
             console.log("move눌리나 값"+ $(this).attr('value'));
-            let url = "/group/read?group_id="+groupID;
+            url = "/group/read?group_id="+groupID;
 
-        if($(this).attr('value')==1){
-            console.log("move 그룹 아이디 가져오기"+ groupID);
-            $('#modalPass').modal('show');
-            $(".passwordCheck").click(function (){
-
-                console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
-                $.ajax({
-                    type:"POST",
-                    url:"/ajax/list/"+groupID,
-                    dataType:"json",
-                    success: function (res){
-                        let passwordAjax = res['password'];
-                        let passInput = $('#inputPass').val();
-                        if(passwordAjax === passInput){
-                            location.href=url;
-                        }else{
-                            $('#pwHelpInline').text("비밀번호가 일치하지 않습니다.");
-                            console.log("bye ajax");
-                        }
-
-                            console.log("아작스 안에 들어온 패스워드",passwordAjax);
-                            console.log("아작스 안에 들어온 인풋 패스워드",passInput);
-                        },error : ()=>{}
-                    })
-                })
+            if($(this).attr('value')==1){
+                console.log("move 그룹 아이디 가져오기"+ groupID);
+                $('#modalPass').modal('show');
             }else{
-                location.href=url;
+                    location.href=url;
             }
+        });
+
+        $(".passwordCheck").click(function (e){
+            console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
+            $.ajax({
+                type:"POST",
+                url:"/ajax/list/"+groupID,
+                dataType:"json",
+                success: function (res){
+                    let passwordAjax = res['password'];
+                    let passInput = $('#inputPass').val();
+                    if(passwordAjax === passInput){
+                        location.href=url;
+                    }else{
+                        $('#pwHelpInline').text("비밀번호가 일치하지 않습니다.");
+                        console.log("bye ajax");
+                    }
+
+                    console.log("아작스 안에 들어온 패스워드",passwordAjax);
+                    console.log("아작스 안에 들어온 인풋 패스워드",passInput);
+                },error : ()=>{}
+            })
         })
+
+
     })
 
     // $(".user-card-group").on('click',function (){
