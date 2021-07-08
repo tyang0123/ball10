@@ -52,18 +52,18 @@
 
 <style>
     .toast{
-        box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.07);
+        box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.02);
         width: 100%;
         border-radius: 10px;
-        border-color: rgba(0, 0, 0, 0.07);
+        border-color: rgba(0, 0, 0,0.07);
         background-color: white;
     }
     .t-header{
-        background-color: #fff6f1;
+        background-color: rgb(255, 254, 252);
         border-radius: 10px;
     }
     .t-header span{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     .toast-container{
         position: fixed !important;

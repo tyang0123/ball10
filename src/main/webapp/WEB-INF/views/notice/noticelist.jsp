@@ -24,11 +24,16 @@
             </tbody>
         </table>
     </div>
-    <div style="text-align: center; margin-bottom:60px; margin-top: 20px;">
+    <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
         <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
     </div>
 </div>
-
+<style>
+    .footerMargin{
+        margin-top: 20vh;
+    }
+</style>
+<div class="footerMargin"></div>
 
 
 <!-- 기존 태양씨 작업 -->

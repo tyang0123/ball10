@@ -369,10 +369,9 @@ public class UserController {
 
     @PostMapping("/modify")
     public String modify(UserVO vo, RedirectAttributes rAttr){
-
         //이메일 중복 조회
         boolean emailcheck = userService.emailCheck(vo.getUser_id(),vo.getUser_email());
-        if(! emailcheck){// 이메일이 존재할때 다시 회원 수정 페이지로
+        if(!emailcheck){// 이메일이 존재할때 다시 회원 수정 페이지로
             rAttr.addFlashAttribute("emailFail", "fail");
             return "redirect:/user/modify";
         }

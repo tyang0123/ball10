@@ -6,162 +6,187 @@
 <%@ include file="../includes/header.jsp" %>
 
 <style>
-    .btn{
-        display: inline-block;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #000000;
-        text-align: center;
-        vertical-align: middle;
-        cursor: pointer;
-        background-color: #ffc107;
-        border: 2px solid black;
-        padding: 0.375rem 0.75rem;
-        font-size: 1.1rem;
-        width: 145px;
-        margin-right: 3px;
-    }
-    .btn-info{
-        float: right;
-    }
-    #removeGroup{
-        background-color: red;
+    .btn-info:focus,
+    .btn:focus {
+        box-shadow: unset;
     }
 
 </style>
 
 <div class="row">
+    <form id='operForm' action="/group/read">
+        <div class="row" style="position: relative;text-align: center;margin-top: 3.5vw">
+                <div class="col-2"><button style="background-color: #cb0d0d;left:7vw;top:1.5vw;" class="btn btn-danger group-read-buttonY btnsizeGroup" id="deleteBtn">그룹 파괴</button><button id="joinGroup" class="btn btn-warning group-read-buttonY btnsizeGroup" style="left:7vw;top:1.5vw;">그룹 가입</button><button id="removeOne" class="btn btn-block group-read-buttonY btnsizeGroup" style="left:7vw;top:1.5vw;">탈퇴 하기</button></div>
+                <div style="margin-top: 10px;" class="col-8 group-read-title"><span>${group.group_name}</span></div>
+                <div class="col-2"><button style="top:1.5vw;" class="btn btn-info group-read-buttonY">목록</button></div>
+        </div>
+        <div class="row" style="position: relative;text-align: center;margin-bottom:1.5vw">
+            <div class="col-2"><button id="modifyBtn" style="background-color: #ff9000;left:7vw;" class="btn btn-default group-read-buttonY btnsizeGroup">수정</button></div>
+            <div class="col-8"></div>
+            <div class="col-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="text-align: center;margin-top: 10px"><span class="group-read-person1">멤버 </span><span style="color:#ff9000;" class="group-read-person2">${group.group_join_person_number}</span></div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="text-align: center;margin-top: 1vw">
+                <div>
+                    <span class="group-list-title">목표시간 : </span>
+                    <span class="group-list-content">${group.group_target_hour} ${group.group_target_minute} </span>
+                    <span class="group-list-title"> 그룹인원 : </span>
+                    <span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span>
+                    <span class="group-list-title">  그룹장 : </span>
+                    <span class="group-list-content">${group.user_nickname_group_header}</span>
+                </div>
+                <div style="margin-bottom: 3vw;">
+                    <span class="group-list-title"> 공부량 : </span>
+                    <span class="group-list-content">6시간 50분</span>
+                    <span class="group-list-title">  시작일 : </span>
+                    <span class="group-list-content">
+                    <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
+                        <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
+                </div>
+                <div style="background-color: #cbcbcb; height: 1px;"></div>
+                <div style="background-color: #efefef; height: 10px;"></div>
+            </div>
+        </div>
 
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-<%--            <div class="panel-heading"> 그룹 조회 페이지 </div> <!-- /.panel-heading -->--%>
-            <div class="panel-body">
-                <form id='operForm' action="/group/read">
-                <div style="padding: 10px 12px">
-                    <button id="joinGroup" class="btn btn-warning">그룹 가입 </button>
-                    <button id= "removeGroup" class="btn btn-danger">그룹 파괴</button>
-                    <button class="btn btn-info">목록 </button>
-                    <button id="removeOne" class="btn btn-block">탈퇴 하기</button>
+        <div class="group-notice-form">
+            <div class="row">
+                <div class="col-2 group-notice-content" style="text-align: center;">공지</div>
+                <div class="col-8 group-notice-content" style="color: #858585;" id="noticeContent"></div>
+                <div class="col-2" style="text-align: center;cursor:pointer;" id="clickNotice" value="1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                </svg></div>
+            </div>
+        </div>
+        <textarea id="inputbox" style="display:none;">${group.group_content}</textarea>
+        <div style="background-color: #cbcbcb; height: 1px;"></div>
+        <div style="background-color: #efefef; height: 10px;"></div>
+
+        <input type="hidden" name="group_id" value="${group.group_id}" />
+    </form>
+</div>
+<div class="group-notice-form">
+    <div class="memberMarker"><span>그룹 멤버 현황 😌</span></div>
+</div>
+
+
+<!---------------------------------------------------------------------------------------->
+<!-- 타이머  표시 -->
+<%--<div class="col-10 offset-1 col-lg-8 offset-lg-2">--%>
+<div class="col-10 offset-1 col-lg-10 offset-lg-1">
+    <div class="row spinner-row">
+        <button class="btn btn-warning" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span>Loading...</span>
+        </button>
+    </div>
+    <div class="row row-cols-4 row-cols-md-4 row-cols-lg-5 my-user-and-timer-row">
+
+        <div class="col-md-3 mt-2" hidden>
+            <div class="row">
+                <div class="col-6 col-md-12">
+                    <div class="my-img my-img-yellow"></div>
                 </div>
-                <div style="padding-left: 12px">
-                <button id="modifyBtn" class="btn btn-default"> 수정</button>
+                <div class="col-6 col-md-12">
+                    <div class="caption">
+                        <p>Lorem ipsum...</p>
+                    </div>
                 </div>
-                        <div class="card user-card-group"  value="${group.group_is_secret}">
-                                <div class="card-body" style="background-color: #efefef;  padding-top:20px; padding-bottom: 40px;">
-                                    <div class="row">
-                                        <div class="col-10 group-category">${group.group_category}</div>
-                                        <div class="col-2 text-end groupSecret">
-                                            <c:if test="${group.group_is_secret==1}">
-                                                <img src='/resources/img/lock.png' id='lockImg'/>
-                                            </c:if>
-                                        </div>
-                                    </div>
-                                    <div class="group-list-margin">
-                                        <span class="group-title">${group.group_name}</span>
-                                    </div>
-                                    <div>
-                                        <span class="group-list-title">목표시간 : </span><span class="group-list-content">${group.group_target_hour} ${group.group_target_minute} </span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${group.group_join_person_number}/${group.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${group.user_nickname_group_header}</span>
-                                    </div>
-                                    <div>
-                                        <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
-                                        <span class="group-list-title">  시작일 : </span><span class="group-list-content">
-                        <fmt:parseDate var="date" value="${group.group_reg_date}" pattern="yyyy-MM-dd"/>
-                            <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
-                                    </div>
-                                </div> <!-- card-body -->
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item group-content">${group.group_content}</li>
-                                </ul>
-                            </div>
-<%--                        </div>--%>
-                    <input type="hidden" name="group_id" value="${group.group_id}" />
-<%--                    <input type="hidden" name="pageNum" value="${cri.pageNum}" />--%>
-<%--                    <input type="hidden" name="amount" value="${cri.amount}" />--%>
-<%--                    <input type='hidden' name='type' value='<c:out value ="${cri.type}"/>'>--%>
-<%--                    <input type='hidden' name='keyword' value='<c:out value ="${cri.keyword}"/>'>--%>
-                </form>
+            </div>
+        </div>
+
+        <div class="col-md-3 mt-2" hidden>
+            <div class="row">
+                <div class="col-6 col-md-12">
+                    <div class="my-img my-img-yellow"></div>
+                </div>
+                <div class="col-6 col-md-12">
+                    <div class="caption">
+                        <p>Lorem ipsum...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!---------------------------------------------------------------------------------------->
+
+<img id = "modalShowButton" src="/resources/img/chat-left-dots.svg" style="cursor: pointer;">
+<%--<button id="modalShowButton">그룹메세지</button>--%>
+<%--모달시작--%>
+<div class="modal" tabindex="-1" id="modalGroupMessage">
+<%-- <div class="modal fade" id="modalGroupMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--%>
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content" id="groupMessageModal">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" id="staticBackdropLabel"style="margin-left: 30px;">그룹 메세지</h4></span>
+                <button style="color: black;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<%--                <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>--%>
+<%--                <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>--%>
+            </div>
+            <div class="modal-body-custom modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
+                <div id="readGroupMessage" class="swiper-container"></div>
+            </div>
+<%--            <div class="modal-footer" style="display: block; border-top:1px solid black;">--%>
+            <div class="modal-footer-custom modal-footer" style="display: inline-block;border-top:1px solid black;">
+                <div class="row no-gutters">
+                    <div class = 'col-10'>
+                        <form id = 'sendGroupMessage' action='/group/ajax/new' method='post' style="margin-right: 2px;">
+                            <textarea class='form-control' id='message-text' style='resize: none;'></textarea>
+                        </form>
+                    </div>
+                    <div class = 'col-2'>
+                        <button id="message_submit" class="form-control" type="submit" style="height:100%;">전송</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-                <!---------------------------------------------------------------------------------------->
-                <!-- 타이머  표시 -->
-                <div class="col-10 offset-1 col-lg-8 offset-lg-2">
-                    <div class="row spinner-row">
-                        <button class="btn btn-warning" type="button" disabled>
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span>Loading...</span>
-                        </button>
-                    </div>
-                    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-5 my-user-and-timer-row">
+<style>
+    .footerMargin{
+        margin-top: 20vh;
+    }
+</style>
+<div class="footerMargin"></div>
 
-                        <div class="col-md-3 mt-2" hidden>
-                            <div class="row">
-                                <div class="col-6 col-md-12">
-                                    <div class="my-img my-img-yellow"></div>
-                                </div>
-                                <div class="col-6 col-md-12">
-                                    <div class="caption">
-                                        <p>Lorem ipsum...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-3 mt-2" hidden>
-                            <div class="row">
-                                <div class="col-6 col-md-12">
-                                    <div class="my-img my-img-yellow"></div>
-                                </div>
-                                <div class="col-6 col-md-12">
-                                    <div class="caption">
-                                        <p>Lorem ipsum...</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- 파괴확인 Modal -->
+<div class="modal fade" id="removeGroupCheck">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">그룹 파괴하기</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말로 그룹을 파괴하시겠습니까? 😢 😭
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="removeGroup button-add-custom">확 인</button>
+                <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">취 소</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                    </div>
-                </div>
-                <!---------------------------------------------------------------------------------------->
-
-                <img id = "modalShowButton" src="/resources/img/chat-left-dots.svg">
-<%--                <button id="modalShowButton">그룹메세지</button>--%>
-                <%--모달시작--%>
-                <div class="modal" tabindex="-1" id="modalGroupMessage">
-<%--                <div class="modal fade" id="modalGroupMessage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">--%>
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content" id="groupMessageModal">
-                            <div class="modal-header" style="border-bottom: 1px solid black;">
-                                <h3 class='col-12 modal-title text-center fw-lighter'>그룹 메세지</h3>
-                                <button id="modal_close" class="btn-close" style="margin-left: -8px;"></button>
-                            </div>
-                            <div class="modal-body" style="padding: 2rem;padding-top: 1rem; padding-bottom: 1rem;">
-                                <div id="readGroupMessage" class="swiper-container"></div>
-                            </div>
-                            <div class="modal-footer" style="display: block; border-top:1px solid black;">
-                                <div class="row">
-                                    <div class = 'col-sm-10'>
-                                    <form id = 'sendGroupMessage' action='/group/ajax/new' method='post'>
-                                        <textarea class='form-control' id='message-text' style='resize: none'></textarea>
-                                    </form>
-                                    </div>
-                                    <div class = 'col-sm-2'>
-                                        <button id="message_submit" class="form-control" type="submit" style="height:100%">전송</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- end panel-body -->
-        </div> <!-- end panel -->
-    </div> <!-- col-lg-12 -->
-</div> <!-- row -->
 
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 스타일 -->
 <style>
+    .no-gutters {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .no-gutters > .col,
+    .no-gutters > [class*="col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
     .img-container{
         margin:0 auto;
     }
@@ -209,6 +234,16 @@
     }
     @media (max-width: 767px) {
         .my-img{
+            width: 75px;
+            height: 75px;
+        }
+        .my-user-and-timer-row p{
+            max-width: 120px;
+            font-size: 0.8rem;
+        }
+    }
+    @media (max-width: 512px) {
+        .my-img{
             width: 60px;
             height: 60px;
         }
@@ -222,6 +257,34 @@
 <script type="text/javascript" src="/resources/js/message.js"></script>
 <script>
     $(document).ready(function (){
+        let txtBox = document.getElementById("inputbox");
+        let lines = txtBox.value.split("\n");
+
+        $('#noticeContent').html(lines[0]);
+        //공지사항 클릭 이벤트
+        $('#clickNotice').click(function (){
+            if($(this).attr("value")==1){
+                $(this).attr("value","0");
+                $(this).html("<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-up' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z'/></svg>");
+                processText();
+            }
+            else {
+                $(this).attr("value","1");
+                $(this).html("<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/>");
+                $('#noticeContent').html(lines[0]);
+            }
+        });
+
+        //그룹 공지사항 입력 받은값 그대로 출력하는 함수
+        function processText() {
+            let resultString  = "<p>";
+            for (let i = 0; i < lines.length; i++) {
+                resultString += lines[i] + "<br/>";
+            }
+            resultString += "</p>";
+            var blk = document.getElementById("noticeContent");
+            blk.innerHTML = resultString;
+        }
 
         $(".btn-default").click(function (){
             $('#operForm').attr("action","/group/modify").attr("method","get").submit(); //수정으로 돌아기기
@@ -255,7 +318,11 @@
             }
             $('#operForm').attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
-        $('.btn-danger').click(function (){
+        $('#deleteBtn').click(function(){
+            console.log("여기 파괴눌리니?");
+            // $("#removeGroupCheck").modal("show");
+        })
+        $('.removeGroup').click(function (){
             $('#operForm').attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
         $('#removeOne').click(function (){
@@ -293,8 +360,8 @@
             console.log("리밋 값 : "+limit)
 
             //열었을때 입력창 보여주기
-            var offset = $('.modal-footer').offset();
-            $('.modal-body').animate({scrollTop : offset.top}, 40);
+            var offset = $('.modal-footer-custom').offset();
+            $('.modal-body-custom').animate({scrollTop : offset.top}, 40);
             // console.log(offset);
         })
 
@@ -304,7 +371,7 @@
         function loadNewPage() {
             limit += 15;
             console.log("limit 값 : "+limit);
-            var temp = $('.modal-body').prop('scrollHeight');
+            var temp = $('.modal-body-custom').prop('scrollHeight');
             messageService.getList(group_id, limit, function (result) {
                 if(limit > count){
                     console.log("다 가져왔습니다")
@@ -312,7 +379,7 @@
                     $('#readGroupMessage').html(result);
                 }else {
                     $('#readGroupMessage').html(result);
-                    $('.modal-body').animate({scrollTop: $('.modal-body').prop('scrollHeight')-temp},1);
+                    $('.modal-body-custom').animate({scrollTop: $('.modal-body-custom').prop('scrollHeight')-temp},1);
                     // $('.modal-body').scrollTop($('.modal-body').height()-temp);
                     isLoading = false;
                 }
@@ -321,11 +388,11 @@
 
         function upNdown() {
             var lastScroll = 0;
-            $('.modal-body').scroll(function (event) {
+            $('.modal-body-custom').scroll(function (event) {
                 var st = $(this).scrollTop();
                 if (st > lastScroll) {
                 } else {
-                    if ($('.modal-body').scrollTop() < 5 && !isLoading) {
+                    if ($('.modal-body-custom').scrollTop() < 5 && !isLoading) {
                         // isLoading = true;
                         setTimeout(loadNewPage, 1200);
                     }
@@ -383,8 +450,8 @@
                     $('#message-text').val("");
                     messageService.getList(group_id, limit, function (result) {
                         $('#readGroupMessage').html(result);
-                        var offset = $('.modal-body').prop('scrollHeight');
-                        $('.modal-body').animate({scrollTop : offset}, 40);
+                        var offset = $('.modal-body-custom').prop('scrollHeight');
+                        $('.modal-body-custom').animate({scrollTop : offset}, 40);
                     })
                 }
             })

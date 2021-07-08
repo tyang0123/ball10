@@ -59,7 +59,7 @@ public class UserServiceTests {
 
     @Test
     public void testEmailCheck(){
-        System.out.println(service.emailCheck("testmapper","a@naver.com"));
+        System.out.println(service.emailCheck("user1","a@naver.com"));
     }
 
     @Test
