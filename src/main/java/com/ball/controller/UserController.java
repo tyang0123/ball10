@@ -155,7 +155,7 @@ public class UserController {
             res.addCookie(timerCookie);
         }
         session.setMaxInactiveInterval(1);
-        return "redirect:/";
+        return "redirect:/user/login";
     }
     @GetMapping("/create")
     public String tempCreate(){
