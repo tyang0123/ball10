@@ -58,7 +58,7 @@ public class GroupController {
     @PostMapping("/list")
     public String groupList(Criteria cri,Model model) {
         System.out.println("Post List에 들어오나");
-//        model.addAttribute("list", groupService.allRead(cri));
+        model.addAttribute("list", groupService.allRead(cri));
 
         return "group/groupList";
     }
