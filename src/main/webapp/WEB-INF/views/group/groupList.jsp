@@ -97,35 +97,15 @@
                         <li class="list-group-item group-content">${list.group_content}</li>
                     </ul>
             </div>
-        </c:forEach>
-        <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
-            <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
+        </c:forEach></c:if>
+        <c:if test="${count>=20}">
+            <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
+                <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
+            </div>
+        </c:if>
         </div>
-        </div>
-<%--        <button type="button" id="addGroup" name="addGroup"><span>더보기</span></button>--%>
     </div>
 </div>
-<%--<div class="row">--%>
-<%--    <button id="addBtn" onclick="moreList();"><span>더보기</span></button>--%>
-<%--</div>--%>
-
-<%--<div class="modal" id="modalPass" tabindex="-1">--%>
-<%--    <div class="modal-dialog">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-header">--%>
-<%--                <h5 class="modal-title">비밀번호 입력</h5>--%>
-<%--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
-<%--            </div>--%>
-<%--    <form method='post'>--%>
-<%--            <div class="modal-body">--%>
-<%--                <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
-<%--                <button type="button" class="btn btn-primary" >입력</button>--%>
-<%--                <button class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>--%>
-<%--            </div>--%>
-<%--    </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
 
 <div class="modal fade" id="modalPass">
     <div class="modal-dialog modal-dialog-centered">
@@ -136,7 +116,6 @@
             </div>
             <form method="post">
                 <div class="modal-body">
-<%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
                     <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
                     <p id="pwHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
                         &nbsp;

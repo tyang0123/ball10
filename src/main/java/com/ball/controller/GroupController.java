@@ -45,7 +45,6 @@ public class GroupController {
         List<GroupVO> criList = groupService.allRead(cri);
 
         int lastIndex = criList.size()-1;
-//        System.out.println("#######lastIndex : "+ criList.get(lastIndex).getGroup_id());
         model.addAttribute("list", groupService.allRead(cri));
         if(lastIndex>=0){
             model.addAttribute("groupLast", criList.get(lastIndex).getGroup_id());
@@ -56,8 +55,6 @@ public class GroupController {
         model.addAttribute("type", cri.getKeyword());
         model.addAttribute("count",criList.size());
         System.out.println("크리 리스트의 사이즈 "+criList.size());
-
-
         System.out.println("컨트롤러에 cri가 들어오나 " +cri);
         System.out.println("검색어가 들어오나 "+ cri.getKeyword());
         System.out.println("카테고리가 들어오나 "+ cri.getCategory());
