@@ -5,6 +5,12 @@
 
 <%@ include file="../includes/header.jsp" %>
 
+<style>
+    .form-control:focus{
+        box-shadow: unset;
+    }
+</style>
+
 <div class="row" style="text-align: center;margin-top: 50px; margin-bottom:50px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>공지사항</h1></div>
@@ -86,49 +92,52 @@
 <%--    </div>--%>
 <%--</div>--%>
 
-<div class="modal fade" id="createNotice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="createNotice">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">공지작성</h5>
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">공지 등록 🧐</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/ajax/notice/add" method="post">
-<%--                    <div class="mb-3">--%>
-<%--                        <input type="text" class="form-control" id="notice-content" placeholder="제목">--%>
-<%--                    </div>--%>
+            <form method="post" action="/ajax/notice/add">
+                <div class="modal-body">
                     <div class="mb-3">
-                        <textarea class="form-control" id="notice-text" placeholder="내용"></textarea>
+                        <textarea id="notice-text" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="공지 내용" style="border: black 1px solid;margin-top: 20px; resize: none; height: 150px;"></textarea>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id ="noticeSubmit" class="btn btn-primary">등록하기</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            </div>
+                    <p id="pwHelpInline1" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
+                        &nbsp;
+                    </p>
+                </div>
+                <div class="modal-footer" style="border-color:black;">
+                    <button style="width: 150px;" id="noticeSubmit" type="button" class="passwordCheck button-add-custom">등 록</button>
+                    <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="modifyNotice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="modifyNotice">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modifyModalLabel">공지 수정</h5>
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" id="modifyModalLabel" style="margin-left: 30px;">공지 수정 🤓</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form action="/ajax/notice/modify" method="post">
+            <form method="post" action="/ajax/notice/modify">
+                <div class="modal-body">
                     <div class="mb-3">
-                        <textarea class="form-control" id="modify_notice_text" placeholder="내용"></textarea>
+                        <textarea id="modify_notice_text" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="내용" style="border: black 1px solid;margin-top: 20px; resize: none; height:150px;"></textarea>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="modifySubmit" class="btn btn-primary">수정하기</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            </div>
+                    <p id="pwHelpInline2" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
+                        &nbsp;
+                    </p>
+                </div>
+                <div class="modal-footer" style="border-color:black;">
+                    <button style="width: 150px;" id="modifySubmit" type="button" class="passwordCheck button-add-custom">수 정</button>
+                    <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -162,7 +171,7 @@
                 }
                 noticeService.add(notice,function (result){
                     if(result == "success"){
-                        alert("등록되었습니다.")
+                        alert("등록 완료 😎")
                         location.reload();
                         $('#notice-text').val("");
                         $('#createNotice').modal("hide");
@@ -235,7 +244,7 @@
 
                         success : function (res){
                             const success = res['success'];
-                            alert("등록되었습니다. " + success);
+                            alert("수정 완료 😎");
                             location.reload();
                             $('#modify_notice_text').val("");
                             $('#modifyNotice').modal("hide");
