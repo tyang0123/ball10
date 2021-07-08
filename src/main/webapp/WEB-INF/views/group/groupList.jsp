@@ -99,27 +99,6 @@
         </div>
     </div>
 </div>
-<%--<div class="row">--%>
-<%--    <button id="addBtn" onclick="moreList();"><span>더보기</span></button>--%>
-<%--</div>--%>
-
-<%--<div class="modal" id="modalPass" tabindex="-1">--%>
-<%--    <div class="modal-dialog">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-header">--%>
-<%--                <h5 class="modal-title">비밀번호 입력</h5>--%>
-<%--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
-<%--            </div>--%>
-<%--    <form method='post'>--%>
-<%--            <div class="modal-body">--%>
-<%--                <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
-<%--                <button type="button" class="btn btn-primary" >입력</button>--%>
-<%--                <button class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>--%>
-<%--            </div>--%>
-<%--    </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
 
 <div class="modal fade" id="modalPass">
     <div class="modal-dialog modal-dialog-centered">
@@ -166,21 +145,8 @@
         console.log(keyword, type);
         moreList(changeCriterionNumber, keyword, type);
     })
-    const displayTime = (timeValue)=>{
-        let today = new Date();
-        let gap = today.getTime() - timeValue;
-        let dateObj = new Date(timeValue);
-        if(gap<(1000*60*60*24)){ //시분초  1milli second
-            let hh =dateObj.getHours();
-            let mi =dateObj.getMinutes();
-            let ss =dateObj.getSeconds();
-            return [ (hh>9?'':'0') +hh, ':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
-        }  else {//년월일
-            let yy= dateObj.getFullYear();
-            let mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
-            let dd = dateObj.getDate();
-            return [ yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
-        }
+    const displayDateTime = ([year, month, date, hour, minute, second])=>{
+        return year+"-"+((month < 10 ? '0' : '')+month)+"-"+((date < 10 ? '0' : '') + date);
     };
 
     const getAvgTimeParsedToString= ([hour, minute, second])=>{
@@ -211,8 +177,6 @@
                 }
                 var groupText ="";
                 for(let i = 0; i < criNum.length; i++) {
-                    // var idx = Number(startNum)+Number(i)+1;
-                    // 글번호 : startNum 이  10단위로 증가되기 때문에 startNum +i (+1은 i는 0부터 시작하므로 )
 
                     groupText += "<div class='card user-card-group' style='cursor: pointer;' value='" +criNum[i].group_is_secret+ "'>";
                     groupText += "  <input type='hidden' name='group_id' value='" +criNum[i].group_id+ "'/>";
@@ -237,7 +201,7 @@
                     groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>";
                     groupText += "              "+ (criNum[i].group_accumulated_avg_time.length<3 ? "0시간 00분": getAvgTimeParsedToString(criNum[i].group_accumulated_avg_time));
                     groupText += "          </span>";
-                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayTime(criNum[i].group_reg_date) + "</span>";
+                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayDateTime(criNum[i].group_reg_date) + "</span>";
                     groupText += "      </div>";
                     groupText += "   </div>";
                     groupText += "   <ul class='list-group list-group-flush'>";
@@ -251,8 +215,6 @@
 
                 changeCriterionNumber = $(".user-card-group input:last").val();
                 console.log("마지막 그룹 아이디의 값은 ? : ",changeCriterionNumber);
-
-
             }
         })
     }
@@ -260,11 +222,6 @@
         console.log("버튼 눌리나")
         $("#listForm").attr("action", "/group/create").submit();
     })
-
-    // $(".user-card-group").on('click',function (){
-    //     var groupID = $(this).find('input[name=group_id]').attr('value');
-    //     console.log("move눌리나 값"+ $(this).attr('value'));
-    //     let url = "/group/read?group_id="+groupID;
 
     $(document).ready(function (){
         var groupID;
