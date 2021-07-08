@@ -154,9 +154,7 @@
     }
     $(".category").val("${category}").attr("selected", true);
     $("#listSearch").val("${type}");
-    if($("#listSearch").val(changeCriterionNumber)){
-        alert("검색 결과가 없습니다.")
-    }
+
 
     $("#addBtn").click(function (){
         var keyword = $('#listSearch').val();
