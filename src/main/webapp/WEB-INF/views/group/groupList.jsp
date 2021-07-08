@@ -264,8 +264,7 @@
     //     let url = "/group/read?group_id="+groupID;
 
     $(document).ready(function (){
-        $(".center-block").on('click','.user-card-group' ,function (){
-
+        $(".center-block").on('click','.user-card-group' ,function (e){
             var groupID = $(this).find('input[name=group_id]').attr('value');
             console.log(" 새로 생긴 card의 group_id는 ? : ",groupID)
             console.log("move눌리나 값"+ $(this).attr('value'));
@@ -274,7 +273,9 @@
         if($(this).attr('value')==1){
             console.log("move 그룹 아이디 가져오기"+ groupID);
             $('#modalPass').modal('show');
-            $(".passwordCheck").click(function (){
+            $(".passwordCheck").click(function(e){
+                e.preventDefault();
+                e.stopPropagation();
 
                 console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
                 $.ajax({
