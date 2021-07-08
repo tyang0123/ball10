@@ -15,13 +15,17 @@
     .form-control:focus{
         box-shadow: unset;
     }
+    .btn-info:focus,
+    .btn:focus {
+        box-shadow: unset;
+    }
 </style>
 
 
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
-    <div class="col-2"><button style="width: 60px; position:absolute; right: 12vw;" type="button" class="button-timer-custom" id="createBtn">등록</button></div>
+    <div class="col-2"><button style="" type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">그룹 만들기</button></div>
 </div>
 
 <div class="row"> <!-- search -->
@@ -40,15 +44,16 @@
                             <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                 </select>
                 <div class="searchForm">
-                <input type="text" id="listSearch" name="keyword" value="${cri.keyword}"/>
+                <input type="text" id="listSearch" name="keyword" placeholder="검색어를 입력하세요" value="${cri.keyword}"/>
                 <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>  <!-- col-lg-12 -->
     </table>
+    </table>
 </div>
 
-<div class="row" id="groupRow">  <!-- groupList -->
+<div class="row">  <!-- groupList -->
     <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block">
         <c:forEach var="list" items="${list}" >
             <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
@@ -128,7 +133,6 @@
                 <h4 class="modal-title" style="margin-left: 30px;">비밀번호 입력 🤩</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
                 <div class="modal-body">
 <%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
                     <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
@@ -140,7 +144,6 @@
                     <button style="width: 150px;" type="button" class="passwordCheck button-add-custom">입 력</button>
                     <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
                 </div>
-            </form>
         </div>
     </div>
 </div>
@@ -154,9 +157,7 @@
     }
     $(".category").val("${category}").attr("selected", true);
     $("#listSearch").val("${type}");
-    if($("#listSearch").val(changeCriterionNumber)){
-        alert("검색 결과가 없습니다.")
-    }
+
 
     $("#addBtn").click(function (){
         var keyword = $('#listSearch').val();
