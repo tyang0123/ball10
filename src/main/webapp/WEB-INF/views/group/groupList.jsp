@@ -74,11 +74,11 @@
                             <span class="group-list-title">공부량 : </span><span class="group-list-content">
                             <c:choose>
                                 <c:when test="${list.group_accumulated_avg_time eq '00:00'}">
-                                    0시간 0분
+                                    0시간 00분
                                 </c:when>
                                 <c:otherwise>
                                     <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${list.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
-                                    <fmt:formatDate value="${timeparse}" type="time" pattern="KK시간 mm분"/>
+                                    <fmt:formatDate value="${timeparse}" type="time" pattern="K시간 mm분"/>
                                 </c:otherwise>
                             </c:choose>
                             </span>
@@ -180,6 +180,12 @@
         }
     };
 
+    const getAvgTimeParsedToString= ([hour, minute, second])=>{
+        console.log(hour, minute)
+        return (hour < 10 ? '0' : '') + hour + "시간"
+            + (minute < 10 ? '0' : '') + minute +"분";
+    }
+
     const moreList = (criterionNumber, keyword, type) => {
         var startNum = $(".user-card-group input:last").val();
         console.log("카드 마지막 번호는 ? "+startNum);
@@ -225,7 +231,9 @@
                     groupText += "          <span class='group-list-title'>목표시간 : </span><span class='group-list-content'>" +criNum[i].group_target_hour+ criNum[i].group_target_minute +"</span><span class='group-list-title'> 그룹인원 : </span><span class='group-list-content'>" +criNum[i].group_join_person_number + "/" +criNum[i].group_person_count+ "명"+  "</span><span class='group-list-title'>  그룹장 : </span><span class='group-list-content'>" +criNum[i].user_nickname_group_header+ "</span>";
                     groupText += "      </div>";
                     groupText += "      <div>";
-                    groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>6시간 50분</span>";
+                    groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>";
+                    groupText += "              "+ (criNum[i].group_accumulated_avg_time.length<3 ? "0시간 00분": getAvgTimeParsedToString(criNum[i].group_accumulated_avg_time));
+                    groupText += "          </span>";
                     groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayTime(criNum[i].group_reg_date) + "</span>";
                     groupText += "      </div>";
                     groupText += "   </div>";

@@ -43,11 +43,11 @@
                     <span class="group-list-content">
                          <c:choose>
                              <c:when test="${group.group_accumulated_avg_time eq '00:00'}">
-                                 00시간 00분
+                                 0시간 00분
                              </c:when>
                              <c:otherwise>
                                  <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${group.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
-                                 <fmt:formatDate value="${timeparse}" type="time" pattern="KK시간 mm분"/>
+                                 <fmt:formatDate value="${timeparse}" type="time" pattern="K시간 mm분"/>
                              </c:otherwise>
                          </c:choose>
                     </span>
