@@ -68,4 +68,8 @@ public class AlarmMapperTests {
     }
 
 
+    @Test
+    public void testInsertMessagesGroupDestroyToUsers(){
+        mapper.insertMessagesGroupDestroyToUsers(2L, "탈퇴용 메세지 보내기 테스트 합니다.");
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -76,4 +77,12 @@ public class TimerMapperTests {
         }
     }
 
+    @Test
+    public void testSelectTi1merSecondsByDateWeekAndUser(){
+        LocalDate date = LocalDate.of(2021, 6,28);
+        System.out.println(date);
+        mapper.selectTimerSecondsByDateWeekAndUser(date, "user28").forEach(i->{
+            System.out.println(i);
+        });
+    }
 }

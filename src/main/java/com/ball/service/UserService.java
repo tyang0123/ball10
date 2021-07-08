@@ -1,5 +1,6 @@
 package com.ball.service;
 
+import com.ball.vo.AlarmVO;
 import com.ball.vo.GroupVO;
 import com.ball.vo.UserVO;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     //user create
-    public void userCreate(UserVO vo);
+    public void userCreate(UserVO vo, AlarmVO alarmVO);
 
     //user modify
     public void userModify(UserVO vo);

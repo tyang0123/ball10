@@ -29,5 +29,7 @@
         select count(*) from group_message where group_id = #{group_id}
     </select>
 
-
+    <delete id="deleteGroupMessageByGroupID">
+        delete from group_message where group_id = #{group_id}
+    </delete>
 </mapper>

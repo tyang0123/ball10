@@ -1,12 +1,15 @@
 package com.ball.service;
 
 import com.ball.mail.service.MailService;
+import com.ball.mapper.AlarmMapper;
 import com.ball.mapper.UserMapper;
+import com.ball.vo.AlarmVO;
 import com.ball.vo.GroupVO;
 import com.ball.vo.UserVO;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,9 +19,14 @@ public class UserServiceImpl implements UserService{
     @Setter(onMethod_=@Autowired)
     private UserMapper userMapper;
 
+    @Setter(onMethod_=@Autowired)
+    private AlarmMapper alarmMapper;
+
     @Override
-    public void userCreate(UserVO vo) {
+    @Transactional
+    public void userCreate(UserVO vo, AlarmVO alarmVO) {
         userMapper.insertUser(vo);
+        alarmMapper.insert(alarmVO);
     }
 
     @Override

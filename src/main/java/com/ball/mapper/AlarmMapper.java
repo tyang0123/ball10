@@ -15,4 +15,8 @@ public interface AlarmMapper {
 
     //페이징처리
     public List<AlarmVO> getListWithPaging(@Param("cri") Criteria cri,@Param("user_id") String user_id);
+
+    //그룹삭제시 모든 멤버 메세지 보내기
+    public Long insertMessagesGroupDestroyToUsers(@Param("group_id") Long group_id
+            , @Param("message_content") String message_content);
 }

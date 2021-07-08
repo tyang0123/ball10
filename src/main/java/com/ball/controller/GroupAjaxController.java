@@ -1,6 +1,8 @@
 package com.ball.controller;
 
 import com.ball.service.GroupService;
+import com.ball.vo.Criteria;
+import com.ball.vo.GroupVO;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,4 +26,15 @@ public class GroupAjaxController {
         System.out.println("result 값은? "+result);
         return ResponseEntity.ok(result);
     }
+    @PostMapping(value = "/addList")
+    public ResponseEntity<HashMap<String, Object>> getList (Criteria cri) throws Exception{
+        System.out.println("리스트 더보기 아작스컨트롤러에 진입이 되나");
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("criNumber", groupService.allRead(cri));
+        System.out.println("리스트 더보기 result 값은 : "+ result);
+
+        return ResponseEntity.ok(result);
+    }
+//    @PostMapping(value = "/")
+
 }

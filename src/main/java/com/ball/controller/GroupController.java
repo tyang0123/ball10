@@ -33,7 +33,6 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupController {
 
-//    private GroupMessageService messageService;
     @Setter(onMethod_=@Autowired)
     private GroupService groupService;
 
@@ -43,24 +42,23 @@ public class GroupController {
     @GetMapping("/list")
     public String groupList(Long group_id , Criteria cri,  Model model) {
         System.out.println("컨트롤러 그룹 전체 목록 조회");
-//        model.addAttribute("list",messageService.groupMessageRead(1L));
-//        HashMap<String,Object> hashMap = new HashMap<>();
-//        hashMap.put("criterionNumber",cri);
-//        hashMap.put("group_id",group_id);
-//        model.addAttribute("list",messageService.groupMessageRead(hashMap));
+        List<GroupVO> criList = groupService.allRead(cri);
+        int lastIndex = criList.size()-1;
+        System.out.println("#######lastIndex : "+ criList.get(lastIndex).getGroup_id());
         model.addAttribute("list", groupService.allRead(cri));
+        model.addAttribute("groupLast", criList.get(lastIndex).getGroup_id());
+        model.addAttribute("category", cri.getCategory());
+        model.addAttribute("type", cri.getKeyword());
 
         System.out.println("컨트롤러에 cri가 들어오나 " +cri);
         System.out.println("검색어가 들어오나 "+ cri.getKeyword());
         System.out.println("카테고리가 들어오나 "+ cri.getCategory());
-
-
         return "group/groupList";
     }
     @PostMapping("/list")
     public String groupList(Criteria cri,Model model) {
         System.out.println("Post List에 들어오나");
-        model.addAttribute("list", groupService.allRead(cri));
+//        model.addAttribute("list", groupService.allRead(cri));
 
         return "group/groupList";
     }
@@ -108,16 +106,20 @@ public class GroupController {
         model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(userID));
         return "group/groupRead";
     }
-//    @PostMapping("/read")
-//    public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
-//        String userID = String.valueOf(request.getSession().getAttribute("userID"));
-//        join.setGroup_id(group_id);
-//        join.setUser_id(userID);
-//        groupService.joinGroup(join);
-//        System.out.println("==========" + join);
-//
-//        return "redirect:/group/read?group_id="+group_id;
-//    }
+    @PostMapping("/read")
+    public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
+
+        String userID = String.valueOf(request.getSession().getAttribute("userID"));
+        join.setGroup_id(group_id);
+        join.setUser_id(userID);
+
+        /////유저가입 메세지 내용 set은 service에서 처리함
+        AlarmVO alarmVO = new AlarmVO();
+        groupService.joinGroup(join, alarmVO);
+        System.out.println("==========" + join);
+
+        return "redirect:/group/read?group_id="+group_id;
+    }
 
 
     @PostMapping({"/modify"})
@@ -132,14 +134,20 @@ public class GroupController {
     }
     @PostMapping("/groupRemove")
     public String groupRemove (Long group_id){
-        groupService.groupRemove(group_id);
+
+        ///////////////////////////////////////////////////////////////그룹 삭제 메세지 추가
+        String groupDestroyMessage = " 그룹이 파괴되었습니다. 다른 그룹에 가입하셔서 열공해주세요!!";
+        groupService.groupRemove(group_id,groupDestroyMessage);
         return "redirect:/group/list";
     }
     @PostMapping("/userRemove")
     public String userRemove (Long group_id, HttpServletRequest request){
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         System.out.println("유저 아이디랑, 그룹 아이다가 들어오나 "+ group_id + userID);
-        groupService.userRemove(group_id, userID);
+
+        ////////////// 유저 탈퇴 메세지
+        AlarmVO alarmVO = new AlarmVO();
+        groupService.userRemove(group_id, userID, alarmVO);
         return "redirect:/group/list";
     }
 }

@@ -58,7 +58,17 @@
                         <span class="group-list-title">목표시간 : </span><span class="group-list-content">${groupList.group_target_hour} ${groupList.group_target_minute}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${groupList.group_join_person_number}/${groupList.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${groupList.user_nickname_group_header}</span>
                     </div>
                     <div>
-                        <span class="group-list-title">공부량 : </span><span class="group-list-content">6시간 50분</span>
+                        <span class="group-list-title">공부량 : </span><span class="group-list-content">
+                        <c:choose>
+                            <c:when test="${groupList.group_accumulated_avg_time eq '00:00'}">
+                                0시간 0분
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${groupList.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
+                                <fmt:formatDate value="${timeparse}" type="time" pattern="KK시간 mm분"/>
+                            </c:otherwise>
+                        </c:choose>
+                        </span>
                         <span class="group-list-title">  시작일 : </span><span class="group-list-content">
                         <fmt:parseDate var="date" value="${groupList.group_reg_date}" pattern="yyyy-MM-dd"/>
                             <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
