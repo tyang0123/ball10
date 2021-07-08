@@ -221,7 +221,7 @@
                     groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>";
                     groupText += "              "+ (criNum[i].group_accumulated_avg_time.length<3 ? "0시간 00분": getAvgTimeParsedToString(criNum[i].group_accumulated_avg_time));
                     groupText += "          </span>";
-                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayTime(criNum[i].group_reg_date) + "</span>";
+                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" +displayTime(criNum[i].group_reg_date)+ "</span>";
                     groupText += "      </div>";
                     groupText += "   </div>";
                     groupText += "   <ul class='list-group list-group-flush'>";
