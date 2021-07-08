@@ -39,7 +39,7 @@ var messageService = (function (){
                         text += "<div style='font-weight: lighter; text-align: left;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div>"
                         text += "</div>"
                     }else{
-                        text += "<div style='font-weight: lighter;padding-top: 8px; margin-left:10px;' id='groupMessageUserId'>"+list[i].user_id+"</div>";
+                        text += "<div style='font-weight: lighter;padding-top: 8px; margin-left:10px;' id='groupMessageUserId'>"+list[i].user_nickname+"</div>";
                         text += "<div class='d-flex flex-row'>"
                         text += "<div class='p-2 border rounded-3' style='padding-bottom: 7px;padding-top: 7px;'>"+list[i].group_message_content+"</div>"
                         text += "<div style='text-align:end; font-weight: lighter;color: #acacac;' class='align-self-end p-2'>"+list[i].group_message_mod_date[0]+"."+list[i].group_message_mod_date[1]+"."+list[i].group_message_mod_date[2]+"</div></div>";
