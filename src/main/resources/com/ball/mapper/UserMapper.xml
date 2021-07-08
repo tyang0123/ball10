@@ -60,7 +60,7 @@
     <select id="selectEmailCheck" resultType="String">
         select user_email from user where user_email = #{user_email}
             <if test="user_id != null">
-                and user_id like #{user_id}
+                and user_id not like #{user_id}
             </if>
     </select>
 

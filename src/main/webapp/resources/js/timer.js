@@ -29,7 +29,7 @@ function getRemainSecondsFrom3AMPerSeconds(){
   let nowTime = new Date();
   let tomorrowDawn = new Date();
 
-  if(nowTime.getHours()>3){
+  if(nowTime.getHours()>2){
     tomorrowDawn.setDate(nowTime.getDate()+1);
   }
   tomorrowDawn.setHours(3, 0, 1, 0);

@@ -76,15 +76,15 @@ public class GroupController {
         return "group/groupCreate";
     }
     @PostMapping("/create")
-    public String register(GroupVO group, Long group_id, GroupJoinVO join, HttpServletRequest request, RedirectAttributes rttr){
+    public String register(GroupVO group, Long group_id, HttpServletRequest request){
 
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         groupService.register(group, userID);
         System.out.println("컨트롤러에 레지스터 값이 들어오나?"+group.getGroup_category());
 //        rttr.addFlashAttribute("result", group.getGroup_id());
-        join.setGroup_id(group_id);
-        join.setUser_id(userID);
-        return "redirect:/group/list";
+//        join.setGroup_id(group_id);
+//        join.setUser_id(userID);
+        return "redirect:/group/read?group_id="+group.getGroup_id();
 
     }
     @GetMapping("/modify")
@@ -108,16 +108,16 @@ public class GroupController {
         model.addAttribute("userJoinedGroup",groupService.getUserJoinedGroupId(userID));
         return "group/groupRead";
     }
-    @PostMapping("/read")
-    public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
-        String userID = String.valueOf(request.getSession().getAttribute("userID"));
-        join.setGroup_id(group_id);
-        join.setUser_id(userID);
-        groupService.joinGroup(join);
-        System.out.println("==========" + join);
-
-        return "redirect:/group/read?group_id="+group_id;
-    }
+//    @PostMapping("/read")
+//    public String oneRead(Long group_id, GroupJoinVO join,HttpServletRequest request){
+//        String userID = String.valueOf(request.getSession().getAttribute("userID"));
+//        join.setGroup_id(group_id);
+//        join.setUser_id(userID);
+//        groupService.joinGroup(join);
+//        System.out.println("==========" + join);
+//
+//        return "redirect:/group/read?group_id="+group_id;
+//    }
 
 
     @PostMapping({"/modify"})

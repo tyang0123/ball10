@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label for="group_content"/>
                         <textarea class="form-control form-custom" rows="3" name="group_content"
-                                  id="group_content" placeholder=" 그룹 소개"> ${group.group_content}</textarea>
+                                  id="group_content" placeholder=" 그룹 공지"> ${group.group_content}</textarea>
                     </div>
                     <div class="form-group">
                         <span class="targetSelect">
@@ -72,7 +72,7 @@
                                 <option value="15시간"> 15시간</option>
                             </select>
                             <select name="group_target_minute" id="group_target_minute">
-                                <option value="0분"> 0분</option>
+                                <option value="00분"> 00분</option>
                                 <option value="10분"> 10분</option>
                                 <option value="20분"> 20분</option>
                                 <option value="30분"> 30분</option>
@@ -83,7 +83,7 @@
                     </div>
                     <div style="margin-top: 30px;margin-bottom: 35px;">
                         <button data-oper="modify" type="submit" class="createGroup"> 수정하기 </button>
-                        <button data-oper="list" class="createCancel"> 취소 버튼</button>
+                        <button data-oper="read" class="createCancel"> 취소 버튼</button>
                     </div>
                 </form>
             </div> <!-- end panel-body -->
@@ -106,7 +106,6 @@
 
         $("#group_category").val("${group.group_category}").attr("selected", true);
         $("#group_person_count").val("${group.group_person_count}").attr("selected", true);
-        $("#group_content").val("${group.group_content}").attr("selected", true);
         $("#group_target_hour").val("${group.group_target_hour}").attr("selected", true);
         $("#group_target_minute").val("${group.group_target_minute}").attr("selected", true);
 
@@ -138,8 +137,8 @@
 
         $("button").click(function (){
             var operation = $(this).data("oper");
-            if(operation === 'list'){
-                $("#operForm").attr("action", "/group/list").attr("method", "post")
+            if(operation === 'read'){
+                $("#operForm").attr("action", "/group/read?group_id=${group.group_id}").attr("method","get")
             }
             else if(operation === 'modify'){
                 if($("#group_is_secret").is(':checked')){

@@ -7,11 +7,17 @@
 <%@ include file="../includes/header.jsp" %>
 
 
-    <i class="bi bi-lock-fill"></i>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+<i class="bi bi-lock-fill"></i>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="/resources/css/group.css" rel="stylesheet">
+<style>
+    .form-control:focus{
+        box-shadow: unset;
+    }
+</style>
+
+
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
@@ -19,7 +25,7 @@
 </div>
 
 <div class="row"> <!-- search -->
-    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <table width="100%" id="dataTables-example">
         <div class="col-lg-12">
             <form id="listForm" action="/group/list" method="get">
                 <select class="category" name="category">
@@ -34,13 +40,14 @@
                             <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                 </select>
                 <div class="searchForm">
-                <input type="text" id="listSearch" name="keyword"/>
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    <input type="text" id="listSearch" name="keyword"/>
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>  <!-- col-lg-12 -->
     </table>
 </div>
+
 <div class="row">  <!-- groupList -->
     <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block;">
         <c:forEach var="list" items="${list}" >
@@ -79,24 +86,47 @@
     </div>
 </div>
 
-<div class="modal" id="modalPass" tabindex="-1">
-    <div class="modal-dialog">
+<%--<div class="modal" id="modalPass" tabindex="-1">--%>
+<%--    <div class="modal-dialog">--%>
+<%--        <div class="modal-content">--%>
+<%--            <div class="modal-header">--%>
+<%--                <h5 class="modal-title">비밀번호 입력</h5>--%>
+<%--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
+<%--            </div>--%>
+<%--    <form method='post'>--%>
+<%--            <div class="modal-body">--%>
+<%--                <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
+<%--                <button type="button" class="btn btn-primary" >입력</button>--%>
+<%--                <button class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>--%>
+<%--            </div>--%>
+<%--    </form>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</div>--%>
+
+<div class="modal fade" id="modalPass">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">비밀번호 입력</h5>
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">비밀번호 입력 🤩</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-    <form method='post'>
-            <div class="modal-body">
-                <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">
-                <button type="button" class="btn btn-primary" >입력</button>
-                <button class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>
-            </div>
-    </form>
+            <form method="post">
+                <div class="modal-body">
+<%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
+                    <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
+                    <p id="pwHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
+                        &nbsp;
+                    </p>
+                </div>
+                <div class="modal-footer" style="border-color:black;">
+                    <button style="width: 150px;" type="button" class="passwordCheck button-add-custom">입 력</button>
+                    <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
 
 <script>
     function reset(){
@@ -116,7 +146,7 @@
         if($(this).attr('value')==1){
             console.log("move 그룹 아이디 가져오기"+ groupID);
             $('#modalPass').modal('show');
-            $(".btn-primary").click(function (){
+            $(".passwordCheck").click(function (){
 
                 console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
                 $.ajax({
@@ -129,6 +159,7 @@
                         if(passwordAjax === passInput){
                             location.href=url;
                         }else{
+                            $('#pwHelpInline').text("비밀번호가 일치하지 않습니다.");
                             console.log("bye ajax");
                         }
 

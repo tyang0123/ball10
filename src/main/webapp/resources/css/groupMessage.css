@@ -14,11 +14,15 @@
     border: 1px solid #ff9000;
     color: white;
 }
+#message-text,
+#message_submit{
+    border: 1px solid black;
+}
 
 #modalShowButton{
     position:absolute;
-    margin-left:90%;
-    width:5%;
+    margin-left:85%;
+    width:10vw;
 }
 
 .align-self-end{
@@ -33,10 +37,10 @@
     .rounded-3{
         font-size: smaller;
     }
-    #groupMessageModal{
-        width: 80%;
-        margin-left: 10%;
-    }
+    /*#groupMessageModal{*/
+    /*    width: 80%;*/
+    /*    margin-left: 10%;*/
+    /*}*/
     .align-self-end{
         font-size: 13px;
     }
@@ -52,11 +56,11 @@
         font-size: larger;
     }
 
-    #modalShowButton{
-        position:absolute;
-        margin-left:75%;
-        width: 15%;
-    }
+    /*#modalShowButton{*/
+    /*    position:absolute;*/
+    /*    margin-left:75%;*/
+    /*    width: 15%;*/
+    /*}*/
 
     /*div.flex-row-reverse > .remove_message.swipeleft {*/
     /*    display: block;*/
@@ -64,4 +68,35 @@
     /*    background-color: white;*/
     /*    width: auto;*/
     /*}*/
+}
+
+@media (min-width: 512px) {
+    #modalShowButton{
+        position:absolute;
+        margin-left:85%;
+        width:8.5vw;
+    }
+
+}
+@media (min-width: 768px) {
+    #modalShowButton{
+        position:absolute;
+        margin-left:87%;
+        width:7vw;
+    }
+}
+@media (min-width: 992px) {
+    #modalShowButton{
+        position:absolute;
+        margin-left:88%;
+        width:6vw;
+    }
+}
+
+@media (min-width: 1200px) {
+    #modalShowButton{
+        position:absolute;
+        margin-left:88%;
+        width:5vw;
+    }
 }
