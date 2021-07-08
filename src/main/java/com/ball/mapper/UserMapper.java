@@ -41,4 +41,7 @@ public interface UserMapper {
     public String selectEmailCheck(@Param("user_id") String user_id,@Param("user_email")String user_email);
 
     public int updatePasswordByUserID(@Param("user_id") String user_id, @Param("user_password") String user_password);
+
+    //유저 ID, Email 일치여부 조회
+    public String selectEmailCheckForFindPassword(@Param("user_id") String user_id,@Param("user_email")String user_email);
 }
