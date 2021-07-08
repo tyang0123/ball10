@@ -98,7 +98,7 @@ public class UserMapperTests {
 
     @Test
     public void testEmailCheck(){
-        System.out.println(mapper.selectEmailCheck("testmapper","a@naver.com"));
+        System.out.println(mapper.selectEmailCheck("user1","a@naver.com"));
     }
 
     @Test

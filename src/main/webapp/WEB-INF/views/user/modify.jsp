@@ -7,7 +7,7 @@
 
 
 <div class="row" style="background-color: #efefef;">
-    <div class="createForm" style="margin-top: 40px;margin-bottom: 40px;">
+    <div class="createForm" style="margin-top: 8vh;margin-bottom: 10vh;">
         <h1 style="margin-top: 40px;margin-bottom: 40px;">회 원 정 보&nbsp;&nbsp;수 정</h1>
         <form action="/user/modify" role="form" method="post">
             <div class="form-group">
