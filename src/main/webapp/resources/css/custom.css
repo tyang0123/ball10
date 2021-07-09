@@ -473,6 +473,9 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   .createForm{
     width: 400px;
   }
+  .btnsizeGroup{
+    width: 110px;
+  }
   .btnsizeGroupList{
     width: 115px;
   }
@@ -587,6 +590,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .noticeContent{
     font-size: 15px;
+
   }
 
   .createForm{

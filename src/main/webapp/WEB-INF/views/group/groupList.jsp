@@ -23,6 +23,7 @@
 
 
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
+<%--<div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">--%>
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
     <div class="col-2"><button style="" type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">그룹 만들기</button></div>
@@ -166,6 +167,7 @@
         console.log(keyword, type);
         moreList(changeCriterionNumber, keyword, type);
     })
+
     const displayTime = (timeValue)=>{
         let today = new Date();
         let gap = today.getTime() - timeValue;

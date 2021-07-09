@@ -232,7 +232,7 @@
                     let schedule_date = res['date'];
                     let data = "";
                     data += "<li><input type='hidden' value="+schedule_id+">";
-                    data += "<p style='cursor: pointer;'><span class='timeStrong'>"+timeChange(schedule_time)+"</span>";
+                    data += "<p style='cursor: pointer;'><span class='timeStrong'>"+timeChange(String(schedule_time))+"</span>";
                     data += "<br/>"+schedule_content+"</p></li>";
                     data += `<div class="form-check" style="font-size: 13px; margin-top: -13px;margin-bottom: 15px;">`;
                     data += `<label><input class="form-check-input" type="checkbox" name="todo" value="0">&nbsp;check</label></div>`;

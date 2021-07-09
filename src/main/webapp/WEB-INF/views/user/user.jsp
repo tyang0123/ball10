@@ -201,6 +201,7 @@
                 let data = "";
 
                 for (let i = 0; i < list.length; i++) {
+                    console.log("알람 리스트 데이"+list[i].alarm_message_reg_date);
                     data += "<tr class='itemTitle'>";
                     data += "<input type='hidden' value='" + list[i].alarm_message_id + "'></input>";
                     data += "<td style='font-size: 12px;' class='align-middle'>" + displayTime(list[i].alarm_message_reg_date) + "</td>";
