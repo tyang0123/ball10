@@ -25,9 +25,8 @@
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
-    <div class="col-2"><button type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
+    <div class="col-2"><button style="width: 60px; position:absolute; right: 12vw;" type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
 </div>
-
 
 <div class="row"> <!-- search -->
     <table width="100%" id="dataTables-example">
