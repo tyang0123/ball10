@@ -23,11 +23,11 @@
 
 
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
-<%--<div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">--%>
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
-    <div class="col-2"><button style="" type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">그룹 만들기</button></div>
+    <div class="col-2"><button type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
 </div>
+
 
 <div class="row"> <!-- search -->
     <table width="100%" id="dataTables-example">
@@ -45,20 +45,20 @@
                             <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                 </select>
                 <div class="searchForm">
-                <input type="text" id="listSearch" name="keyword" placeholder="검색어를 입력하세요" value="${cri.keyword}"/>
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    <input type="text" id="listSearch" name="keyword" value="${cri.keyword}"/>
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>  <!-- col-lg-12 -->
     </table>
-    </table>
 </div>
 
-<div class="row">  <!-- groupList -->
-    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;" class="center-block">
-        <c:forEach var="list" items="${list}" >
-            <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
-                <input type="hidden" name="group_id" value="${list.group_id}"/>
+<div class="row" id="groupRow">  <!-- groupList -->
+    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;">
+        <div  class="center-block">
+            <c:forEach var="list" items="${list}" >
+                <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
+                    <input type="hidden" name="group_id" value="${list.group_id}"/>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-10 group-category">${list.group_category}</div>
@@ -78,54 +78,32 @@
                         </div>
                         <div>
                             <span class="group-list-title">공부량 : </span><span class="group-list-content">
-                            <c:choose>
-                                <c:when test="${list.group_accumulated_avg_time eq '00:00'}">
-                                    0시간 00분
-                                </c:when>
-                                <c:otherwise>
-                                    <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${list.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
-                                    <fmt:formatDate value="${timeparse}" type="time" pattern="K시간 mm분"/>
-                                </c:otherwise>
-                            </c:choose>
-                            </span>
+                                <c:choose>
+                                    <c:when test="${list.group_accumulated_avg_time eq '00:00'}">
+                                        0시간 00분
+                                    </c:when>
+                                    <c:otherwise>
+                                        <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${list.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
+                                        <fmt:formatDate value="${timeparse}" type="time" pattern="K시간 mm분"/>
+                                    </c:otherwise>
+                                </c:choose>
+                                </span>
                             <span class="group-list-title">  시작일 : </span><span class="group-list-content">
-                                <fmt:parseDate var="date" value="${list.group_reg_date}" pattern="yyyy-MM-dd"/>
-                                <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
+                                    <fmt:parseDate var="date" value="${list.group_reg_date}" pattern="yyyy-MM-dd"/>
+                                    <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item group-content">${list.group_content}</li>
                     </ul>
-            </div>
-        </c:forEach>
+                </div>
+            </c:forEach>
+        </div>
         <div style="text-align: center; margin-bottom:20px; margin-top: 20px;">
             <button style="width: 150px;" type="button" class="button-add-custom" id="addBtn">더보기</button>
         </div>
-        </div>
-<%--        <button type="button" id="addGroup" name="addGroup"><span>더보기</span></button>--%>
     </div>
 </div>
-<%--<div class="row">--%>
-<%--    <button id="addBtn" onclick="moreList();"><span>더보기</span></button>--%>
-<%--</div>--%>
-
-<%--<div class="modal" id="modalPass" tabindex="-1">--%>
-<%--    <div class="modal-dialog">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-header">--%>
-<%--                <h5 class="modal-title">비밀번호 입력</h5>--%>
-<%--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--%>
-<%--            </div>--%>
-<%--    <form method='post'>--%>
-<%--            <div class="modal-body">--%>
-<%--                <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
-<%--                <button type="button" class="btn btn-primary" >입력</button>--%>
-<%--                <button class="btn btn-secondary" onclick="reset()" data-bs-dismiss="modal">취소</button>--%>
-<%--            </div>--%>
-<%--    </form>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
 
 <div class="modal fade" id="modalPass">
     <div class="modal-dialog modal-dialog-centered">
@@ -134,17 +112,17 @@
                 <h4 class="modal-title" style="margin-left: 30px;">비밀번호 입력 🤩</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-                <div class="modal-body">
-<%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
-                    <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
-                    <p id="pwHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
-                        &nbsp;
-                    </p>
-                </div>
-                <div class="modal-footer" style="border-color:black;">
-                    <button style="width: 150px;" type="button" class="passwordCheck button-add-custom">입 력</button>
-                    <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
-                </div>
+            <div class="modal-body">
+                <%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
+                <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
+                <p id="pwHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
+                    &nbsp;
+                </p>
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="passwordCheck button-add-custom">입 력</button>
+                <button style="width: 150px;" type="button" class="button-add-custom" onclick="reset()" data-bs-dismiss="modal">취 소</button>
+            </div>
         </div>
     </div>
 </div>
@@ -152,49 +130,33 @@
 <script>
     // 전역변수로 크리테이션넘버 설정
     let changeCriterionNumber = ${groupLast};
+    const getFirstListSize = ${list.size()};
+    if(getFirstListSize < 20){
+        $("#addBtn").remove();
+    }
     function reset(){
         $('#inputPass').val("");
-        $('#modalPass').modal('');
+        // $('#modalPass').modal('');
     }
     $(".category").val("${category}").attr("selected", true);
     $("#listSearch").val("${type}");
-
-
     $("#addBtn").click(function (){
         var keyword = $('#listSearch').val();
         var type = $("select[class='category'] option:selected").val();
-
         console.log(keyword, type);
         moreList(changeCriterionNumber, keyword, type);
     })
-
-    const displayTime = (timeValue)=>{
-        let today = new Date();
-        let gap = today.getTime() - timeValue;
-        let dateObj = new Date(timeValue);
-        if(gap<(1000*60*60*24)){ //시분초  1milli second
-            let hh =dateObj.getHours();
-            let mi =dateObj.getMinutes();
-            let ss =dateObj.getSeconds();
-            return [ (hh>9?'':'0') +hh, ':',(mi>9?'':'0')+mi,':',(ss>9?'':'0')+ss].join('');
-        }  else {//년월일
-            let yy= dateObj.getFullYear();
-            let mm= dateObj.getMonth() +1; //getMonth는 0부터 시작
-            let dd = dateObj.getDate();
-            return [ yy,'/',(mm>9?'':'0')+mm,'/',(dd>9?'':'0')+dd].join('');
-        }
+    const displayDateTime = ([year, month, date, hour, minute, second])=>{
+        return year+"-"+((month < 10 ? '0' : '')+month)+"-"+((date < 10 ? '0' : '') + date);
     };
-
     const getAvgTimeParsedToString= ([hour, minute, second])=>{
         console.log(hour, minute)
         return (hour < 10 ? '0' : '') + hour + "시간"
             + (minute < 10 ? '0' : '') + minute +"분";
     }
-
     const moreList = (criterionNumber, keyword, type) => {
         var startNum = $(".user-card-group input:last").val();
         console.log("카드 마지막 번호는 ? "+startNum);
-
         $.ajax({
             type: "POST",
             url: "/ajax/addList",
@@ -207,15 +169,11 @@
             success(data){
                 console.log("데이터", data);
                 const criNum = data['criNumber'];
-
                 if(criNum.length < 20){
                     $("#addBtn").remove();
                 }
                 var groupText ="";
                 for(let i = 0; i < criNum.length; i++) {
-                    // var idx = Number(startNum)+Number(i)+1;
-                    // 글번호 : startNum 이  10단위로 증가되기 때문에 startNum +i (+1은 i는 0부터 시작하므로 )
-
                     groupText += "<div class='card user-card-group' style='cursor: pointer;' value='" +criNum[i].group_is_secret+ "'>";
                     groupText += "  <input type='hidden' name='group_id' value='" +criNum[i].group_id+ "'/>";
                     groupText += "  <div class='card-body'>";
@@ -239,7 +197,7 @@
                     groupText += "          <span class='group-list-title'>공부량 : </span><span class='group-list-content'>";
                     groupText += "              "+ (criNum[i].group_accumulated_avg_time.length<3 ? "0시간 00분": getAvgTimeParsedToString(criNum[i].group_accumulated_avg_time));
                     groupText += "          </span>";
-                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayTime(criNum[i].group_reg_date) + "</span>";
+                    groupText += "          <span class='group-list-title'>  시작일 : </span><span class='group-list-content'>" + displayDateTime(criNum[i].group_reg_date) + "</span>";
                     groupText += "      </div>";
                     groupText += "   </div>";
                     groupText += "   <ul class='list-group list-group-flush'>";
@@ -250,11 +208,8 @@
                 }
                 console.log($(".center-block"))
                 $(".center-block").append(groupText);
-
                 changeCriterionNumber = $(".user-card-group input:last").val();
                 console.log("마지막 그룹 아이디의 값은 ? : ",changeCriterionNumber);
-
-
             }
         })
     }
@@ -262,88 +217,49 @@
         console.log("버튼 눌리나")
         $("#listForm").attr("action", "/group/create").submit();
     })
-
-    // $(".user-card-group").on('click',function (){
-    //     var groupID = $(this).find('input[name=group_id]').attr('value');
-    //     console.log("move눌리나 값"+ $(this).attr('value'));
-    //     let url = "/group/read?group_id="+groupID;
-
     $(document).ready(function (){
-        $(".center-block").on('click','.user-card-group' ,function (e){
-            var groupID = $(this).find('input[name=group_id]').attr('value');
+        var groupID;
+        let url;
+        $(".center-block").on('click','.user-card-group' ,function (){
+            groupID = $(this).find('input[name=group_id]').attr('value');
             console.log(" 새로 생긴 card의 group_id는 ? : ",groupID)
             console.log("move눌리나 값"+ $(this).attr('value'));
-            let url = "/group/read?group_id="+groupID;
-
-        if($(this).attr('value')==1){
-            console.log("move 그룹 아이디 가져오기"+ groupID);
-            $('#modalPass').modal('show');
-            $(".passwordCheck").click(function(e){
-                e.preventDefault();
-                e.stopPropagation();
-
-                console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
-                $.ajax({
-                    type:"POST",
-                    url:"/ajax/list/"+groupID,
-                    dataType:"json",
-                    success: function (res){
-                        let passwordAjax = res['password'];
-                        let passInput = $('#inputPass').val();
-                        if(passwordAjax === passInput){
-                            location.href=url;
-                        }else{
-                            $('#pwHelpInline').text("비밀번호가 일치하지 않습니다.");
-                            console.log("bye ajax");
-                        }
-
-                            console.log("아작스 안에 들어온 패스워드",passwordAjax);
-                            console.log("아작스 안에 들어온 인풋 패스워드",passInput);
-                        },error : ()=>{}
-                    })
-                })
+            url = "/group/read?group_id="+groupID;
+            if($(this).attr('value')==1){
+                console.log("move 그룹 아이디 가져오기"+ groupID);
+                $('#modalPass').modal('show');
             }else{
                 location.href=url;
             }
+        });
+        $(".passwordCheck").click(function (e){
+            console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
+            $.ajax({
+                type:"POST",
+                url:"/ajax/list/"+groupID,
+                dataType:"json",
+                success: function (res){
+                    let passwordAjax = res['password'];
+                    let passInput = $('#inputPass').val();
+                    if(passwordAjax === passInput){
+                        reset();
+                        location.href=url;
+                    }else{
+                        $('#pwHelpInline').text("비밀번호가 일치하지 않습니다.");
+                        console.log("bye ajax");
+                    }
+                    console.log("아작스 안에 들어온 패스워드",passwordAjax);
+                    console.log("아작스 안에 들어온 인풋 패스워드",passInput);
+                },error : ()=>{}
+            })
         })
+        $("#inputPass").on("keyup",function(key){
+            if(key.keyCode==13) {
+                // alert("엔터키 이벤트");
+                $(".passwordCheck").trigger("click");
+            }
+        });
     })
-
-    // $(".user-card-group").on('click',function (){
-    //     var groupID = $(this).find('input[name=group_id]').attr('value');
-    //     console.log("move눌리나 값"+ $(this).attr('value'));
-    //     let url = "/group/read?group_id="+groupID;
-    //
-    //     if($(this).attr('value')==1){
-    //         console.log("move 그룹 아이디 가져오기"+ groupID);
-    //         $('#modalPass').modal('show');
-    //         $(".btn-primary").click(function (){
-    //
-    //             console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
-    //             $.ajax({
-    //                 type:"POST",
-    //                 url:"/ajax/list/"+groupID,
-    //                 dataType:"json",
-    //                 success: function (res){
-    //                     let passwordAjax = res['password'];
-    //                     let passInput = $('#inputPass').val();
-    //                     if(passwordAjax === passInput){
-    //                         location.href=url;
-    //                     }else{
-    //                         console.log("bye ajax");
-    //                     }
-    //
-    //                     console.log("아작스 안에 들어온 패스워드",passwordAjax);
-    //                     console.log("아작스 안에 들어온 인풋 패스워드",passInput);
-    //                 },error : ()=>{}
-    //             })
-    //         })
-    //     }else{
-    //         location.href=url;
-    //     }
-    // })
-
-
-
 </script>
 
 
