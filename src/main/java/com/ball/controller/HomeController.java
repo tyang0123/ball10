@@ -11,7 +11,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(){
-        return "/user/chart";
+        return "/index";
     }
 //    public String home(){
 //        return "/sample";
