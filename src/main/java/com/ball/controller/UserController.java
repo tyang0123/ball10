@@ -382,5 +382,8 @@ public class UserController {
     }
 
     @GetMapping("/calendar")
-    public void userCalendar(){}
+    public void userCalendar(HttpServletRequest request,Model model){
+        String userID = String.valueOf(request.getSession().getAttribute("userID"));
+        model.addAttribute("nickName",userService.getUserNickname(userID));
+    }
 }

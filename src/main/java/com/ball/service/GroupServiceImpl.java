@@ -63,7 +63,7 @@ public class GroupServiceImpl implements GroupService{
 
     @Override
     @Transactional
-    public int userRemove(Long group_id, String user_id, AlarmVO alarmVO) {
+    public int userRemove(Long group_id, String user_id, AlarmVO alarmVO, AlarmVO alarmVOjoin) {
 
         GroupVO groupVO = mapper.groupRead(group_id);
         UserVO leaveUserVO = userMapper.getUser(user_id);
@@ -73,14 +73,19 @@ public class GroupServiceImpl implements GroupService{
         alarmVO.setAlarm_message_content(leaveUserVO.getUser_nickname()+"님께서 "+groupVO.getGroup_name()
                 +" 그룹에 탈퇴하셨습니다.😥 그래도 계속 Keep Going 하실꺼죠??😁 ");
 
+        alarmVOjoin.setUser_id(user_id);
+        alarmVOjoin.setAlarm_message_is_new((byte)1);
+        alarmVOjoin.setAlarm_message_content(groupVO.getGroup_name()
+                +" 그룹에서 탈퇴하셨습니다.🥺");
+
         alarmMapper.insert(alarmVO);
+        alarmMapper.insert(alarmVOjoin);
         return mapper.joinOneDelete(group_id, user_id);
     }
 
     @Override
     @Transactional
-    public void joinGroup(GroupJoinVO join, AlarmVO alarmVO) {
-
+    public void joinGroup(GroupJoinVO join, AlarmVO alarmVO, AlarmVO alarmVOjoin) {
         GroupVO groupVO = mapper.groupRead(join.getGroup_id());
         UserVO newUserVO = userMapper.getUser(join.getUser_id());
 
@@ -89,8 +94,14 @@ public class GroupServiceImpl implements GroupService{
         alarmVO.setAlarm_message_content(newUserVO.getUser_nickname()+"님께서 "+groupVO.getGroup_name()
                 +" 그룹에 가입하셨습니다.🎊 환영의 메세지를 남겨보세요! 🤗");
 
+        alarmVOjoin.setUser_id(join.getUser_id());
+        alarmVOjoin.setAlarm_message_is_new((byte)1);
+        alarmVOjoin.setAlarm_message_content(groupVO.getGroup_name()
+                +" 그룹에 가입하셨습니다.🤩 오늘도 열공!열공! 😁");
+
         mapper.joinGroup(join);
         alarmMapper.insert(alarmVO);
+        alarmMapper.insert(alarmVOjoin);
     }
 
 //    @Override

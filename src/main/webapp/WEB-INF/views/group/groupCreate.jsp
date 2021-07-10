@@ -15,7 +15,6 @@
 </style>
 <div class="wrapper">
     <div class="row" style="background-color: #efefef;">
-<%--        col-lg-12--%>
         <div class="createForm" style="margin-top: 8vh;margin-bottom: 10vh;">
             <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 생성</h1>
             <form id="formBtn" role="form" action="/group/create" method="post">

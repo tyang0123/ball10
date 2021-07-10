@@ -236,7 +236,16 @@ function scheduleList(date){
 const timeChange = (time)=>{
     let arrayTime = time.split(',');
     let hour = Number(arrayTime[0]);
-    let minute = arrayTime[1];
+    let minute ='';
+    if(arrayTime[1]==0){
+        minute = '00';
+    }
+    else minute = arrayTime[1];
+
+    console.log("타임 어떻게 나오니??!!"+time);
+    console.log("분 어떻게 나오니??!!"+minute);
+    console.log("분 어떻게 나오니??!!111"+arrayTime[1]);
+
     if(hour<12) return hour+':'+minute+" AM";
     else {
         if (hour==12) return hour+':'+minute+" PM";

@@ -13,9 +13,9 @@ public interface GroupService {
     public List<GroupVO> allRead(Criteria cri);    //전체 가져오기
     public void modify (GroupVO group);     //수정
     public int groupRemove(Long group_id, String groupDestroyMessage);      //그룹 파괴
-    public int userRemove(Long group_id,String user_id, AlarmVO alarmVO);   //유저 탈퇴
+    public int userRemove(Long group_id,String user_id, AlarmVO alarmVO, AlarmVO alarmVOjoin);   //유저 탈퇴
 
-    public void joinGroup(GroupJoinVO join, AlarmVO alarmVO);
+    public void joinGroup(GroupJoinVO join, AlarmVO alarmVO, AlarmVO alarmVOjoin);
     public int joinAllRead(Long group_id, String user_id);
     public String passwordCheck(Long group_id);
 

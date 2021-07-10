@@ -1,0 +1,268 @@
+
+
+body {
+    padding-bottom: 3rem;
+
+}
+
+.carousel {
+    margin-bottom: 4rem;
+}
+.carousel-caption {
+    bottom: 3rem;
+    z-index: 10;
+}
+
+.carousel-item {
+    /* 화면넓이에 따라서 이미지 넓이,높이 조절하는 부분 */
+    /*margin-left: 10vw;*/
+    /*width: 80vw;*/
+    /*height: 50vw;*/
+}
+.carousel-item > img {
+    width: 100%;
+    height: 100%;
+}
+
+.marketing .col-lg-4 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.marketing h2 {
+    font-weight: 400;
+}
+
+.marketing .col-lg-4 p {
+    margin-right: .75rem;
+    margin-left: .75rem;
+}
+
+.featurette-divider {
+    margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+    font-weight: 300;
+    line-height: 1;
+    /* rtl:remove */
+    letter-spacing: -.05rem;
+}
+
+.btn-fixed-right-bottom{
+    position: fixed;
+    bottom: 50px;
+    right: 5vw;
+}
+.mainPC{
+    display: none;
+}
+.home1,
+.home2,
+.home3{
+    margin-top: 10vw;
+}
+
+@media (min-width: 40em) {
+    /* Bump up size of carousel content */
+    .carousel-caption p {
+        margin-bottom: 1.25rem;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .featurette-heading {
+        font-size: 50px;
+    }
+}
+
+@media (min-width: 62em) {
+    .featurette-heading {
+        margin-top: 7rem;
+    }
+}
+
+.container-custom {
+    width: 95%;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.btn-custom {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 2px solid black;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.2rem;
+    margin-top:1rem;
+    margin-bottom:1rem;
+    background-color: #ffc107;
+
+    font-size: 3vw;
+    width:25vw;
+}
+.mainBtn{
+    width:30vw;
+}
+.btn-custom:hover {
+    background-color: #f75718;
+    border-color: black;
+    color: black;
+}
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+.userMarker{
+    margin-bottom:10vw;
+}
+.alignText{
+    text-align: center;
+}
+.subtitle{
+    font-size: 3.5vw;
+}
+.title{
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 3vw;
+    font-size: 7vw;
+}
+.maintext{
+    font-weight: 300;
+    font-size: 4vw;
+}
+@media (min-width: 512px) {
+    .container-custom {
+        max-width: 85vw;
+    }
+    .btn-custom{
+        font-size: 18px;
+        width:140px;
+    }
+    .mainBtn{
+        width:170px;
+    }
+    .subtitle{
+        font-size: 20px;
+    }
+    .title{
+        font-size: 45px;
+    }
+    .maintext{
+        font-size: 3.5vw;
+    }
+    .mainPC{
+        display: none;
+    }
+}
+@media (min-width: 768px) {
+    .container-custom {
+        max-width: 720px;
+    }
+    .userMarker{
+        margin-bottom:8vw;
+    }
+    .subtitle{
+        font-size: 22px;
+    }
+    .title{
+        font-size: 47px;
+    }
+    .maintext{
+        font-size: 2.8vw;
+    }
+    .mainPC{
+        display: none;
+    }
+}
+@media (min-width: 992px) {
+    .container-custom {
+        max-width: 900px;
+    }
+    .btn-custom{
+        font-size: 20px;
+        width:170px;
+    }
+    .mainBtn{
+        width:200px;
+    }
+    .alignText{
+        text-align: left;
+    }
+    .title{
+        margin-bottom: 2vw;
+    }
+    .maintext{
+        font-size: 22px;
+    }
+    .mainM{
+        display: none;
+    }
+    .mainPC{
+        display:block;
+    }
+    .home1,
+    .home2{
+        margin-top: 0vw;
+    }
+    .home3{
+        margin-top: 2vw;
+    }
+    .home1Text{
+        margin-top: 4vw;
+    }
+}
+@media (min-width: 1200px) {
+    .container-custom {
+        max-width: 1100px;
+    }
+    .maintext{
+        font-size: 25px;
+    }
+    .mainM{
+        display: none;
+    }
+    .home3{
+        margin-top: 1vw;
+    }
+}
+
+
+.underline {
+    background-image: linear-gradient(180deg, transparent 70%,  #50B7FF 0);
+    background-size: 0 96%;
+    background-repeat: no-repeat;
+    text-decoration: none;
+    -webkit-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease-in-out;
+}
+
+.underline.yellow {
+    background-image: linear-gradient(transparent 60%, #ffc107 40%);
+}
+
+.text-highlight-wrap:hover .underline {
+    background-size: 100% 96%;
+}

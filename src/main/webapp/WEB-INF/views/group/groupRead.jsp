@@ -10,18 +10,19 @@
     .btn:focus {
         box-shadow: unset;
     }
-
 </style>
-
-<div class="row">
     <form id='operForm' action="/group/read">
         <div class="row" style="position: relative;text-align: center;margin-top: 3.5vw">
-                <div class="col-2"><button style="background-color: #cb0d0d;left:7vw;top:1.5vw;" class="btn btn-danger group-read-buttonY btnsizeGroup" id="deleteBtn">그룹 파괴</button><button id="joinGroup" class="btn btn-warning group-read-buttonY btnsizeGroup" style="left:7vw;top:1.5vw;">그룹 가입</button><button id="removeOne" class="btn btn-block group-read-buttonY btnsizeGroup" style="left:7vw;top:1.5vw;">탈퇴 하기</button></div>
-                <div style="margin-top: 10px;" class="col-8 group-read-title"><span>${group.group_name}</span></div>
-                <div class="col-2"><button style="top:1.5vw;" class="btn btn-info group-read-buttonY">목록</button></div>
+            <div class="col-2">
+                <button id="deleteBtn" style="background-color: #cb0d0d;left:7vw;top:1.5vw;" class="btn btn-danger group-read-buttonY btnsizeGroup">그룹 파괴</button>
+                <button id="joinGroup" class="btn btn-warning group-read-buttonO btnsizeGroup" style="left:7vw;top:1.5vw;">그룹 가입</button>
+                <button id="removeOne" class="btn btn-block group-read-buttonO btnsizeGroup" style="left:7vw;top:1.5vw;">탈퇴 하기</button>
+            </div>
+            <div style="margin-top: 10px;" class="col-8 group-read-title"><span>${group.group_name}</span></div>
+            <div class="col-2"><button style="top:1.5vw;" class="btn btn-info group-read-buttonY">목록</button></div>
         </div>
         <div class="row" style="position: relative;text-align: center;margin-bottom:1.5vw">
-            <div class="col-2"><button id="modifyBtn" style="background-color: #ff9000;left:7vw;" class="btn btn-default group-read-buttonY btnsizeGroup">수정</button></div>
+            <div class="col-2"><button id="modifyBtn" style="left:7vw;" class="btn btn-default group-read-buttonO btnsizeGroup">수정</button></div>
             <div class="col-8"></div>
             <div class="col-2"></div>
         </div>
@@ -183,6 +184,24 @@
     </div>
 </div>
 
+<!-- 탈확인 Modal -->
+<div class="modal fade" id="withdrawalGroupCheck">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
+                <h4 class="modal-title" style="margin-left: 30px;">그룹 탈퇴하기</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말로 그룹을 탈퇴하시겠습니까? 😢 😭
+            </div>
+            <div class="modal-footer" style="border-color:black;">
+                <button style="width: 150px;" type="button" class="withdrawalGroup button-add-custom">확 인</button>
+                <button style="width: 150px;" type="button" class="button-add-custom" data-bs-dismiss="modal">취 소</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!---------------------------------------------------------------------------------------->
 <!-- 타이머 스타일 -->
@@ -222,9 +241,6 @@
 
     .my-img-balck{
         background:black;
-    }
-    #modifyBtn {
-        background-color : #ff9000;
     }
 
     .my-user-and-timer-row p{
@@ -325,17 +341,23 @@
             }
             $('#operForm').attr("action","/group/read").attr("method","post").submit();  //회원가입
         })
-        $('#deleteBtn').click(function(){
-            console.log("여기 파괴눌리니?");
-            // $("#removeGroupCheck").modal("show");
+        $('#deleteBtn').click(function(e){
+            e.preventDefault();
+            $("#removeGroupCheck").modal("show");
         })
+
         $('.removeGroup').click(function (){
             $('#operForm').attr("action","/group/groupRemove").attr("method","post").submit();  //그룹 파괴
         })
-        $('#removeOne').click(function (){
-            $('#operForm').attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
+
+        $('#removeOne').click(function (e){
+            e.preventDefault();
+            $("#withdrawalGroupCheck").modal("show");
         })
 
+        $('.withdrawalGroup').click(function (){
+            $('#operForm').attr("action","/group/userRemove").attr("method","post").submit();  //탈퇴하기
+        })
 
         <%-- 그룹 메세지 부분 --%>
         var group_id = '${group.group_id}'
@@ -416,35 +438,35 @@
         });
 
         //메세지 삭제
-            $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
-                //삭제 버튼 보이게
-                if($(this).children('.remove_message').css("display") == "none"){
-                    $(this).children('.remove_message').css("display","block")
+        $("#readGroupMessage").off("click").on("click",".flex-row-reverse",function () {
+            //삭제 버튼 보이게
+            if($(this).children('.remove_message').css("display") == "none"){
+                $(this).children('.remove_message').css("display","block")
 
-                    //삭제 버튼 클릭했을때 삭제
-                    $(this).children('.remove_message').off("click").on("click",function (){
-                        //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
-                        var group_message_idH = $(this).html()
-                        var start = group_message_idH.indexOf(':');
-                        var end = group_message_idH.lastIndexOf('"');
+                //삭제 버튼 클릭했을때 삭제
+                $(this).children('.remove_message').off("click").on("click",function (){
+                    //val()값이 <empty string>이 나와서 대체 ㅠ.ㅠ
+                    var group_message_idH = $(this).html()
+                    var start = group_message_idH.indexOf(':');
+                    var end = group_message_idH.lastIndexOf('"');
 
-                        var group_message_id = group_message_idH.substring(start+1,end);
+                    var group_message_id = group_message_idH.substring(start+1,end);
 
-                        // var group_message_id = $(this).val()
-                        messageService.remove(group_message_id, function (deleteResult) {
-                            if (deleteResult == "success") {
-                                messageService.getList(group_id, limit, function (result) {
-                                    $('#readGroupMessage').html(result);
-                                })
-                            }
-                        })
+                    // var group_message_id = $(this).val()
+                    messageService.remove(group_message_id, function (deleteResult) {
+                        if (deleteResult == "success") {
+                            messageService.getList(group_id, limit, function (result) {
+                                $('#readGroupMessage').html(result);
+                            })
+                        }
                     })
-                }else {
-                    $(this).children('.remove_message').css("display","none")
-                }
-                // $(this).children('.remove_message').css("display","block")
-                $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
-            })
+                })
+            }else {
+                $(this).children('.remove_message').css("display","none")
+            }
+            // $(this).children('.remove_message').css("display","block")
+            $(".flex-row-reverse").not($(this)).children('.remove_message').css("display","none")
+        })
 
         //메세지 추가
         $("#message_submit").click(function () {
