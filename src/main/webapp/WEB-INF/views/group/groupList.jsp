@@ -15,13 +15,17 @@
     .form-control:focus{
         box-shadow: unset;
     }
+    .btn-info:focus,
+    .btn:focus {
+        box-shadow: unset;
+    }
 </style>
 
 
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
-    <div class="col-2"><button style="width: 60px; position:absolute; right: 12vw;" type="button" class="button-timer-custom" id="createBtn">등록</button></div>
+    <div class="col-2"><button type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
 </div>
 
 <div class="row"> <!-- search -->
@@ -40,8 +44,8 @@
                             <c:out value="${cri.category eq '이직'?'selected':''}"/>>이직</option>
                 </select>
                 <div class="searchForm">
-                <input type="text" id="listSearch" name="keyword" value="${cri.keyword}"/>
-                <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    <input type="text" id="listSearch" name="keyword" value="${cri.keyword}"/>
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>  <!-- col-lg-12 -->
@@ -49,30 +53,41 @@
 </div>
 
 <div class="row" id="groupRow">  <!-- groupList -->
-    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;">
+    <c:set var="listlength" value="${list.size()}" />
+    <c:choose>
+        <c:when test="${listlength eq '0'}">
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 65vh;">
+        </c:when>
+        <c:when test="${listlength eq '1'}">
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40vh;">
+        </c:when>
+        <c:otherwise>
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;">
+        </c:otherwise>
+    </c:choose>
         <div  class="center-block">
             <c:forEach var="list" items="${list}" >
                 <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
                     <input type="hidden" name="group_id" value="${list.group_id}"/>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-10 group-category">${list.group_category}</div>
-                                <div class="col-2 text-end groupSecret">
-                                    <c:if test="${list.group_is_secret==1}">
-                                        <div style="text-align: center; margin-top: 7px;">
-                                            <img src='/resources/img/lock.png' id='lockImg'/>
-                                        </div>
-                                    </c:if>
-                                </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-10 group-category">${list.group_category}</div>
+                            <div class="col-2 text-end groupSecret">
+                                <c:if test="${list.group_is_secret==1}">
+                                    <div style="text-align: center; margin-top: 7px;">
+                                        <img src='/resources/img/lock.png' id='lockImg'/>
+                                    </div>
+                                </c:if>
                             </div>
-                            <div class="group-list-margin">
-                                <span class="group-title">${list.group_name}</span>
-                            </div>
-                            <div>
-                                <span class="group-list-title">목표시간 : </span><span class="group-list-content">${list.group_target_hour} ${list.group_target_minute}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${list.group_join_person_number}/${list.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${list.user_nickname_group_header}</span>
-                            </div>
-                            <div>
-                                <span class="group-list-title">공부량 : </span><span class="group-list-content">
+                        </div>
+                        <div class="group-list-margin">
+                            <span class="group-title">${list.group_name}</span>
+                        </div>
+                        <div>
+                            <span class="group-list-title">목표시간 : </span><span class="group-list-content">${list.group_target_hour} ${list.group_target_minute}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${list.group_join_person_number}/${list.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${list.user_nickname_group_header}</span>
+                        </div>
+                        <div>
+                            <span class="group-list-title">공부량 : </span><span class="group-list-content">
                                 <c:choose>
                                     <c:when test="${list.group_accumulated_avg_time eq '00:00'}">
                                         0시간 00분
@@ -83,14 +98,14 @@
                                     </c:otherwise>
                                 </c:choose>
                                 </span>
-                                <span class="group-list-title">  시작일 : </span><span class="group-list-content">
+                            <span class="group-list-title">  시작일 : </span><span class="group-list-content">
                                     <fmt:parseDate var="date" value="${list.group_reg_date}" pattern="yyyy-MM-dd"/>
                                     <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
-                            </div>
                         </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item group-content">${list.group_content}</li>
-                        </ul>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item group-content">${list.group_content}</li>
+                    </ul>
                 </div>
             </c:forEach>
         </div>
@@ -108,7 +123,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-<%--                    <input id="inputPass" type="text" placeholder="비밀번호를 입력하세요">--%>
                 <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
                 <p id="pwHelpInline" class="form-text text-danger" style="text-align: left;margin-left: 10px;">
                     &nbsp;
@@ -136,29 +150,23 @@
     }
     $(".category").val("${category}").attr("selected", true);
     $("#listSearch").val("${type}");
-
-
     $("#addBtn").click(function (){
         var keyword = $('#listSearch').val();
         var type = $("select[class='category'] option:selected").val();
-
         console.log(keyword, type);
         moreList(changeCriterionNumber, keyword, type);
     })
     const displayDateTime = ([year, month, date, hour, minute, second])=>{
         return year+"-"+((month < 10 ? '0' : '')+month)+"-"+((date < 10 ? '0' : '') + date);
     };
-
     const getAvgTimeParsedToString= ([hour, minute, second])=>{
         console.log(hour, minute)
         return (hour < 10 ? '0' : '') + hour + "시간"
             + (minute < 10 ? '0' : '') + minute +"분";
     }
-
     const moreList = (criterionNumber, keyword, type) => {
         var startNum = $(".user-card-group input:last").val();
         console.log("카드 마지막 번호는 ? "+startNum);
-
         $.ajax({
             type: "POST",
             url: "/ajax/addList",
@@ -171,7 +179,6 @@
             success(data){
                 console.log("데이터", data);
                 const criNum = data['criNumber'];
-
                 if(criNum.length < 20){
                     $("#addBtn").remove();
                 }
@@ -212,7 +219,6 @@
                 }
                 console.log($(".center-block"))
                 $(".center-block").append(groupText);
-
                 changeCriterionNumber = $(".user-card-group input:last").val();
                 console.log("마지막 그룹 아이디의 값은 ? : ",changeCriterionNumber);
             }
@@ -226,6 +232,7 @@
     $(document).ready(function (){
         var groupID;
         let url;
+
 
         $(".center-block").on('click','.user-card-group' ,function (){
             groupID = $(this).find('input[name=group_id]').attr('value');
@@ -242,7 +249,6 @@
         });
 
         $(".passwordCheck").click(function (e){
-
             console.log("모달창의 입력 값은? : "+ $('#inputPass').val());
             $.ajax({
                 type:"POST",
@@ -264,7 +270,6 @@
                 },error : ()=>{}
             })
         })
-
         $("#inputPass").on("keyup",function(key){
             if(key.keyCode==13) {
                 // alert("엔터키 이벤트");
@@ -272,7 +277,6 @@
             }
         });
     })
-
 
 </script>
 

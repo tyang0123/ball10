@@ -5,7 +5,6 @@
     response.setHeader("Expires", "일자");
     response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
     response.setHeader("Pragma", "no-cache");
-
 %>
 <!doctype html>
 <html lang="en">
@@ -25,62 +24,9 @@
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-    <script src="/resources/js/bootstrap.min.js"></script>
-
-    <!-- 부트스트랩 테마스타일 파일 연결 -->
-    <link href="/resources/css/bootstrap-theme.min.css" rel="stylesheet" />
-
-    <style>
-        #myCarousel{
-            background-color: #555;
-            padding: 1rem 0 3rem 0;
-        }
-        .btn-custom {
-            display: inline-block;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #000000;
-            text-align: center;
-            text-decoration: none;
-            vertical-align: middle;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-            border: 2px solid black;
-            padding: 0.375rem 0.75rem;
-            font-size: 1.1rem;
-            border-radius: 0.2rem;
-            margin-top:1rem;
-            margin-bottom:1rem;
-            background-color: #ffc107;
-            width:150px;
-        }
-
-        .btn-custom:hover {
-            background-color: #f75718;
-            border-color: black;
-            color: black;
-        }
-
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-
 
     <!-- Custom styles for this template -->
+    <link href="/resources/css/custom.css" rel="stylesheet">
     <link href="./resources/css/carousel.css" rel="stylesheet">
 </head>
 <body>
@@ -89,140 +35,114 @@
 <main>
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="z-index: 1">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        </div>
+<%--        <div class="carousel-indicators">--%>
+<%--            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>--%>
+<%--            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>--%>
+<%--            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>--%>
+<%--            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>--%>
+<%--        </div>--%>
         <div class="carousel-inner">
-            <div class="carousel-item active " style="background-color: #555;">
+            <div class="carousel-item active">
                 <!-- 여기에 이미지를 바꾸면 되요 -->
-                <img src="./resources/img/group_empty.jpg" class="img-fluid" alt="" >
-
-                <div class="container">
-                    <div class="carousel-caption text-start">
-                        <h1>Example headline.</h1>
-                        <p>Some representative placeholder content for the first slide of the carousel.</p>
-                    </div>
-                </div>
+                <img src="/resources/img/mainPC.jpg" class="img-fluid mainPC" alt="" >
+                <img src="/resources/img/mainM.jpg" class="img-fluid mainM" alt="" >
             </div>
-            <div class="carousel-item">
-                <!-- svg대신에 이미지를 넣으면 되요 -->
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#333"/>
-                </svg>
+<%--            <div class="carousel-item">--%>
+<%--                <!-- svg대신에 이미지를 넣으면 되요 -->--%>
+<%--                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">--%>
+<%--                    <rect width="100%" height="100%" fill="#333"/>--%>
+<%--                </svg>--%>
+<%--            </div>--%>
+<%--            <div class="carousel-item">--%>
+<%--                <!-- svg대신에 이미지를 넣으면 되요 -->--%>
+<%--                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">--%>
+<%--                    <rect width="100%" height="100%" fill="#555"/>--%>
+<%--                </svg>--%>
 
-                <div class="container">
-                    <div class="carousel-caption">
-                        <h1>Another example headline.</h1>
-                        <p>Some representative placeholder content for the second slide of the carousel.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <!-- svg대신에 이미지를 넣으면 되요 -->
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#555"/>
-                </svg>
-
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <!-- svg대신에 이미지를 넣으면 되요 -->
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <rect width="100%" height="100%" fill="#777"/>
-                </svg>
-
-                <div class="container">
-                    <div class="carousel-caption text-end">
-                        <h1>One more for good measure.</h1>
-                        <p>Some representative placeholder content for the third slide of this carousel.</p>
-                    </div>
-                </div>
-            </div>
+<%--            </div>--%>
+<%--            <div class="carousel-item">--%>
+<%--                <!-- svg대신에 이미지를 넣으면 되요 -->--%>
+<%--                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">--%>
+<%--                    <rect width="100%" height="100%" fill="#777"/>--%>
+<%--                </svg>--%>
+<%--            </div>--%>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+<%--        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">--%>
+<%--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
+<%--            <span class="visually-hidden">Previous</span>--%>
+<%--        </button>--%>
+<%--        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">--%>
+<%--            <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
+<%--            <span class="visually-hidden">Next</span>--%>
+<%--        </button>--%>
     </div>
 
 
-    <!-- Marketing messaging and featurettes
-    ================================================== -->
-    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container-custom marketing">
 
-    <div class="container marketing">
-
-
-        <!-- START THE FEATURETTES -->
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It’ll blow your mind.</span></h2>
-                <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose here.</p>
+        <div class="row">
+            <div class="userMarker" style="text-align: center;margin-top:2.5vw;"><span>열공에서 공부해야 하는 이유!😃</span></div>
+        </div>
+        <div class="row text-highlight-wrap alignText">
+            <div class="col-lg-7 home1Text">
+                <span class="subtitle">날마다 타이머를 이용해</span><br>
+                <span class="title">공부시간 기록</span><br>
+                <span class=" yellow underline maintext">눈으로 바로 확인할 수 있는 타이머로<br>
+                    얼마나 공부했는지 확인하고 다짐을 할 수 있습니다!</span>
             </div>
-            <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+            <div class="col-lg-5">
+                <img src="/resources/img/home1.png" class="img-fluid home1" alt="" >
 
             </div>
         </div>
 
         <hr class="featurette-divider">
 
-        <div class="row featurette">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featurette-heading">Oh yeah, it’s that good. <span class="text-muted">See for yourself.</span></h2>
-                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this layout would work with some actual real-world content in place.</p>
+        <div class="row text-highlight-wrap alignText">
+            <div class="col-lg-7 order-lg-2">
+                <span class="subtitle">캘린더를 통해</span><br>
+                <span class="title">스케쥴과 통계확인</span><br>
+                <span class=" yellow underline maintext">일별스케쥴 기록과 todo리스트로<br>
+                    간편하게 일정을 관리하고 차트기능으로 일주일간의<br>
+                    공부시간 데이터를 한눈에 확인이 가능합니다!</span>
             </div>
-            <div class="col-md-5 order-md-1">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-
-            </div>
-        </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
-            </div>
-            <div class="col-md-5">
-                <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+            <div class="col-lg-5 order-lg-1">
+                <img src="/resources/img/home2.png" class="img-fluid home2" alt="" >
 
             </div>
         </div>
 
         <hr class="featurette-divider">
 
-        <!-- /END THE FEATURETTES -->
+        <div class="row text-highlight-wrap alignText">
+            <div class="col-lg-7">
+                <span class="subtitle">함께 성장하는</span><br>
+                <span class="title">스터디 그룹기능</span><br>
+                <span class=" yellow underline maintext">같은 목표를 가진 사람들과 서로 소통하고<br>
+                    공부상태를 확인하면서 경쟁과 동시에 함께<br>
+                    목표를 이루기 위해 힘이되고 자극 받을 수 있습니다!</span>
+            </div>
+            <div class="col-lg-5">
+                <img src="/resources/img/home3.png" class="img-fluid home3" alt="" >
+
+            </div>
+        </div>
+
+        <hr style="margin: 5rem 0 2rem 0;">
 
     </div><!-- /.container -->
 
-
     <!-- FOOTER -->
-    <footer class="container">
-        <p class="float-end"><a href="#">Back to top</a></p>
+    <footer class="container-custom">
+        <p style="text-align: center;"><a href="#" style="text-decoration:none;color: black">Back to top</a></p>
     </footer>
 </main>
 
 <!--  -->
-<div class="btn-fixed-right-bottom" style="z-index: 2">
+<div class="btn-fixed-right-bottom" style="z-index: 2;">
     <a href="/user/user">
-        <button type="button" class="btn btn-custom">회원가입</button>
+        <img src="./resources/img/mainBtn.png" style="position: absolute; right: 5px;bottom: 10px;" class="mainBtn"/>
+        <button type="button" class="btn btn-custom">공부하러 가기!</button>
     </a>
 </div>
 

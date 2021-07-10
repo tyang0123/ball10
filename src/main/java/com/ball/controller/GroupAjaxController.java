@@ -33,6 +33,7 @@ public class GroupAjaxController {
         result.put("criNumber", groupService.allRead(cri));
         System.out.println("리스트 더보기 result 값은 : "+ result);
 
+
         return ResponseEntity.ok(result);
     }
 //    @PostMapping(value = "/")

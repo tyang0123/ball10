@@ -3,87 +3,94 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../includes/header.jsp" %>
 <link href="/resources/css/group.css" rel="stylesheet">
-
-<div class="row">
-    <div class="createForm" style="margin-top: 40px;margin-bottom: 40px;">
-        <div class="panel panel-default">
+<style>
+    .form-check-input:checked {
+        border-color: #ff9000;
+        background-color: #ff9000;
+    }
+    .form-check-input:focus {
+        box-shadow: unset;
+    }
+</style>
+<div class="wrapper">
+    <div class="row" style="background-color: #efefef;">
+        <div class="createForm" style="margin-top: 8vh;margin-bottom: 10vh;">
             <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 수정</h1>
-            <div class="panel-body">
-                <form id="operForm" action="/group/modify" method="post">
+                <form id="operForm" role="form" action="/group/modify" method="post">
                     <div class="form-group" hidden>
-                        <input class="form-control" name="group_id" id="group_id" value="${group.group_id}" readonly="readonly">
+                        <input class="form-control form-custom" name="group_id" id="group_id" value="${group.group_id}" readonly="readonly">
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-custom" name="group_name" id="group_name" placeholder=" 그룹이름" value=" ${group.group_name}"/>
+                        <input class="form-control form-custom" name="group_name" id="group_name" placeholder="그룹이름" value="${group.group_name}"/>
                     </div>
                     <div class="form-group select_group">
-                        <select name="group_category" id="group_category">
-                            <option value="" selected>ㅤ그룹 카테고리</option>
-                            <option value="취업">ㅤ취업</option>
-                            <option value="토익">ㅤ토익</option>
-                            <option value="이직">ㅤ이직</option>
-                            <option value="자격증">ㅤ자격증</option>
+                        <select name="group_category" id="group_category" class="form-custom form-select form-select-custom" style="border: black 2px solid;">
+                            <option value="" selected>그룹 카테고리</option>
+                            <option value="취업">취업</option>
+                            <option value="토익">토익</option>
+                            <option value="이직">이직</option>
+                            <option value="자격증">자격증</option>
                         </select>
                     </div>
-                    <div class="form-group secret">
+                    <div class="form-check secret">
                         <label for="group_is_secret">비밀방
-                            <input type="checkbox"  name="group_is_secret" id="group_is_secret" value="${group.group_is_secret}" onclick="checkClick()" readonly="readonly"/>
+                            <input class="form-check-input" type="checkbox"  name="group_is_secret" id="group_is_secret" value="${group.group_is_secret}" onclick="checkClick()" readonly="readonly"/>
                         </label>
                     </div>
                     <div class="form-group">
-                        <input class="form-control form-custom" name="group_password" id="group_password" placeholder=" 비밀번호" value="${group.group_password}"/>
+                        <input class="form-control form-custom" name="group_password" id="group_password" placeholder="비밀번호" value="${group.group_password}"/>
                     </div>
                     <div class="form-group">
-                        <select id="group_person_count" name="group_person_count">
-                            <option value="">ㅤ그룹인원</option>
-                            <option value="2">ㅤ2</option>
-                            <option value="3">ㅤ3</option>
-                            <option value="4">ㅤ4</option>
-                            <option value="5">ㅤ5</option>
-                            <option value="10">ㅤ10</option>
-                            <option value="15">ㅤ15</option>
-                            <option value="20">ㅤ20</option>
+                        <select id="group_person_count" name="group_person_count" class="form-custom form-select form-select-custom" style="border: black 2px solid;">
+                            <option value="">그룹인원</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
                         </select>
 
                     </div>
                     <div class="form-group">
                         <label for="group_content"/>
                         <textarea class="form-control form-custom" rows="3" name="group_content"
-                                  id="group_content" placeholder=" 그룹 공지"> ${group.group_content}</textarea>
+                                  id="group_content" placeholder=" 그룹 공지">${group.group_content}</textarea>
                     </div>
-                    <div class="form-group">
-                        <span class="targetSelect">
+                    <div class="form-check selectTime">
+                         <span>
                             <label for="group_target_hour">목표 시간</label>
                             <select name="group_target_hour" id="group_target_hour">
-                                <option value="1시간"> 1시간</option>
-                                <option value="2시간"> 2시간</option>
-                                <option value="3시간"> 3시간</option>
-                                <option value="4시간"> 4시간</option>
-                                <option value="5시간"> 5시간</option>
-                                <option value="6시간"> 6시간</option>
-                                <option value="7시간"> 7시간</option>
-                                <option value="8시간"> 8시간</option>
-                                <option value="9시간"> 9시간</option>
-                                <option value="10시간"> 10시간</option>
-                                <option value="11시간"> 11시간</option>
-                                <option value="12시간"> 12시간</option>
-                                <option value="13시간"> 13시간</option>
-                                <option value="14시간"> 14시간</option>
-                                <option value="15시간"> 15시간</option>
+                                <option value="1시간">1시간</option>
+                                <option value="2시간">2시간</option>
+                                <option value="3시간">3시간</option>
+                                <option value="4시간">4시간</option>
+                                <option value="5시간">5시간</option>
+                                <option value="6시간">6시간</option>
+                                <option value="7시간">7시간</option>
+                                <option value="8시간">8시간</option>
+                                <option value="9시간">9시간</option>
+                                <option value="10시간">10시간</option>
+                                <option value="11시간">11시간</option>
+                                <option value="12시간">12시간</option>
+                                <option value="13시간">13시간</option>
+                                <option value="14시간">14시간</option>
+                                <option value="15시간">15시간</option>
                             </select>
                             <select name="group_target_minute" id="group_target_minute">
-                                <option value="00분"> 00분</option>
-                                <option value="10분"> 10분</option>
-                                <option value="20분"> 20분</option>
-                                <option value="30분"> 30분</option>
-                                <option value="40분"> 40분</option>
-                                <option value="50분"> 50분</option>
+                                <option value="00분">00분</option>
+                                <option value="10분">10분</option>
+                                <option value="20분">20분</option>
+                                <option value="30분">30분</option>
+                                <option value="40분">40분</option>
+                                <option value="50분">50분</option>
                             </select>
                         </span>
                     </div>
                     <div style="margin-top: 30px;margin-bottom: 35px;">
-                        <button data-oper="modify" type="submit" class="createGroup"> 수정하기 </button>
-                        <button data-oper="read" class="createCancel"> 취소 버튼</button>
+                        <button data-oper="modify" type="submit" class="btn button-create-customY"> 수정하기 </button>
+                        <button data-oper="read" class="btn button-create-customO"> 취소 버튼</button>
                     </div>
                 </form>
             </div> <!-- end panel-body -->
