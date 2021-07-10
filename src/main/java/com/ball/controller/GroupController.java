@@ -41,9 +41,7 @@ public class GroupController {
 
     @GetMapping("/list")
     public String groupList(Long group_id , Criteria cri,  Model model) {
-        System.out.println("컨트롤러 그룹 전체 목록 조회");
         List<GroupVO> criList = groupService.allRead(cri);
-
         int lastIndex = criList.size()-1;
         model.addAttribute("list", groupService.allRead(cri));
         if(lastIndex>=0){
@@ -53,16 +51,10 @@ public class GroupController {
         }
         model.addAttribute("category", cri.getCategory());
         model.addAttribute("type", cri.getKeyword());
-        model.addAttribute("count",criList.size());
-        System.out.println("크리 리스트의 사이즈 "+criList.size());
-        System.out.println("컨트롤러에 cri가 들어오나 " +cri);
-        System.out.println("검색어가 들어오나 "+ cri.getKeyword());
-        System.out.println("카테고리가 들어오나 "+ cri.getCategory());
         return "group/groupList";
     }
     @PostMapping("/list")
     public String groupList(Criteria cri,Model model) {
-        System.out.println("Post List에 들어오나");
         model.addAttribute("list", groupService.allRead(cri));
 
         return "group/groupList";
@@ -71,25 +63,18 @@ public class GroupController {
 
     @GetMapping("/create")
     public String register(HttpServletRequest request, Model model){
-        System.out.println("그룹 생성 GetMapping에 들어오나");
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
-        System.out.println("유저 아이디의 값이 들어오나 : "+userID);
         model.addAttribute("user_id",userID);
-
         return "group/groupCreate";
     }
-    @PostMapping("/create")
-    public String register(GroupVO group, Long group_id, HttpServletRequest request){
 
+    @PostMapping("/create")
+    public String register(GroupVO group, HttpServletRequest request){
         String userID = String.valueOf(request.getSession().getAttribute("userID"));
         groupService.register(group, userID);
-        System.out.println("컨트롤러에 레지스터 값이 들어오나?"+group.getGroup_category());
-//        rttr.addFlashAttribute("result", group.getGroup_id());
-//        join.setGroup_id(group_id);
-//        join.setUser_id(userID);
         return "redirect:/group/read?group_id="+group.getGroup_id();
-
     }
+
     @GetMapping("/modify")
     public String modify(Long group_id, Model model, @ModelAttribute("cri") Criteria cri){
         System.out.println("게시글 컨트롤러에서 데이터 하나 수정 / ");

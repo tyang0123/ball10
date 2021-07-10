@@ -122,10 +122,9 @@
     $(".createCancel").click(function (){
         $("#formBtn").attr("action", "/group/list").submit();
     })
+
     $("#group_is_secret").click(function (){
-        console.log("클릭이 되나?")
         if($("#group_is_secret").is(':checked')){
-            console.log("클릭됐다.")
             $("#group_password").attr('readonly',false)
         }else{
             $("#group_password").attr('readonly',true)

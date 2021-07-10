@@ -306,7 +306,6 @@
         })
 
         if(${group.user_id_group_header eq user_id}) {
-            // console.log("아이디가 같나?")
             $('.btn-warning').attr('hidden', true)
             $('.btn-block').attr('hidden', true)
         }else{
@@ -320,8 +319,6 @@
         }
 
         $('#joinGroup').click(function (){
-            console.log('그룹가입 버튼이 눌리나')
-
             if(${group.group_join_person_number >= group.group_person_count}){
                 alert('인원수가 초과되었습니다.')
                 return false;
