@@ -17,8 +17,6 @@
 </style>
 
 <div class="row">
-
-
     <div class="ml-calendar-demo">
         <div class="ml-calendar">
             <section class="calendar-left">
