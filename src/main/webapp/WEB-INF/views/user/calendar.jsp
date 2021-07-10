@@ -269,7 +269,10 @@
                         $("#hourSelect").val("0"+scheduleTime[0]).attr("selected", true);
                     }
                     else $("#hourSelect").val(scheduleTime[0]).attr("selected", true);
-                    $("#minuteSelect").val(scheduleTime[1]).attr("selected", true);
+                    if(scheduleTime[1]==0){
+                        $("#minuteSelect").val("0"+scheduleTime[1]).attr("selected", true);
+                    }
+                    else $("#minuteSelect").val(scheduleTime[1]).attr("selected", true);
 
                     $('#scheduleContent').text(scheduleVO.schedule_content);
                     $('#schedule_id').val(scheduleVO.schedule_id);
