@@ -25,7 +25,7 @@
 <div class="row" style="text-align: center; margin-top: 40px; margin-bottom:40px;position: relative;">
     <div class="col-2"></div>
     <div class="col-8"><h1>스터디 그룹</h1></div>
-    <div class="col-2"><button style="width: 60px; position:absolute; right: 12vw;" type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
+    <div class="col-2"><button type="button" class="btn btn-info group-read-buttonY btnsizeGroupList" id="createBtn">등록</button></div>
 </div>
 
 <div class="row"> <!-- search -->
@@ -53,7 +53,18 @@
 </div>
 
 <div class="row" id="groupRow">  <!-- groupList -->
-    <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;">
+    <c:set var="listlength" value="${list.size()}" />
+    <c:choose>
+        <c:when test="${listlength eq '0'}">
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 65vh;">
+        </c:when>
+        <c:when test="${listlength eq '1'}">
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 40vh;">
+        </c:when>
+        <c:otherwise>
+            <div style="background-color: #efefef; margin-top: 20px; padding-top:20px; padding-bottom: 80px;">
+        </c:otherwise>
+    </c:choose>
         <div  class="center-block">
             <c:forEach var="list" items="${list}" >
                 <div class="card user-card-group" style="cursor: pointer;" value="${list.group_is_secret}">
@@ -95,43 +106,6 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item group-content">${list.group_content}</li>
                     </ul>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-10 group-category">${list.group_category}</div>
-                                <div class="col-2 text-end groupSecret">
-                                    <c:if test="${list.group_is_secret==1}">
-                                        <div style="text-align: center; margin-top: 7px;">
-                                            <img src='/resources/img/lock.png' id='lockImg'/>
-                                        </div>
-                                    </c:if>
-                                </div>
-                            </div>
-                            <div class="group-list-margin">
-                                <span class="group-title">${list.group_name}</span>
-                            </div>
-                            <div>
-                                <span class="group-list-title">목표시간 : </span><span class="group-list-content">${list.group_target_hour} ${list.group_target_minute}</span><span class="group-list-title"> 그룹인원 : </span><span class="group-list-content">${list.group_join_person_number}/${list.group_person_count}명</span><span class="group-list-title">  그룹장 : </span><span class="group-list-content">${list.user_nickname_group_header}</span>
-                            </div>
-                            <div>
-                                <span class="group-list-title">공부량 : </span><span class="group-list-content">
-                                <c:choose>
-                                    <c:when test="${list.group_accumulated_avg_time eq '00:00'}">
-                                        0시간 00분
-                                    </c:when>
-                                    <c:otherwise>
-                                        <fmt:parseDate var="timeparse" type="time" timeStyle="FULL" value="${list.group_accumulated_avg_time}"  pattern="HH:mm:ss"/>
-                                        <fmt:formatDate value="${timeparse}" type="time" pattern="K시간 mm분"/>
-                                    </c:otherwise>
-                                </c:choose>
-                                </span>
-                                <span class="group-list-title">  시작일 : </span><span class="group-list-content">
-                                    <fmt:parseDate var="date" value="${list.group_reg_date}" pattern="yyyy-MM-dd"/>
-                                    <fmt:formatDate value="${date}" type="DATE" pattern="yyyy-MM-dd"/></span>
-                            </div>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item group-content">${list.group_content}</li>
-                        </ul>
                 </div>
             </c:forEach>
         </div>

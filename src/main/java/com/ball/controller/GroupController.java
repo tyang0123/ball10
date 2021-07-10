@@ -120,7 +120,8 @@ public class GroupController {
 
         /////유저가입 메세지 내용 set은 service에서 처리함
         AlarmVO alarmVO = new AlarmVO();
-        groupService.joinGroup(join, alarmVO);
+        AlarmVO alarmVOjoin = new AlarmVO();
+        groupService.joinGroup(join, alarmVO, alarmVOjoin);
         System.out.println("==========" + join);
 
         return "redirect:/group/read?group_id="+group_id;
@@ -152,7 +153,8 @@ public class GroupController {
 
         ////////////// 유저 탈퇴 메세지
         AlarmVO alarmVO = new AlarmVO();
-        groupService.userRemove(group_id, userID, alarmVO);
+        AlarmVO alarmVOjoin = new AlarmVO();
+        groupService.userRemove(group_id, userID, alarmVO, alarmVOjoin);
         return "redirect:/group/list";
     }
 }

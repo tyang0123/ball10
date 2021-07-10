@@ -231,19 +231,25 @@
                 const user_id = res['userID'];
                 var data = "";
                 for (var i = 0; i < list.length; i++) {
+                    let lines = list[i].notice_content.split("\n")
                     data += "<tr class='itemTitle'>";
                     data += "   <input type='hidden' class='noticeId' value='" + list[i].notice_id+ "'></input>";
                     data += "   <td id='noticeDate' class='align-middle'>"+ displayTime(list[i].notice_reg_date) + "</td>";
-                    data += "   <td><div id='notice-content' class='noticeContent'><p class='text-truncate'>"+list[i].notice_content+"</p></div></td>";
+                    data += "   <td><div id='notice-content' class='noticeContent text-truncate'>"+lines[0]+"</div></td>";
                     data += "   <td class='drop-icon' style='padding-left: 15px;'>" ;
                     data += "        <svg xmlns='http://www.w3.org/2000/svg' fill='currentColor' class='bi bi-emoji-smile smileSize' viewBox='0 0 16 16'>";
                     data += "           <path d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/><path d='M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z'/>";
                     data += "       </svg>";
                     data += "   </td>";
                     data += "</tr>";
-                    data += "<tr class='hideContent noticeContent' >";
+                    data += "<tr class='hideContent noticeContent'>";
                     data += "   <td></td>";
-                    data += "   <td>" + list[i].notice_content ;
+                    data += "   <td>";
+                    data += "       <p>";
+                    for (let i = 0; i < lines.length; i++) {
+                        data += lines[i] + "<br/>";
+                    }
+                    data += "       </p>";
                     data += "       <button style='width: 60px;border: 1px solid black;border-radius: 1rem; cursor: pointer; background-color: #ffc107;' type='button' class='modifyNoticeButton' value='"+user_id+"'>수정</button>";
                     data += "       <button style='width: 60px;border: 1px solid black;border-radius: 1rem; cursor: pointer; background-color: #ff9000;' type='button' class='removeNoticeButton' value='"+user_id+"'>삭제</button>";
                     data += "   </td><td></td>";

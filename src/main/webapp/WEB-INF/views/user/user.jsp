@@ -25,6 +25,9 @@
 <div class="row">
     <div style="text-align: center;">
         <button style="width: 150px;" type="button" class="button-timer-custom" id="time-toggle">공부시작하기</button>
+        <div style="text-align: center; margin-top: 20px;">
+            <img src='/resources/img/todo.jpg' class="group-empty" style="cursor: pointer;" onclick="location.href='/user/calendar'" />
+        </div>
         <div class="userMarker"><span>${nickName}님의 속한 그룹 😎</span></div>
     </div>
 </div>
@@ -201,7 +204,7 @@
                 let data = "";
 
                 for (let i = 0; i < list.length; i++) {
-                    console.log("알람 리스트 데이"+list[i].alarm_message_reg_date);
+                    console.log("알람 리스트 데이"+list[i].alarm_message_content);
                     data += "<tr class='itemTitle'>";
                     data += "<input type='hidden' value='" + list[i].alarm_message_id + "'></input>";
                     data += "<td style='font-size: 12px;' class='align-middle'>" + displayTime(list[i].alarm_message_reg_date) + "</td>";

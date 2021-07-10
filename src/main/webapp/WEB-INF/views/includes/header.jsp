@@ -40,7 +40,7 @@
     <nav class="navbar navbar-expand-lg navbar-custom fixed-top" style="border-bottom: black solid 1px;">
         <div class="container" >
 
-            <a class="navbar-brand" href="#"><img src="/resources/logo/pc_logo.jpg" alt="" id="custom-img"></a>
+            <a class="navbar-brand" href="/"><img src="/resources/logo/pc_logo.jpg" alt="" id="custom-img"></a>
             <button type="button" class="navbar-toggle navbar-toggle-custom"
                     data-bs-toggle="collapse" aria-label="Toggle navigation" data-bs-target="#navbarNavDropdown" aria-expanded="false">
                 <!-- 햄버거 내부에 들어갈 줄들 -->

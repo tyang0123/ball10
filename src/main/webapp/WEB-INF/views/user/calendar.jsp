@@ -180,7 +180,9 @@
         </div>
     </div>
 </div>
-
+<div class="row">
+    <div class="userMarker" style="text-align: center"><span>${nickName}님의 주간 공부량 차트 📚</span></div>
+</div>
 <script src="/resources/js/calendar.js"></script>
 <script>
 

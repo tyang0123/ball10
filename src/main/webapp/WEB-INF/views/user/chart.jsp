@@ -3,14 +3,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<div class="row">
-    <div class="chart-container col-12 col-sm-10 offset-sm-1">
-        <canvas id="myChart"></canvas>
+<div class="chartWrapper">
+    <div class="row">
+        <div class="chart-container col-12 col-sm-10 offset-sm-1">
+            <canvas id="myChart"></canvas>
+        </div>
     </div>
 </div>
 <style>
-
+    .chartWrapper{
+        margin: 6vh 20px 10vh 20px;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -83,7 +86,7 @@
                             datasets: [{
                                 label: '하루 공부시간',
                                 data: dataList, // [{value: seconds/1200, tip: seconds}]
-                                backgroundColor: ['rgba(255, 255, 102, 0.7)']
+                                backgroundColor: ['#ff9000']
                             }],
                             labels: categories
                         },
