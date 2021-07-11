@@ -14,7 +14,7 @@
 </style>
 <div class="wrapper">
     <div class="row" style="background-color: #efefef;">
-        <div class="createForm" style="margin-top: 8vh;margin-bottom: 10vh;">
+        <div class="createForm" style="margin-top: 8vh;margin-bottom: 12vh;">
             <h1 style="margin-top: 40px;margin-bottom: 40px;">그룹 수정</h1>
                 <form id="operForm" role="form" action="/group/modify" method="post">
                     <div class="form-group" hidden>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-check selectTime">
                          <span>
-                            <label for="group_target_hour">목표 시간</label>
+                            <label for="group_target_hour">목표시간</label>
                             <select name="group_target_hour" id="group_target_hour">
                                 <option value="1시간">1시간</option>
                                 <option value="2시간">2시간</option>
