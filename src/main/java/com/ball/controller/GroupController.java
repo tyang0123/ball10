@@ -77,7 +77,6 @@ public class GroupController {
 
     @GetMapping("/modify")
     public String modify(Long group_id, Model model, @ModelAttribute("cri") Criteria cri){
-        System.out.println("게시글 컨트롤러에서 데이터 하나 수정 / ");
         model.addAttribute("group", groupService.oneRead(group_id));
         return "group/groupModify";
     }

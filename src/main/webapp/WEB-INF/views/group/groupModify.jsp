@@ -125,22 +125,6 @@
                 $("#group_password").attr('value',null)
             }
         })
-        // $(".createGroup").on("click",function(){
-        //     if($("#group_is_secret").is(':checked')){
-        //         if($("#group_password").val() == ""){
-        //             $("#group_password").attr('required', true)
-        //         }
-        //     }
-        //     if($("#group_name").val()===""){
-        //         $("#group_name").attr('required', true)
-        //     }
-        //     if($("#group_category").val()===""){
-        //         $("#group_category").attr('required', true)
-        //     }
-        //     if($("#group_person_count").val()===""){
-        //         $("#group_person_count").attr('required', true)
-        //     }
-        // })
 
         $("button").click(function (){
             var operation = $(this).data("oper");
