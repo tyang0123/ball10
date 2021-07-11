@@ -84,10 +84,10 @@
     border: black 2px solid;
     border-radius: 1rem;
     /*background-color: #ffffff;*/
-    margin-right: 3px;
+    margin-right: 1vw;
     /*margin-left: 3px;*/
     /*text-align: center;*/
-    width: 300px;
+    width: 78vw;
 }
 
 #searchBtn{
@@ -99,9 +99,9 @@
 }
 #listSearch{
     border: none;
-    margin-left: 2px;
+    margin-left: 1vw;
 
-    width: 240px;
+    width: 47vw;
     font-size: 18px;
     height:36px;
 }
@@ -116,19 +116,22 @@
     background-color: #ffffff;
     text-align-last: center;
     margin-right: 2px;
-    margin-left: auto;
+    margin-left: 1vw;
     text-align : justify;
 
-    width:80px;
+    width:20vw;
     font-size: 18px;
     height:40px;
 }
 .secret{
-    padding-top: 10px;
-    padding-right: 215px;
+    padding-top: 0.7vw;
+    padding-right: 54vw;
 }
 .selectTime{
-    padding-right: 100px;
+    padding-right: 17vw;
+}
+.form-group{
+    padding: 0.375rem 0;
 }
 @media (min-width: 512px) {
     .col-lg-12{
@@ -146,6 +149,16 @@
         width:100px;
         font-size: 18px;
         height:40px;
+    }
+    .form-group{
+        padding: 0.375rem 0.75rem;
+    }
+    .secret{
+        padding-top: 10px;
+        padding-right: 215px;
+    }
+    .selectTime{
+        padding-right: 100px;
     }
 }
 @media (min-width: 768px) {
@@ -260,9 +273,7 @@
 /*    margin-right: auto;*/
 /*    margin-left: auto;*/
 /*}*/
-.form-group{
-    padding: 0.375rem 0.75rem;
-}
+
 
 /*.targetSelect{*/
 /*    margin-left: auto;*/
