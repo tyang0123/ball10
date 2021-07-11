@@ -120,7 +120,7 @@
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: 1px solid black;height: 80px;">
                 <h4 class="modal-title" style="margin-left: 30px;">비밀번호 입력 🤩</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="reset()" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <input type="text" id="inputPass" maxlength='20' class="form-control" aria-describedby="pwHelpInline" placeholder="비밀번호를 입력하세요" style="border: black 1px solid;margin-top: 20px;"/>
@@ -146,7 +146,8 @@
 
     function reset(){
         $('#inputPass').val("");
-        // $('#modalPass').modal('');
+        $('#pwHelpInline').html("&nbsp;");
+
     }
     $(".category").val("${category}").attr("selected", true);
     $("#listSearch").val("${type}");

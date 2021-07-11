@@ -129,14 +129,15 @@
             $("#group_password").attr('readonly',true)
         }
     })
-    $(".createGroup").click(function (){
+    $(".button-create-customY").click(function (){
+
         if($("#group_is_secret").is(':checked')){
             if($("#group_password").val() === ""){
                 $("#group_password").attr('required', true)
             }
         }
         if($("#group_name").val()===""){
-            $("#group_password").attr('required', true)
+            $("#group_name").attr('required', true)
         }
     })
     $("#group_password").on('input', function(e){
