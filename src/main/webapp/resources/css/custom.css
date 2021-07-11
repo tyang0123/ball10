@@ -186,7 +186,7 @@ input:-webkit-autofill:active {
   color: black;
 }
 .btnsizeGroup{
-  width: 18vw;
+  width: 19vw;
 }
 .btnsizeGroupList{
   width: 21vw;
@@ -388,7 +388,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
 
 .form-custom{
   border: black 2px solid;
-  width: 300px;
+  width: 75vw;
   margin-right: auto;
   margin-left: auto;
 }
@@ -405,7 +405,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   border: 2px solid black;
   padding: 0.375rem 0.75rem;
   font-size: 1.1rem;
-  width: 145px;
+  width: 35vw;
   margin-right: 3px;
 }
 
@@ -426,7 +426,7 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   border: 2px solid black;
   padding: 0.375rem 0.75rem;
   font-size: 1.1rem;
-  width: 145px;
+  width: 35vw;
   margin-left: 3px;
 }
 
@@ -478,6 +478,13 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
   .btnsizeGroupList{
     width: 115px;
+  }
+  .form-custom{
+    width: 300px;
+  }
+  .button-create-customO,
+  .button-create-customY {
+    width: 145px;
   }
 }
 
@@ -870,3 +877,4 @@ fieldset[disabled] .navbar-custom .btn-link:focus {
   }
 
 }
+
