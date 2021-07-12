@@ -520,40 +520,45 @@
     function getStringIconUserDOMObjects(list){
         var str = '';
         list.forEach((data, idx) => {
+          var user_hour = 0;
+          var user_minute =0;
+          var user_second = 0;
             let timerIsOnPlay = false;
             // timer 계산
             if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 0){
                 timerIsOnPlay = true;
                 // timer_accumulated_day가 배열형식으로 되어있음
-                [hour, minute, second] = data.timer_accumulated_day;
+                [user_hour, user_minute, user_second] = data.timer_accumulated_day;
 
-                const tempTime = new Date(Date.UTC(0,0,0, hour, minute, second, 0)).getTime();
+                const tempTime = new Date(Date.UTC(0,0,0, user_hour, user_minute, user_second, 0)).getTime();
                 const lastModTime = new Date(...data.timer_mod_date);
                 let diffTime = new Date(Date.now() - lastModTime).getTime() + tempTime;
                 diffTime = new Date(diffTime);
 
 
-                hour = diffTime.getUTCHours();
-                minute = diffTime.getUTCMinutes();
-                second = diffTime.getUTCSeconds();
+                  user_hour = diffTime.getUTCHours();
+                  user_minute = diffTime.getUTCMinutes();
+                  user_second = diffTime.getUTCSeconds();
 
-                data["show_timer"] = [hour, minute, second]
+                data["show_timer"] = [user_hour, user_minute, user_second]
+
+              console.log(data.show_timer, data.timer_accumulated_day);
             }else if(data.timer_is_play===1 && data.timer_is_on_site===1 && data.timer_is_use_apple === 1){
                 const lastModTime = new Date(...data.timer_mod_date);
                 let diffTime = new Date(Date.now() - lastModTime);
                 //console.log(diffTime.getUTCMinutes(), diffTime.getUTCSeconds());
                 if(diffTime.getUTCMinutes() <= 1){
                     timerIsOnPlay = true;
-                    [hour, minute, second] = data.timer_accumulated_day;
-                    const tempTime = new Date(Date.UTC(0,0,0, hour, minute, second, 0)).getTime();
+                    [user_hour, user_minute, user_second] = data.timer_accumulated_day;
+                    const tempTime = new Date(Date.UTC(0,0,0, user_hour, user_minute, user_second, 0)).getTime();
 
                     diffTime = new Date(diffTime.getTime() + tempTime);
 
-                    hour = diffTime.getUTCHours();
-                    minute = diffTime.getUTCMinutes();
-                    second = diffTime.getUTCSeconds();
+                      user_hour = diffTime.getUTCHours();
+                      user_minute = diffTime.getUTCMinutes();
+                      user_second = diffTime.getUTCSeconds();
 
-                    data["show_timer"] = [hour, minute, second]
+                    data["show_timer"] = [user_hour, user_minute, user_second]
                 }else{
                     data["show_timer"] = [...data.timer_accumulated_day];
                 }
