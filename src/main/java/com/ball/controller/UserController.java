@@ -349,7 +349,7 @@ public class UserController {
         MailVO vo = new MailVO();
         vo.setReceive(user_email);
         vo.setSubject("10-0사이트의 회원님의 비밀번호를 전달합니다.");
-        vo.setContent("회원님의 ID는 < "+newPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n" +
+        vo.setContent("회원님의 비밀번호는 < "+newPassword+" >입니다. 10-0에서 로그인을 해주시길 바랍니다.\n" +
                 "로그인 후 비밀번호를 수정해 주세요.\n https://10-0.imweb.me/");
 
         if(!mailService.sendEmail(vo) || !userService.resetPasswordToDbByUserID(user_id, newPassword)){
