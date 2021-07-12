@@ -141,6 +141,7 @@
         width: 330px;
     }
     #listSearch{
+        margin-left: 5px;
         width: 265px;
         font-size: 18px;
         height:36px;
@@ -178,7 +179,7 @@
         width: 380px;
     }
     #listSearch{
-        width: 310px;
+        width: 300px;
         font-size: 18px;
         height:36px;
     }
